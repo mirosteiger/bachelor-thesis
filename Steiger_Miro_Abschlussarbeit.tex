@@ -1,4 +1,5 @@
-\documentclass[a4paper,11pt]{article}%Schriftgröße
+\documentclass[a4paper,11pt]{article} %Schriftgröße
+\usepackage{csquotes}
 \usepackage[T1]{fontenc} 
 \usepackage[utf8]{inputenc}
 \usepackage[ngerman]{babel}%Veröffentlichungssprache
@@ -7,7 +8,7 @@
 \usepackage[format=plain,justification=RaggedRight,singlelinecheck=false,font={small},labelsep=space]{caption}
 \usepackage{xcolor}	
 \usepackage[a4paper]{geometry}
-	\geometry{left=3.5cm,right=2.5cm,top=2.4cm,bottom=2cm}%Seitenränder
+	\geometry{left=2.62cm,right=3.28cm,top=2cm,bottom=2.4cm}%Seitenränder
 	\usepackage[onehalfspacing]{setspace}%Zeilenabstand
 	\renewcommand{\\}{\vspace*{0.5\baselineskip} \newline}
 \renewcommand*\MakeUppercase[1]{#1}	
@@ -29,60 +30,86 @@ urlcolor = black,
 plainpages = false,
 hypertexnames = false,
 citecolor = black] {hyperref}
-	
+
+
+% Harvard Citation style
+\usepackage[style=ext-authoryear, backend=biber]{biblatex}
+\DeclareOuterCiteDelims{parencite}{\bibopenbracket}{\bibclosebracket}
+\renewcommand*{\nameyeardelim}{\addcomma\space}
+\addbibresource{chapters/literature/refs.bib}
+
 \begin{document}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%% TITELSEITE %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{titlepage}
-\begin{flushleft}
-	\vspace*{-1cm}
-	\includegraphics[scale=1]{Grafiken/TH.png}\\
-	\vspace*{1cm}
-\end{flushleft}
-\begin{huge}
+	\begin{flushleft}
+		\vspace*{-1cm}
+		\includegraphics[scale=1]{Grafiken/TH.png}\\
+		\vspace*{2cm}
+	\end{flushleft}
+
+	\begin{flushleft}
+		Bachelorarbeit Medientechnologie
+	\end{flushleft}
+
+	\begin{huge}
+		\noindent
+		\bfseries
+		Effizientes und realistisches Partikelsystem zur Simulation von Feuer und Rauch in VR-Umgebung \\
+	\end{huge}
+	~\\
+	~\\
 	\noindent
-	Effizientes und realistisches Partikelsystem zur \newline 
-	Simulation von Feuer und Rauch in VR-Umgebung \\
-\end{huge}
-Bachelorarbeit zur Erlangung des Bachelorgrades \newline
-Bachelor of Science im Studiengang Medientechnologie \newline
-an der Fakultät für Informations-, Medien- und Elektrotechnik \newline
-der Technischen Hochschule Köln \\
-~\\
-~\\
-~\\
-\noindent\begin{tabular}{ll}
-	vorgelegt von: & Miro Steiger \\
-	Matrikel-Nr.: &	111 212 81 \\
-	Adresse: & Venloer Straße 202 \\
-	~ &	50823 Köln \\
-	~ &	miro.steiger@smail.th-koeln.de \\
-	~ & ~ \\
-	eingereicht bei: & Prof. Dr.-Ing. Arnulph Fuhrmann \\
-	Zweitgutachter: & Prof. Dr. rer. nat. Stefan Michael Grünvogel 
-\end{tabular}	
-~\\
-~\\
-Köln, TT.MM.JJJJ
+	vorgelegt von                   \\
+	\textbf{Miro Steiger}			\\
+	~\\
+	~\\
+	\noindent
+	Erstgutachter: Prof. Dr.-Ing. Arnulph Fuhrmann (Technische Hochschule Köln)              \\
+	Zweitgutachter:  Prof. Dr. rer. nat. Stefan Michael Grünvogel (Technische Hochschule Köln)
+	~\\
+	~\\
+	Köln, TT.MM.JJJJ
+	~\\
+	~\\
+	\begin{figure}[b]
+		\begin{flushright}
+			\includegraphics[scale=1]{Grafiken/TH_F07_cover.png}\\
+		\end{flushright}
+	\end{figure}
+
+	\pagenumbering{Roman}
+	\pagestyle{fancy}
 \end{titlepage}
-\pagenumbering{Roman}
-\pagestyle{fancy}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%% ABSTRACT %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
-\section*{Erklärung}\markboth{Erklärung}{Erklärung}\addcontentsline{toc}{section}{Erklärung}
-Ich versichere, die von mir vorgelegte Arbeit selbstständig verfasst zu haben. Alle Stellen, die wörtlich oder sinngemäß aus veröffentlichten oder nicht veröffentlichten Arbeiten anderer oder der Verfasserin/des Verfassers selbst entnommen sind, habe ich als entnommen kenntlich gemacht. Sämtliche Quellen und Hilfsmittel, die ich für die Arbeit benutzt habe, sind angegeben. Die Arbeit hat mit gleichem Inhalt bzw. in wesentlichen Teilen noch keiner anderen Prüfungsbehörde vorgelegen.\\
-Anmerkung: In einigen Studiengängen steht die Erklärung am Ende des Textes.\\
-~\\
-~\\
-\rule{0.35\textwidth}{0.4pt} \hspace*{3cm} \rule{0.45\textwidth}{0.4pt} \newline
-Ort, Datum	\hspace*{6.3cm}	Rechtsverbindliche Unterschrift
+
+\input{chapters/abstract/abstract}
 \newpage
-\section*{Kurzfassung/Abstract}\markboth{Kurzfassung/Abstract}{Kurzfassung/Abstract}\addcontentsline{toc}{section}{Kurzfassung/Abstract}
-Eine Kurzfassung (wenn verlangt) in Deutsch und/oder in Englisch (Abstract) umfasst auf etwa 1/2 bis 1 Seite die Darstellung der Problemstellung, der angewandten Methode(n) und des wichtigsten Ergebnisses.\\
-Wie man ein gelungenes Abstract verfasst, erfahren Sie in den \href{https://www.th-koeln.de/studium/schluesselkompetenzen_25490.php}{\underline{Seminaren des Akademischen} \underline{Schreibzentrums der Kompetenzwerkstatt}}.\\
-Schlagwörter/Schlüsselwörter: evtl. Angabe von 3 bis 10 Schlagwörtern 
-\newpage
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%  INHALT  %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\renewcommand*\contentsname{Inhalt}
+
 \tableofcontents
 \newpage
 \pagenumbering{arabic}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%  KAPITEL %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{chapters/introduction/introduction}
 \input{chapters/relatedWork/relatedWork}
 \input{chapters/basics/basics}
@@ -90,35 +117,72 @@ Schlagwörter/Schlüsselwörter: evtl. Angabe von 3 bis 10 Schlagwörtern
 \input{chapters/results/results}
 
 
-\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%    BSP   %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\newpage
 \begin{figure}[h]
 	\includegraphics[scale=0.9]{Grafiken/Abbildung1.png}\\
 	\begin{footnotesize}
 		\caption[Abbildung 1]{Entwicklung seit 2006}
 	\end{footnotesize}
 \end{figure}
-~\newline Mit \LaTeX~lassen sich Abbildungs- und Tabellenverzeichnisse automatisch erstellen. Dazu müssen die Tabellen und Abbildungen in \textit{Gleitumgebungen} angegeben und mit dem korrekten Befehl versehen werden: \\
-Das Öffnen einer \textit{Gleitumgebung} für Grafiken geschieht mittels \textbackslash\textit{begin}\{\textit{figure}\}[h]... \textbackslash\textit{end}\{\textit{figure}\}, einer für Tabellen mittels \textbackslash\textit{begin}\{\textit{table}\}[h]... \textbackslash\textit{end}\{\textit{table}\}. Das [h] sorgt dafür, dass die Umgebung an genau der Stelle, an der Sie auch im Quellcode steht, platziert wird. Wird in der \textit{Gleitumgebung} der Befehl \textbackslash\textit{caption}[\textit{Hier steht der Name aus dem Verzeichnis}]\{\textit{Hier steht die Bildunterschrift}\} angegeben, wird automatisch ein Eintrag im Abbildungs- oder Tabellenverzeichnis erstellt.
 \begin{table}[h]
 	\renewcommand*{\arraystretch}{2}
 	\setlength{\tabcolsep}{1.5cm}
 	\begin{tabular}{lll}
-		\hspace{-1.5cm}\textbf{Überschrift 1} & \textbf{Überschrift 2} & \textbf{Überschrift 3}\\ \hline
-		\hspace{-1.5cm}ABC &	123 & 456 \\ \hline
-		\hspace{-1.5cm}DEF &	414 & 63 \\ \hline
+		\hspace{-1.5cm}\textbf{Überschrift 1} & \textbf{Überschrift 2} & \textbf{Überschrift 3} \\ \hline
+		\hspace{-1.5cm}ABC                    & 123                    & 456                    \\ \hline
+		\hspace{-1.5cm}DEF                    & 414                    & 63                     \\ \hline
 	\end{tabular}
 	\caption[Tabelle 1]{Mustertabelle}
 \end{table}
 ~\newline
 In dieser Vorlage sind Tabellen und Abbildungen fortlaufend nummeriert. Auf jede Abbildung und jede Tabelle muss im Text verwiesen werden.
+\parencite{kufner}
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%% LITERATUR %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \include{chapters/literature/literature}
 \newpage
 \appendix
 
-\section*{Anhang}\markboth{Anhang}{Anhang}\addcontentsline{toc}{section}{Anhang}
-Den Anhang beginnen Sie auf einer neuen Seite und in einem neuen Abschnitt. Die Überschrift selbst wird nicht nummeriert.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%% ERKLÄRUNG %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Eidesstattliche Erklärung}
+\markboth{Zum Inhalt}{Zum Inhalt}
+\addcontentsline{toc}{section}{Eidesstattliche Erklärung}
+Ich erkläre an Eides statt, dass ich die vorgelegte Abschlussarbeit selbständig und ohne fremde Hilfe verfasst, andere als die angegebenen Quellen und Hilfsmittel nicht benutzt und die den benutzten Quellen wörtlich oder inhaltlich entnommenen Stellen als solche kenntlich gemacht habe.\\
+~\\
+~\\
+\rule{0.35\textwidth}{0.4pt} \hspace*{3cm} \rule{0.45\textwidth}{0.4pt} \newline
+Ort, Datum	\hspace*{6.3cm}	Rechtsverbindliche Unterschrift
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%   ENDE    %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\pagestyle{empty}
+\begin{flushleft}
+	TH Köln \newline
+	Gustav-Heinemann-Ufer 54\newline
+	50968 Köln\newline
+	www.th-koeln.de\newline
+\end{flushleft}
+
+\begin{figure}[b]
+	\begin{flushright}
+		\includegraphics[scale=1]{Grafiken/TH_LOGO}\\
+	\end{flushright}
+\end{figure}
+
 
 \end{document}
