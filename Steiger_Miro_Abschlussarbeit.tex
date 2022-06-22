@@ -1,7 +1,7 @@
 \documentclass[a4paper,11pt]{article} %Schriftgröße
-\usepackage{csquotes}
 \usepackage[T1]{fontenc} 
 \usepackage[utf8]{inputenc}
+\usepackage{csquotes}
 \usepackage[ngerman]{babel}%Veröffentlichungssprache
 \usepackage{graphicx}
 \usepackage{ragged2e}
@@ -30,6 +30,7 @@ urlcolor = black,
 plainpages = false,
 hypertexnames = false,
 citecolor = black] {hyperref}
+\usepackage[parfill]{parskip}
 
 
 % Harvard Citation style
@@ -46,8 +47,7 @@ citecolor = black] {hyperref}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{titlepage}
 	\begin{flushleft}
-		\vspace*{-1cm}
-		\includegraphics[scale=1]{Grafiken/TH.png}\\
+		\includegraphics[width=\textwidth]{Grafiken/TH.png}\\
 		\vspace*{2cm}
 	\end{flushleft}
 
@@ -111,7 +111,7 @@ citecolor = black] {hyperref}
 %%%%%%%%%%  KAPITEL %%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{chapters/introduction/introduction}
-\input{chapters/relatedWork/relatedWork}
+% \input{chapters/relatedWork/relatedWork}
 \input{chapters/basics/basics}
 \input{chapters/implementation/implementation}
 \input{chapters/results/results}
@@ -123,7 +123,7 @@ citecolor = black] {hyperref}
 
 \newpage
 \begin{figure}[h]
-	\includegraphics[scale=0.9]{Grafiken/Abbildung1.png}\\
+	\includegraphics[scale=0.9]{Grafiken/Abbildung1.png}
 	\begin{footnotesize}
 		\caption[Abbildung 1]{Entwicklung seit 2006}
 	\end{footnotesize}
@@ -141,6 +141,7 @@ citecolor = black] {hyperref}
 ~\newline
 In dieser Vorlage sind Tabellen und Abbildungen fortlaufend nummeriert. Auf jede Abbildung und jede Tabelle muss im Text verwiesen werden.
 \parencite{kufner}
+Hallo wie gehts
 
 
 
@@ -160,7 +161,7 @@ In dieser Vorlage sind Tabellen und Abbildungen fortlaufend nummeriert. Auf jede
 \section*{Eidesstattliche Erklärung}
 \markboth{Zum Inhalt}{Zum Inhalt}
 \addcontentsline{toc}{section}{Eidesstattliche Erklärung}
-Ich erkläre an Eides statt, dass ich die vorgelegte Abschlussarbeit selbständig und ohne fremde Hilfe verfasst, andere als die angegebenen Quellen und Hilfsmittel nicht benutzt und die den benutzten Quellen wörtlich oder inhaltlich entnommenen Stellen als solche kenntlich gemacht habe.\\
+Ich erkläre an Eides statt, dass ich die vorgelegte Abschlussarbeit selbständig und ohne fremde Hilfe verfasst, andere als die angegebenen Quellen und Hilfsmittel nicht benutzt und die den benutzten Quellen wörtlich oder inhaltlich entnommenen Stellen als solche kenntlich gemacht habe.
 ~\\
 ~\\
 \rule{0.35\textwidth}{0.4pt} \hspace*{3cm} \rule{0.45\textwidth}{0.4pt} \newline

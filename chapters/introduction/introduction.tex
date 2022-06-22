@@ -1,11 +1,34 @@
 \section{Einleitung}
 \markboth{Einleitung}{Einleitung}
 \noindent
-Hier kommt die Einleitung hin. \\
-Die schreib ich aber zum Schluss. \newline
-Vielleicht doch als erstes...
+Die Simulation von Feuer und Rauch ist ein viel diskutiertes Thema in der Computergrafik.
+Dabei gibt es verschiedene Ansätze.
+Eine gängige Methode für das Rendering von Gasen, Flüssigkeiten oder Haaren in Videospielen, sind der 
+Einsatz von Partikelsystemen. Die physikalisch korrekte Simulation kann dabei, unter anderem mithilfe von 
+Fluidsimulationen, sehr realitätsnah dargestellt werden.
+Simulationen, basierend auf realen physikalischen Eigenschaften, sind jedoch sehr aufwändig in der Berechnung
+und kaum für die Echtzeitanwendung gedacht.
+Gerade in Virtual-Reality-Systemen, in denen die Performance extrem wichtig für das Nutzererlebnis sind,
+eignet sich die aufwändige Simulation von Fluiden nicht. Als Alternative haben sich hierfür eine Art von
+Partikelsysteme etabliert, welche sich anstatt der physikalisch korrekten Eigenschaften eher an einer 
+optischen Illusion mithilfe animierte Texturen bedienen. Hierbei ist das Konzept der Billboards ein weit 
+verbreiteter und beliebter Ansatz, um realistischere Renderings der Partikel zu erzeugen. 
+Diese bieten eine optisch überzeugende und dabei noch hocheffiziente Lösung.
+
+%Problem muss hier noch beschrieben werden: 
+%   - Warum sind realistische Simulationen sinnvoll/wichtig?
+%   - Warum funktioniert das in VR nicht?
+%   - Was heißt das für die Immersion? -> Feuer sieht unecht und kacke aus, keine Stresssituation, bzw. Gefühl
+%     von Gefahr o.Ä.
+
 
 \subsection{Zielsetzung}
+
+Ziel dieser Arbeit ist es, ein Partikelsystem zu entwickeln, welches alle Vorteile der Billboard-Technik 
+nutzen kann um auch in Virtual Reality ein realistisches Bild von Feuer und Rauch erzeugen kann. Durch eine 
+bessere, plausible Darstellung in der Stereo-Ansicht kann beim Nutzer ein realeres Gefühl von Gefahr 
+hervorgerufen werden. 
+
 \subsection{Struktur der Arbeit}
 
 
