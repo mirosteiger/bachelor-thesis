@@ -2,25 +2,25 @@
 \markboth{Einleitung}{Einleitung}
 \noindent
 Die Simulation von Feuer und Rauch ist ein viel diskutiertes Thema in der Computergrafik. Einerseits
-spielen diese besonders in Videospielen und Filmproduktionen eine außerordentlich große Rolle. Auf der 
+spielen diese besonders in Videospielen und Filmproduktionen eine außerordentlich große Rolle. Auf der
 anderen Seite helfen solche Simulationen auch im Bereich der Gefahrenbekämpfung und -vorbeugung.
-So kann eine realistische Feuersimulation dazu beitragen, einen Trainingssimulator für die Feuerwehr zu 
-entwerfen. Der Nutzer kann dabei mithilfe von Head-Mounted-Displays in ein virtuelles Brandszenario versetzt werden, 
-ohne dabei wirklich in Gefahr zu sein. Eine solche Anwendung findet seinen Nutzen sowohl im Training 
-von Einsatzkräften, als auch bereits bei der Entscheidung einem solchen Beruf nachzugehen. 
-Hierbei gibt es verschiedenste Ansätze um ein künstliches erzeugtes Feuer auf einem 
-Bildschirm anzeigen zu lassen. Eine gängige Methode für das Rendering von Gasen und Flüssigkeiten 
-in Videospielen, in denen sich auch Feuer und Rauch aufgrund ihrer physikalischen Eigenschaften 
-wiederfinden, sind der Einsatz von Partikelsystemen. Die physikalisch korrekte Simulation kann dabei, 
+So kann eine realistische Feuersimulation dazu beitragen, einen Trainingssimulator für die Feuerwehr zu
+entwerfen. Der Nutzer kann dabei mithilfe von Head-Mounted-Displays in ein virtuelles Brandszenario versetzt werden,
+ohne dabei wirklich in Gefahr zu sein. Eine solche Anwendung findet seinen Nutzen sowohl im Training
+von Einsatzkräften, als auch bereits bei der Entscheidung einem solchen Beruf nachzugehen.
+Hierbei gibt es verschiedenste Ansätze um ein künstliches erzeugtes Feuer auf einem
+Bildschirm anzeigen zu lassen. Eine gängige Methode für das Rendering von Gasen und Flüssigkeiten
+in Videospielen, in denen sich auch Feuer und Rauch aufgrund ihrer physikalischen Eigenschaften
+wiederfinden, sind der Einsatz von Partikelsystemen. Die physikalisch korrekte Simulation kann dabei,
 unter anderem mithilfe von Fluidsimulationen, sehr realitätsnah dargestellt werden.
-Auf realen physikalischen Eigenschaften basierdende Simulationen sind jedoch sehr aufwändig in der 
+Auf realen physikalischen Eigenschaften basierdende Simulationen sind jedoch sehr aufwändig in der
 Berechnung und bisher kaum für die Echtzeitanwendung gedacht.
 Gerade in Virtual-Reality-Systemen, in denen die Performance extrem wichtig für das Nutzererlebnis sind,
-eignet sich die aufwändige Simulation von Fluiden aufgrund ihrer Performance nicht. Als Alternative haben 
-sich hierfür eine Art von Partikelsystemen etabliert, welche sich anstatt der physikalisch korrekten 
-Eigenschaften eher an einer optischen Illusion mithilfe animierter Texturen bedienen. 
-Hierbei ist das Konzept des "Billboardings" ein weit verbreiteter und beliebter Ansatz, 
-um realistischere Renderings der Partikel zu erzeugen. Diese bieten eine optisch überzeugende und 
+eignet sich die aufwändige Simulation von Fluiden aufgrund ihrer Performance nicht. Als Alternative haben
+sich hierfür eine Art von Partikelsystemen etabliert, welche sich anstatt der physikalisch korrekten
+Eigenschaften eher an einer optischen Illusion mithilfe animierter Texturen bedienen.
+Hierbei ist das Konzept des "Billboardings" ein weit verbreiteter und beliebter Ansatz,
+um realistischere Renderings der Partikel zu erzeugen. Diese bieten eine optisch überzeugende und
 dabei noch hocheffiziente Lösung.
 
 
@@ -33,29 +33,31 @@ dabei noch hocheffiziente Lösung.
 %   - Was heißt das für die Immersion? -> Feuer sieht unecht und kacke aus, 
 %     keine Stresssituation, bzw. Gefühl von Gefahr o.Ä.
 
-Ein solches Partikelsystem, basierend auf Texturen, kann auf einem flachen Bildschirm hoch realistisch
-und optisch überzeugend aussehen. In einer VR-Umgebung gerät diese Methode jedoch leider an seine Grenzen. 
+Ein solches Partikelsystem, basierend auf Texturen, kann auf einem flachen Bildschirm realistisch
+und optisch überzeugend aussehen. In einer VR-Umgebung gerät diese Methode jedoch leider an seine Grenzen.
 Die Illusion basiert auf der Eigenschaft, dass die flachen Partikel immer zum Nutzer, also der Kamera
 ausgerichtet sind. Dadurch lässt sich nicht erkennen, dass lediglich flache Texturen zum Einsatz kommen.
-Die Partikel sehen voluminös aus und täuschen Tiefe vor. 
-In VR-Anwendungen müssen jedoch immer zwei Bilder erzeugt werden, eins für jedes Auge. 
-Dadurch, dass sich die flachen Billboards immer zur jeweiligen Kamera, bzw. zum Mittelpunkt 
+Die Partikel sehen voluminös aus und täuschen Tiefe vor.
+In VR-Anwendungen müssen jedoch immer zwei Bilder erzeugt werden, eins für jedes Auge.
+Dadurch, dass sich die flachen Billboards immer zur jeweiligen Kamera, bzw. zum Mittelpunkt
 zwischen beiden Augen orientieren, zerstört dies die Illusion und es lässt sich erkennen, dass
 die Partikel ihre Tiefe lediglich vortäuschen. So sieht ein Feuer-Parikelsystem, basierend auf Texturen,
-schnell sehr unecht aus und die Immersion ist gestört. 
-Um in einem Traingsszenario der Feuerwehr jedoch einen wirklichen Nutzen zu finden, sollte das Feuer 
+schnell sehr unecht aus und die Immersion ist gestört.
+Um in einem Traingsszenario der Feuerwehr jedoch einen wirklichen Nutzen zu finden, sollte das Feuer
 so realistisch wie möglich aussehen. Erst dann wird der Nutzer in eine echte Stresssituation versetzt
-und kann sich somit besser auf einen Einsatz in der realen Welt vorbereiten. 
+und kann sich somit besser auf einen Einsatz in der realen Welt vorbereiten.
 
 \subsection{Zielsetzung}
 
-Ziel dieser Arbeit ist es, ein Partikelsystem zu entwickeln, welches alle Vorteile der Billboard-Technik 
-nutzen kann, um auch in Virtual Reality-Umgebung ein realistisches Bild von Feuer und Rauch erzeugen 
-zu können. Durch eine bessere, plausible Darstellung in der Stereo-Ansicht kann beim Nutzer ein realeres 
-Gefühl von Gefahr hervorgerufen werden, welches den Trainingseffekt deutlich erhöhen kann. Dabei soll 
-ein solches Partikelsystem in Unity entworfen werden, welches sowohl in Stereoansicht funktioniert, 
+Ziel dieser Arbeit ist es, ein Partikelsystem zu entwickeln, welches alle Vorteile der Billboard-Technik
+nutzen kann, um auch in Virtual Reality-Umgebung ein realistisches Bild von Feuer und Rauch erzeugen
+zu können. Durch eine bessere, plausible Darstellung in der Stereo-Ansicht kann beim Nutzer ein realeres
+Gefühl von Gefahr hervorgerufen werden, welches den Trainingseffekt deutlich erhöhen kann. Dabei soll
+ein solches Partikelsystem in Unity entworfen werden, welches sowohl in der Stereoansicht funktioniert,
 als auch in Hinblick auf die benötigte Performance für VR-Renderings die Mindest-Framerate einhalten kann.
 Hierzu muss ein Shader für die Billboard-Partikel entworfen werden, welcher beide Augen berücksichtigt.
+Aufgrund der verscheidenen visuellen Eigenschaften und des Verhaltens von Feuer und Rauch müssen jeweils 
+eigene Systeme konzipiert werden.
 
 
 
