@@ -7,6 +7,7 @@
 \usepackage{ragged2e}
 \usepackage[format=plain,justification=RaggedRight,singlelinecheck=false,font={small},labelsep=space]{caption}
 \usepackage{xcolor}	
+\usepackage{etoolbox}
 \usepackage[a4paper]{geometry}
 	\geometry{left=2.62cm,right=3.28cm,top=2cm,bottom=2.4cm}%Seitenränder
 	\usepackage[onehalfspacing]{setspace}%Zeilenabstand
@@ -20,6 +21,7 @@
 	\fancyhead[R]{\footnotesize{\thepage}}
 	\fancyhead[L]{\footnotesize{\leftmark}}
 	\fancyfoot{}
+\usepackage{etoolbox}
 \usepackage[colorlinks,
 pdfpagelabels,
 pdfstartview = FitH,
@@ -30,17 +32,24 @@ urlcolor = black,
 plainpages = false,
 hypertexnames = false,
 citecolor = black] {hyperref}
+
+\apptocmd{\UrlBreaks}{\do\f\do\m}{}{}
+
 \usepackage[parfill]{parskip}
 
 
 % Harvard Citation style
 \usepackage[style=ext-authoryear, backend=biber, maxnames=1, maxbibnames=99]{biblatex}
+\makeatletter
+\def\blx@maxline{77}
+\makeatother
 \DeclareOuterCiteDelims{parencite}{\bibopenbracket}{\bibclosebracket}
 \renewcommand*{\nameyeardelim}{\addcomma\space}
 \DefineBibliographyStrings{ngerman}{
    andothers = {{et\,al\adddot}},
 }
 \addbibresource{chapters/literature/refs.bib}
+
 
 \begin{document}
 

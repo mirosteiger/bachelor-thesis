@@ -2,67 +2,53 @@
 
 \emph{
     \textcolor{orange}{
-        Der Literaturteil ist das Kapitel Deiner Arbeit, in dem Du Deinen Prüfern zeigen kannst, dass Du die zentralen Autoren, Theorien und Konzepte eines Themenbereichs erarbeiten kannst, diese mit-einander verknüpfen und auch einen soliden Überblick des For- schungsbereichs geben kannst.
+    Der Literaturteil ist das Kapitel Deiner Arbeit, in dem Du Deinen Prüfern zeigen kannst, dass Du die zentralen Autoren, 
+    Theorien und Konzepte eines Themenbereichs erarbeiten kannst, diese miteinander verknüpfen und auch einen soliden 
+    Überblick des Forschungsbereichs geben kannst.
     }
 }
 
 
 Die Idee eines Einsatztrainings für die Brandbekämpfung in Virtual Reality ist nicht neu. Es gibt mit
 'Serious Games' sogar eine eigene Kategorie, bei der es sich um Videospiele handelt, bei denen der
-Bildungsaspekt im Vordergrund steht. Es gibt auch in der Brandvorbeugung und -bekämpfung bereits einige Anwendungen, 
+Bildungsaspekt im Vordergrund steht. Es gibt auch in der Brandvorbeugung und -bekämpfung bereits einige Anwendungen,
 welche versuchen, sich die Möglichkeiten von VR zunutze zu machen.
-Das Ziel der Anwendungen ist dabei oft das selbe. Sowohl um die Einsatzkräfte in realistischen Szenarios zu trainieren, 
+Das Ziel der Anwendungen ist dabei oft das selbe. Sowohl um die Einsatzkräfte in realistischen Szenarios zu trainieren,
 ohne dabei die physische Gesundheit der Personen aufs Spiel zu setzen, als auch die Umwelt und die finanziellen Mittel zu schonen.
 
 
-Für die Simulation von Feuer und Rauch werden in computergenerierten Welten aufgrund der Performance seit vielen Jahren überwiegend 
-Partikelsysteme benutzt. Partikelsysteme sind ein kostengünstige Lösung, was die Rechenzeit angeht und eignen sich daher um eben solche 
-volumetrischen Effekte, welche schwer zu modellieren und zu berechnen sind, darzustellen.
-Diese Art von System wurde erstmals bereits zu Anfang der 80er Jahre von William T. Reeves vorgestellt. \parencite{Reeves1983}
-Hierbei handelt es sich um Systeme von einzelnen Partikeln, welche über verschiedene Eigenschaften verfügen und diverse Formen annehmen
-Ein solches System Partikel in Form von beispielsweise Punkten, Linien, Sprites oder Meshes annehmen.
+\subsection{Partikelsysteme}
+% Particle Systems
+Für die Simulation von Feuer und Rauch werden in computergenerierten Welten aufgrund ihrer  Performance seit vielen Jahren 
+überwiegend Partikelsysteme benutzt. 
+Partikelsysteme sind ein kostengünstige Lösung, was die Rechenzeit angeht und eignen sich daher um eben solche
+volumetrischen Effekte, die schwer zu modellieren und zu berechnen sind, in Echtzeitsystemen darzustellen zu können. 
+Dies erzeugt auf flachen Bildschirmen die Illusion, dass diese Texturen keine flachen Bilder, 
+sondern voluminös sind. Hierbei handelt es sich um Systeme von einzelnen Partikeln, welche über verschiedene 
+Eigenschaften verfügen und diverse Formen annehmen können. Ein solches System kann Partikel in Form von beispielsweise Punkten, 
+Linien, Sprites oder Meshes emitieren \parencite{Reeves1983}.
 
-
-
-
-
-
-\parencite{Bukowski1997} 
-
-
-
-
-
-\parencite{Schlager2017} entwickelte bereits einen interaktiven Trainingssimulator für die Anwendung eines Feuerlöschers.
-Der Nutzer lernt den korrekten Umgang mit einem Feuerlöscher und muss für die gegebenen Situationen aus verschiedenen Löschmitteln das
-jeweils am besten geeignete Mittel auswählen und den Brand löschen.
-Solche Trainings gibt es zwar bereits mit echtem Brand und Feuerlöschern, jedoch lernt der Nutzer hierbei nichts darüber,
-wie sich ein Feuer in Innenräumen verhält.
-Der Fokus der Arbeit liegt hier auf der approximiert-realistischen Simulation der Ausbreitung des Feuers,
-basierend auf Daten des Fire Dynamics Simulators \parencite{FDS2004}.
+\parencite{Schlager2017} entwickelte mithilfe von Partikelsystemen bereits einen interaktiven Trainingssimulator für die Anwendung 
+eines Feuerlöschers. Der Nutzer lernt den korrekten Umgang mit einem Feuerlöscher und muss für die gegebenen Situationen 
+aus verschiedenen Löschmitteln das jeweils am besten geeignete Mittel auswählen und den Brand löschen. Solche Trainings 
+gibt es zwar bereits mit echtem Brand und Feuerlöschern, jedoch lernt der Nutzer hierbei nichts darüber, wie sich ein Feuer in 
+Innenräumen verhält. Auch die Rauchentwicklung im Raum wird hier nicht weiter betrachtet. Der Fokus der Arbeit liegt hier auf der 
+approximiert-realistischen Simulation der Ausbreitung des Feuers, basierend auf Daten des Fire Dynamics Simulators (FDS) \parencite{FDS2004}. 
 FDS ist eine auf Computational Fluid Dynamics (CFD) basierende Open-Source Software vom National Institute of Standards and Technology (NIST).
 Brennbare Objekte werden durch ein Voxelgitter repräsentiert, in dem jedes Voxel Informationen wie Temperatur und Brennbarkeit beinhaltet.
-Bei dieser Arbeit liegt der Fokus nicht auf dem realistischen Rendering.
-In Hinblick auf die Performance kam Schlager zu dem Fazit, dass man einen Kompromiss zwischen realistischem Rendering und 
-realitätsnahem Verhalten des Feuers finden muss.
+Bei dieser Arbeit liegt der Fokus nicht auf dem realistischen Rendering. 
+In Hinblick auf die Performance kam Schlager zu dem Fazit, dass man einen Kompromiss zwischen realistischem Rendering 
+und realitätsnahem Verhalten des Feuers finden muss.
 
 
 
-    - Welches Problem wurde angegangen?
-
-    - Wie wurde das Problem gelöst?
-
-    - Was hat es gebracht?
-
-    - Wie steht es in Verbindung mit der eigenen Arbeit?
-
-
-
-Typischerweise beschreibt man die zeitlich erste Quelle genauer, sowie die zeitlich näher folgenden Quellen. 
-Anschließend kann man etwas springen und sich
-auf Meilensteine konzentrieren. Schließlich sollte der aktuelle Stand wieder genauer betrachtet werden. 
-Die zweite Strategie, aspektorientiertes Zitieren, sieht eine Unterteilung der Paper in Aspekte des
-eigenen Problems vor. Geht es zum Beispiel um Volume-Rendering mit globaler Beleuchtung, sollten
-Papers zum Volume-Rendering allgemein, dann Quellen zu erweiterten Methoden und schließlich Papers 
-zur Integration von globaler Beleuchtung nacheinander (eventuell sogar in getrennten Abschnitten)
-vorgestellt werden.
+\subsection{Ray Marching}
+% Raymarching in VR
+Partikelsysteme, basierend auf Billboards, haben das Problem der Darstellung in VR. Alle Vorteile, die diese Art von 
+Partikelsystem mit sich bringt gehen durch stereoskopisches Rendering verloren, da die Partikel plötzlich flach aussehen 
+oder sich zusammen mit der Bewegung des VR-Headset drehen und kippen können. Eine weitere Methode um solche volumetrischen 
+Effekte zu rendern ist das Ray-Marching. Dieses bietet neben deutlich realistischeren Renderings den Vorteil, dass dieses 
+auch in der Stereoansicht gut funktioniert und überzeugende Ergebnisse liefert \parencite{Wald2006}. Die Methode bietet 
+jedoch den Nachteil einer aufwändigeren Berechnung und daher auch längeren Renderingzeiten. Es wurde außerdem bereits von 
+\parencite{Zhang2020} versucht, die Charakteristiken von volumetrischen Effekten auf ein Billboard-System anzuwenden. 
+Hierbei hängt die Real Time-Performance allerdings stark von der Komplexität der zu rendernden Szene ab.
