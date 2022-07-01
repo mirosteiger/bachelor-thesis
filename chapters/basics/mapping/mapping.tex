@@ -1,0 +1,73 @@
+\subsection{Texture Mapping}
+
+Texture Mapping bezeichnet ein Shading-Verfahren, welches zweidimensionale Texturen auf ein dreidimensionales Objekt
+abbildet. Um die flachen Texturen auf die Oberfläche des Meshs abbilden zu können, muss das Objekt 'UV-unwrapped' werden.
+Durch diesen Vorgang wird jedem Punkt auf der Oberfläche des Meshs ein Punkt auf der Textur zugewiesen \parencite{Catmull1974} \parencite{Blinn1976}.
+Ein sehr einfaches Beispiel zur Veranschaulichung ist dabei das Würfelnetz.
+\textcolor{red}{>>GRAFIK VON WÜRFELNETZ/UV-UNWRAPPING<<}
+
+Texture Mapping sorgt dafür die Objekte 'anzumalen'.
+Reale Objekte haben oft sehr detaillierte Oberflächeneigenschaften und sind eigentlich niemals wirklich glatt.
+Geometrische Unebenheiten und Feinheiten, wie Kratzer, Rillen und Schmutz lassen sich zwar mithilfe von
+Texturen andeuten, jedoch bleibt die Oberfläche komplett glatt. Diese rauhen Oberflächen zu modellieren resultiert
+aber in einer deutlich höheren Polygon-Anzahl, was die Performance in großen Szenen schnell negativ beeinflussen kann.
+Daher wurden Mapping-Verfahren als Ergänzung entwickelt um die virtuelle Auflösung
+solch komplexer Oberflächen kostengünstig zu erhöhen, ohne dabei die Komplexität der Geometrie zu verändern.
+Dabei gibt es verschiedenste Shader, welche mithilfe weiterer, spezieller Texturen eine deutlich detailliertere
+Oberfläche simulieren können.
+
+
+% \subsubsection{Normal Mapping}
+\subsubsection{Bump Mapping}
+
+Eine Art die Oberflächen zu rendern nennt sich Bump Mapping.
+Hierbei werden mithilfe von Bump- oder Normalmaps Details generiert, welche den Eindruck einer realistischen
+Struktur der Oberfläche erzeugen, obwohl die Geometrie an sich keinerlei Informationen dazu beinhaltet \parencite{Blinn1978}.
+
+Bump Maps sind Texturen, basierend auf schwarz und weiß, bei denen die Helligkeit eines Pixels einen Höhenwert
+repräsentiert. Normal Maps sind eine bessere Variante der Bump Maps.
+Hier werden die Richtungen der Normalen in jedem Pixel durch einen Vektor repräsentiert, welcher sich aus den
+RGB-Werten eines jeden Pixels ergibt. 
+Der Eindruck der Unebenheiten wird durch Schattenwurf erzeugt. Dieser wird aus Lichtquellen, 
+deren Einfallsrichtung und den Normalen aus der Textur berechnet. Somit wird auch bei geringer Polygonanzahl eine
+deutlich realistischer aussehende Oberfläche gerendert. 
+\parencite{Cohen1998}.
+
+Shader basierend auf diesen Methoden sind dabei aber stark blickwinkelabhängig.
+Von vorne betrachtet funktioniert die Illusion, je spitzer jedoch der Winkel zwischen Betrachter und Textur
+wird, desto auffälliger wird die Tatsache, dass die Silhouette des Objekts immer noch flach ist, 
+da die Geometrie hierbei nicht verändert wird. 
+
+% \subsubsection{Displacement Mapping}
+
+% Benötigt Heightmap
+
+
+% Tatsächliche Modifizierung der Vertices entlang ihrer Normalen
+
+
+% Da Positionen der Vertices modifiziert werden -> höher aufgelöstes Mesh notwendig.
+
+
+\subsubsection{Parallax Mapping}
+
+Parallax Mapping ist eine Methode, um sich die Möglichkeiten der Bump Maps zu nutze zu machen, aber ähnliche Effekte
+wie bei der Nutzung von Displacement Maps zu erzielen. Anders als bei tatsächlicher Modifizierung der Vertices 
+durch Displacement Maps werden hier nur die Texturkoordinaten abhängig vom Blickwinkel verschoben. \parencite{Kaneko2001}
+Durch Bewegung der Oberfläche entsteht somit ein realistischerer Eindruck von Tiefe in der Textur. Dabei ist Parallax Mapping
+allerdings immer noch effizienter als Vertex-Displacement. Parallax Mapping hat jedoch auch den Nachteil 
+diverser optischer Artefakte
+
+
+\subsubsection{Parallax Occlusion Mapping}
+
+Parallax Occlusion Mapping (POM) ist eine verbesserte Variante des Parallax Mapping. 
+\parencite{Tatarchuk2006}
+
+
+
+
+% TODO:
+% - Displacement Mapping kurz beschreiben
+% - Parallax Mapping Nachteile
+% - POM runterschreiben
