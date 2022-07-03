@@ -20,54 +20,77 @@ Oberfläche simulieren können.
 % \subsubsection{Normal Mapping}
 \subsubsection{Bump Mapping}
 
-Eine Art die Oberflächen zu rendern nennt sich Bump Mapping.
-Hierbei werden mithilfe von Bump- oder Normalmaps Details generiert, welche den Eindruck einer realistischen
-Struktur der Oberfläche erzeugen, obwohl die Geometrie an sich keinerlei Informationen dazu beinhaltet \parencite{Blinn1978}.
+Eine Möglichkeit, mit der sich die Oberflächen mit mehr Details rendern lassen, ist das Rendering
+mithilfe von sogenannten Bump Maps.
+Hierbei werden mithilfe von Texturen, welche zusätzliche Informationen zu den Oberflächen enthalten,
+Details generiert, welche den Eindruck einer realistischen Struktur der Oberfläche erzeugen. 
+Dabei ist es nicht notwendig, dass die Geometrie an sich Informationen dazu beinhaltet \parencite{Blinn1978}.
 
-Bump Maps sind Texturen, basierend auf schwarz und weiß, bei denen die Helligkeit eines Pixels einen Höhenwert
-repräsentiert. Normal Maps sind eine bessere Variante der Bump Maps.
-Hier werden die Richtungen der Normalen in jedem Pixel durch einen Vektor repräsentiert, welcher sich aus den
-RGB-Werten eines jeden Pixels ergibt. 
-Der Eindruck der Unebenheiten wird durch Schattenwurf erzeugt. Dieser wird aus Lichtquellen, 
-deren Einfallsrichtung und den Normalen aus der Textur berechnet. Somit wird auch bei geringer Polygonanzahl eine
-deutlich realistischer aussehende Oberfläche gerendert. 
+Bump Maps sind Texturen, basierend auf Graustufen, bei denen die Helligkeit eines Pixels 
+einen Höhenwert repräsentiert. Eine verbesserte Variante der Bump Maps sind die Normal Maps.
+Hier werden die Richtungen der Normalen in jedem Pixel durch einen Vektor repräsentiert, 
+welcher sich aus den RGB-Werten eines jeden Pixels ergibt. Daraus lassen sich Schattierungen simulieren,
+welche kleine Unebenheiten (mit geringer Tiefe) wie Beulen oder Kratzer realistischer aussehen lassen. 
+Dieser wird aus Lichtquellen, deren Einfallsrichtung und den Normalen aus der Textur berechnet. 
+Somit wird auch bei geringer Polygonanzahl eine deutlich realistischer aussehende Oberfläche gerendert. 
 \parencite{Cohen1998}.
 
-Shader basierend auf diesen Methoden sind dabei aber stark blickwinkelabhängig.
-Von vorne betrachtet funktioniert die Illusion, je spitzer jedoch der Winkel zwischen Betrachter und Textur
-wird, desto auffälliger wird die Tatsache, dass die Silhouette des Objekts immer noch flach ist, 
-da die Geometrie hierbei nicht verändert wird. 
+Diese Texturen bieten einen sehr kostengünstigen
+Ansatz um Tiefe zu simulieren, Shader basierend auf diesen Methoden sind dabei aber stark 
+blickwinkelabhängig und sehen schnell unnatürlich verzerrt aus.
+Von vorne betrachtet funktioniert die Illusion, je spitzer jedoch der Winkel zwischen Betrachter und
+Oberfläche wird, desto auffälliger wird die Tatsache, dass die Silhouette des Objekts immer 
+noch flach ist, da die Geometrie hierbei nicht verändert wird. 
 
-% \subsubsection{Displacement Mapping}
-
-% Benötigt Heightmap
-
-
-% Tatsächliche Modifizierung der Vertices entlang ihrer Normalen
-
-
-% Da Positionen der Vertices modifiziert werden -> höher aufgelöstes Mesh notwendig.
-
+\subsubsection{Displacement Mapping}
+Mit Displacement Mapping werden dagegen tatsächlich mithilfe von Heightmaps die Positionen 
+der Vertices entlang ihrer Normalen versetzt \parencite{Cook1984,Cook1987}. Dadurch kommt es nicht zu blickwinkelabhängigen Artefakten 
+und die Illusion von Tiefe wird real. Objekte sehen aus einem flachen Winkel betrachtet nicht mehr 
+glatt aus, sondern haben tatsächlich Struktur in ihrer Oberfläche. Damit dieser Effekt jedoch zustande kommt, 
+muss das Mesh in einer gewissen Auflösung zur Verfügung stehen. Je nach Detailreichtum der Heightmap 
+muss die Geometrie dabei in weitere Polygone unterteilt werden. Der Vorteil hierbei ist der hohe 
+Grad an Realismus. Ein deutlicher Nachteil liegt dabei allerdings in der Performance. 
+Ein weitgehender Einsatz von Displacement Mapping kann eine hohe Polygonanzahl schnell 
+negativen Einfluss auf die Renderingzeiten nehmen.
+\textcolor{red}{>>PERFORMANCEVERGLEICH MAPPINGVARIANTEN<<}
 
 \subsubsection{Parallax Mapping}
 
-Parallax Mapping ist eine Methode, um sich die Möglichkeiten der Bump Maps zu nutze zu machen, aber ähnliche Effekte
-wie bei der Nutzung von Displacement Maps zu erzielen. Anders als bei tatsächlicher Modifizierung der Vertices 
+Parallax Mapping (oder auch Offset (Bump-)Mapping) ist eine weiter Methode, um sich die Möglichkeiten von
+Bump Mapping-Verfahren zu nutze zu machen. Anders als bei tatsächlicher Modifizierung der Vertices 
 durch Displacement Maps werden hier nur die Texturkoordinaten abhängig vom Blickwinkel verschoben. \parencite{Kaneko2001}
-Durch Bewegung der Oberfläche entsteht somit ein realistischerer Eindruck von Tiefe in der Textur. Dabei ist Parallax Mapping
-allerdings immer noch effizienter als Vertex-Displacement. Parallax Mapping hat jedoch auch den Nachteil 
-diverser optischer Artefakte
+Durch Bewegung der Oberfläche oder des Betrachters entsteht somit ein realistischerer Eindruck 
+von Tiefe in der Textur, welcher den des Displacement Mappings approximiert darstellt. 
+Dabei ist Parallax Mapping allerdings immer noch deutlich effizienter als echtes Vertex-Displacement
+und eignet sich daher eher für Echtzeitrenderings. Parallax Mapping alleine simuliert zwar den 
+Parallax-Effekt, jedoch ist es hiermit nicht Möglich die Sillhoutte zu verändern und 
+Selbstschattierung oder -verdeckung vorzutäuschen. 
 
 
 \subsubsection{Parallax Occlusion Mapping}
 
-Parallax Occlusion Mapping (POM) ist eine verbesserte Variante des Parallax Mapping. 
-\parencite{Tatarchuk2006}
+Parallax Occlusion Mapping (POM) ist eine komplexere, verbesserte Variante des Parallax Mapping.
+Im Gegensatz zu klassischem Parallax Mapping berücksichtigt POM Eigenschaften wie Verdeckung und 
+Selbstschattierung. Für POM wird sowohl eine Normal Map, als auch eine Heightmap benötigt. 
+Auch bei POM wird keinerlei Änderung an der Geometrie vorgenommen, sondern lediglich
+ein Vortäuschen von Tiefe. Die Information aus der Heightmap wird hierbei für Berechnungen 
+im Fragmentshader verwendet \parencite{Tatarchuk2006}. Dazu wird die Heightmap invertiert, denn anstatt
+wie beim Displacement Mapping Details zu extrudieren wird bei POM in die Tiefe simuliert.  
+Zunächst wird mittels Ray Casting vom Betrachter zur Mesh-Oberfläche ein Schnittpunkt ausfindig gemacht. 
+Von dort wird mithilfe des Schnittpunktes 
+
+\begin{figure}[h]
+    \centering
+	\includegraphics[width=0.8\textwidth]{Grafiken/POM.png}
+	\begin{footnotesize}
+		\caption{Parallax Occlusion Mapping}
+	\end{footnotesize}
+\end{figure}
 
 
 
 
 % TODO:
-% - Displacement Mapping kurz beschreiben
-% - Parallax Mapping Nachteile
+% - Displacement Mapping kurz beschreiben -> Done
+% - Parallax Mapping Nachteile -> Done
 % - POM runterschreiben
