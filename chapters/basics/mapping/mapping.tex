@@ -58,7 +58,7 @@ negativen Einfluss auf die Renderingzeiten nehmen.
 
 Parallax Mapping (oder auch Offset (Bump-)Mapping) ist eine weiter Methode, um sich die Möglichkeiten von
 Bump Mapping-Verfahren zu nutze zu machen. Anders als bei tatsächlicher Modifizierung der Vertices 
-durch Displacement Maps werden hier nur die Texturkoordinaten abhängig vom Blickwinkel verschoben. \parencite{Kaneko2001}
+durch Displacement Maps werden hier nur die Texturkoordinaten abhängig vom Blickwinkel verschoben. \parencite{Kaneko2001, Welsh2004}
 Durch Bewegung der Oberfläche oder des Betrachters entsteht somit ein realistischerer Eindruck 
 von Tiefe in der Textur, welcher den des Displacement Mappings approximiert darstellt. 
 Dabei ist Parallax Mapping allerdings immer noch deutlich effizienter als echtes Vertex-Displacement
@@ -69,15 +69,16 @@ Selbstschattierung oder -verdeckung vorzutäuschen.
 
 \subsubsection{Parallax Occlusion Mapping}
 
-Parallax Occlusion Mapping (POM) ist eine komplexere, verbesserte Variante des Parallax Mapping.
-Im Gegensatz zu klassischem Parallax Mapping berücksichtigt POM Eigenschaften wie Verdeckung und 
-Selbstschattierung. Für POM wird sowohl eine Normal Map, als auch eine Heightmap benötigt. 
-Auch bei POM wird keinerlei Änderung an der Geometrie vorgenommen, sondern lediglich
-ein Vortäuschen von Tiefe. Die Information aus der Heightmap wird hierbei für Berechnungen 
+Parallax Occlusion Mapping (POM) ist eine komplexere, verbesserte Variante des Parallax Mapping, basierend auf einem Per-Pixel Ray Tracing.
+
+Das Ziel ist auch hier wieder das vorherige: Detaillierte Oberflächen ohne den Preis von Vertexdisplacements. 
+Im Gegensatz zu klassischem Parallax Mapping berücksichtigt POM zusätzliche Eigenschaften wie Verdeckung und 
+Selbstschattierung. 
+Die Informationen aus der Heightmap werden hierbei jedoch für Berechnungen 
 im Fragmentshader verwendet \parencite{Tatarchuk2006}. Dazu wird die Heightmap invertiert, denn anstatt
 wie beim Displacement Mapping Details zu extrudieren wird bei POM in die Tiefe simuliert.  
 Zunächst wird mittels Ray Casting vom Betrachter zur Mesh-Oberfläche ein Schnittpunkt ausfindig gemacht. 
-Von dort wird mithilfe des Schnittpunktes 
+Von dort wird mithilfe des ermittelten Punktes  
 
 \begin{figure}[h]
     \centering
