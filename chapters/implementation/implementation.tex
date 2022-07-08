@@ -1,9 +1,29 @@
 \section{Konzeption und Umsetzung}
 \label{sec:4}
+\subsection{Entwurf}
+
+Um die Partikelsysteme umzusetzen wird der relativ junge, 
+von Unity entwickelte Editor 'Visual Effects Graph' 
+(kurz: VFX Graph) verwendet. VFX Graph ist ein nodesbasierter Editor, um schnell
+dynamische Partikelsysteme zu erzeugen\footnote{https://unity.com/de/visual-effect-graph}.
+Im Gegensatz zum älteren Shuriken-Partikelsystem von Unity werden die Partikel hier auf der GPU
+simuliert, wodurch das System deutlich an Performance gewinnt und deutlich mehr Partikel zeichnen kann. 
+Shuriken nimmt die Berechnungen auf der CPU vor\footnote{https://docs.unity3d.com/Manual/ChoosingYourParticleSystem.html}. 
+VFX-Graph hat jedoch nur sehr begrenzte Möglichkeiten, 
+was Physiksimulationen angeht. Es muss also ein System erstellt werden, welches ein möglichst 
+realistisches Verhalten der Feuer- und Rauchpartikel gewährleistet ohne dabei auf tatsächlichen
+physikalischen Berechnungen zu basieren.  
+
+
+
 \subsection{Erstellung der Texturen}
 \subsection{Unity (?)}
-\subsection{Partikelsystem}
 \subsection{Shader}
+
+\subsection{Partikelsystem}
+
+
+
 
 
 \newpage
