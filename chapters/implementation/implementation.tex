@@ -13,31 +13,61 @@ Werden die Texturen Prozedural als Shader erstellt?
 
 
 \subsection{Erstellung der Texturen}
-
-\subsubsection{Texture Sheets}
+\label{sec:4.1}
+% \subsubsection{Texture Sheets}
 
 Die Texturen werden auf zwei verschiedene Arten erstellt. Für die Variante mit Parallax Occlusion Mapping werden \textcolor{red}{zwei/drei} 
 Texturen in \textcolor{red}{Blender/HOUDINI} erstellt. Hier lassen sich relativ einfach und schnell visuell überzeugende Rauch- und 
 Feuersimulationen erstellen. Die Simulationen basieren auf Fluidberechnungen, wodurch ein realistisches Abbild erzeugt werden kann. 
-Die Animation wird daraufhin in einzelnen Frames auf einer Textur in einem Grid abgespeichert, auch Sprite Sheet oder Flipbook genannt.
+Die Animation wird daraufhin in einzelnen Frames auf einer Textur in einem Grid abgespeichert, auch Texture Sheet, Sprite Sheet oder Flipbook genannt.
 Jeder Frame wird in der Textur mit einer Auflösung von 128 x 128 px gespeichert. Bei einer Frameanzahl von 8x8 = 64 Frames entspricht das also
 einer Auflösung der ganzen Textur von 1024 x 1024 px.
 In jedem Frame werden in Textur 1 die Tangent-Lightmaps (Top/Left/Right) in den jeweiligen RGB-Channels gespeichert. 
 Der Alpha-Channel enthält die Bottom-Lightmap. In Textur 2 wird eine Heat-/Emissionmap im Rot-Channel gespeichert, die Alphainformation im 
 Grün-Channel und die für das Parallax-Occlusion-Mapping benötigte Heightmap im blauen Farbkanal. Der Alpha-Channel wird hierbei nicht benutzt.
+\textcolor{red}{BILDER VON BEIDEN SPRITES} 
 In den beiden Texturen fehlen nun noch die Beleuchtung aus den Richtungen von Vorne und von Hinten. Diese werden allerdings im Shader 
 berechnet, anstatt sie in die Textur zu backen. Aus den verschiedenen Lightmaps kann daraufhin basierend auf der Richtung des Lichteinfalls 
 auf die Textur relativ günstig und performant eine korrekte Beleuchtung des Rauchs generiert werden. 
 
+\huge\textcolor{red}{\textbf{TODO:}} \\
+POM: 
+- Fluidsim bauen (tutorial sollte reichen) \href{https://www.youtube.com/watch?v=6bACPGpfItU&t=20s}{(10 Mins) Houdini: Render X Lightmaps AT ONCE into RGBA channels of a texture}
+- Alle Steps beschreiben
+- Grafiken einfügen
+
+RAYM: 
+- Volumetextures generieren / downloaden
+- Vorgehen beschreiben
+- Grafiken 
+- Abchecken: Unity F.E.R.M. \href{https://forum.unity.com/threads/released-f-e-r-m-toolkit-fast-easy-raymarching-in-unity.655960/}{FERM}
+
+
+% Raymarching: Volumetextures erstellen.
+Diese werden mithilfe von prozedural generierten Noisetexturen erzeugt. 
+Daher basiert der zweite Ansatz auf dreidimensionalen Volumentexturen, welche mithilfe von Raymarching gesampled werden. 
 
 
 \subsection{Shader}
-Für das Rendering der Partikel werden zwei Shader entwickelt. Diese basieren auf Parallax Occlusion 
-Mapping und auf Raymarching durch eine Volumentextur. 
+Für das Rendering der Partikel werden zwei Shader entwickelt. Diese basieren auf Parallax Occlusion Mapping und auf einem Raymarchingalgorithmus
+durch eine Volumentextur. Für beide Algorithmen wird Unitys Shader Graph verwendet. Shader Graph ist, genau wie Unitys VFX Graph, ein Node-Editor um 
+schnell und übersichtlich Shader zu entwickeln. Hier besteht die Möglichkeit auch eigene Funktionen in Nodes zu verpacken und somit auf visuelle Art und Weise zu entwickeln. 
+Dies macht vorallem das Debugging einfacher und erlaubt das schnelle Prototyping von Ideen. 
+
 
 \subsubsection{Parallax Occlusion Mapping}
 
+
 \subsubsection{Raymarcher}
+
+Da Feuer und Rauch volumetrische Effekte ohne feste Oberfläche sind, lassen sich diese nicht wirklich durch Geometrie abbilden. Die Idee ist also ein 
+Volumen zu erzeugen und Strahlen durch dieses Volumen zu schicken, welches in festen Abständen das Volumen abtastet um daraus Informationen zu erhalten.
+Hierbei wird das Licht, welches ebenfalls in dieses transluzente Volumen eindringt und absorbiert oder gebrochen wird, an jedem Samplepunkt berechnet.
+
+Die Texturen werden daher wie in \textbf{\autoref{sec:4.1}} beschrieben durch generiertes Rauschen erzeugt.  
+% Um die notwendige Rechenleistung zu reduzieren, wird auch das generierte Rauschen in Texturen gebacken.  
+
+
 
 \subsection{Partikelsystem}
 Um die Partikelsysteme umzusetzen wird der relativ junge, von Unity entwickelte Editor 'Visual Effects Graph' 
