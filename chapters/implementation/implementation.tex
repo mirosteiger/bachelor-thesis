@@ -2,32 +2,54 @@
 \label{sec:4}
 \subsection{Entwurf}
 
-Da die Ergebnisse dieser Arbeit relevant für das KoViTReK Forschungsprojekt sein könnten und dieses in der 
-Laufzeit- und Entwicklungsumgebung Unity\footnote{https://unity.com} implementiert werden soll, werden auch die Partikelsysteme in der selben 
-Software entworfen. 
+Da die Ergebnisse dieser Arbeit relevant für das KoViTReK Forschungsprojekt\footnote{https://www.th-koeln.de/anlagen-energie-und-maschinensysteme/kovitrek_87259.php} 
+sein könnten und dieses in der Laufzeit- und Entwicklungsumgebung Unity\footnote{https://unity.com} 
+implementiert werden soll, werden auch die Partikelsysteme in der selben Software entworfen. 
 
-Um die Partikelsysteme umzusetzen wird der relativ junge, von Unity entwickelte Editor 'Visual Effects Graph' 
-(kurz: VFX Graph) verwendet. VFX Graph ist ein nodesbasierter Editor, um schnell
-dynamische und komplexe Partikelsysteme zu erzeugen\footnote{https://unity.com/de/visual-effect-graph}.
-Im Gegensatz zum älteren Shuriken-Partikelsystem von Unity werden die Partikel hier auf der GPU
-simuliert, wodurch das System deutlich an Performance gewinnt und deutlich mehr Partikel zeichnen kann. 
-Shuriken nimmt die Berechnungen im Gegensatz zum VFX Graph auf der CPU vor\footnote{https://docs.unity3d.com/Manual/ChoosingYourParticleSystem.html}. 
-Gerade für VR-Anwendungen bietet sich also dieses neue System an.
-VFX-Graph hat jedoch nur sehr begrenzte Möglichkeiten, was Physiksimulationen und Kollisionen der Partikel angeht. 
-Es muss also ein System erstellt werden, welches trotz der Einschränkungen ein möglichst realistisches Verhalten der Feuer- und Rauchpartikel 
-gewährleistet.  
+Werden die Texturen Prozedural als Shader erstellt? 
+-> POM müsste möglicherweise mit Blender/Houdini/Flipbooks erstellt werden, man könnte 6wayLightmapping einbauen
+-> Raymarching kann man Prozedural generieren, da random Volume benötigt wird.
+
 
 
 \subsection{Erstellung der Texturen}
 
-Werden die Prozedural als Shader erstellt? 
--> POM müsste möglicherweise mit Blender/Houdini/Flipbooks erstellt werden
--> Raymarching kann man Prozedural generieren, da random Volume benötigt wird
+\subsubsection{Texture Sheets}
+
+Die Texturen werden auf zwei verschiedene Arten erstellt. Für die Variante mit Parallax Occlusion Mapping werden \textcolor{red}{zwei/drei} 
+Texturen in \textcolor{red}{Blender/HOUDINI} erstellt. Hier lassen sich relativ einfach und schnell visuell überzeugende Rauch- und 
+Feuersimulationen erstellen. Die Simulationen basieren auf Fluidberechnungen, wodurch ein realistisches Abbild erzeugt werden kann. 
+Die Animation wird daraufhin in einzelnen Frames auf einer Textur in einem Grid abgespeichert, auch Sprite Sheet oder Flipbook genannt.
+Jeder Frame wird in der Textur mit einer Auflösung von 128 x 128 px gespeichert. Bei einer Frameanzahl von 8x8 = 64 Frames entspricht das also
+einer Auflösung der ganzen Textur von 1024 x 1024 px.
+In jedem Frame werden in Textur 1 die Tangent-Lightmaps (Top/Left/Right) in den jeweiligen RGB-Channels gespeichert. 
+Der Alpha-Channel enthält die Bottom-Lightmap. In Textur 2 wird eine Heat-/Emissionmap im Rot-Channel gespeichert, die Alphainformation im 
+Grün-Channel und die für das Parallax-Occlusion-Mapping benötigte Heightmap im blauen Farbkanal. Der Alpha-Channel wird hierbei nicht benutzt.
+In den beiden Texturen fehlen nun noch die Beleuchtung aus den Richtungen von Vorne und von Hinten. Diese werden allerdings im Shader 
+berechnet, anstatt sie in die Textur zu backen. Aus den verschiedenen Lightmaps kann daraufhin basierend auf der Richtung des Lichteinfalls 
+auf die Textur relativ günstig und performant eine korrekte Beleuchtung des Rauchs generiert werden. 
+
+
 
 \subsection{Shader}
+Für das Rendering der Partikel werden zwei Shader entwickelt. Diese basieren auf Parallax Occlusion 
+Mapping und auf Raymarching durch eine Volumentextur. 
+
+\subsubsection{Parallax Occlusion Mapping}
+
+\subsubsection{Raymarcher}
 
 \subsection{Partikelsystem}
-
+Um die Partikelsysteme umzusetzen wird der relativ junge, von Unity entwickelte Editor 'Visual Effects Graph' 
+(kurz: VFX Graph) verwendet. VFX Graph ist ein nodesbasierter Editor, um schnell
+dynamische und komplexe Partikelsysteme zu erzeugen\footnote{https://unity.com/de/visual-effect-graph}.
+Im Gegensatz zum älteren Shuriken-Partikelsystem von Unity werden die Partikel hier auf der GPU
+simuliert, wodurch das System deutlich an Performance gewinnt und ein mehr Partikel zeichnen kann. 
+Shuriken nimmt die Berechnungen im Gegensatz zum VFX Graph auf der CPU vor\footnote{https://docs.unity3d.com/Manual/ChoosingYourParticleSystem.html}. 
+Gerade für VR-Anwendungen bietet sich also dieses neue System an.
+VFX-Graph hat jedoch nur sehr begrenzte Möglichkeiten, was Physiksimulationen und Kollisionen der Partikel angeht. 
+Es muss also ein System erstellt werden, welches trotz der Einschränkungen ein möglichst realistisches 
+Verhalten der Feuer- und Rauchpartikel gewährleistet.  
 
 
 
