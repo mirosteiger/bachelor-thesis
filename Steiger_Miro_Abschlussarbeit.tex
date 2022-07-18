@@ -23,7 +23,7 @@
 	\fancyhead[R]{\footnotesize{\thepage}}
 	\fancyhead[L]{\footnotesize{\leftmark}}
 	\fancyfoot{}
-	
+
 \usepackage{etoolbox}
 \usepackage[colorlinks,
 pdfpagelabels,
@@ -37,6 +37,17 @@ hypertexnames = false,
 citecolor = black]{hyperref}
 \usepackage[parfill]{parskip}
 
+\addto\extrasngerman{\def
+\sectionautorefname{Kapitel}
+} %Definition "Kapitel" bei autoref von section
+
+\addto\extrasngerman{\def
+\subsectionautorefname{Kapitel}
+} %Definition "Kapitel" bei autoref von subsection
+
+\addto\extrasngerman{\def
+\subsubsectionautorefname{Kapitel}
+} %Definition "Kapitel" bei autoref von subsubsection
 
 % Harvard Citation style
 \usepackage[style=authoryear-comp, backend=biber, maxnames=2, maxbibnames=99]{biblatex}

@@ -16,6 +16,31 @@ Werden die Texturen Prozedural als Shader erstellt? \newline
 \label{sec:4.1}
 % \subsubsection{Texture Sheets}
 
+
+\begin{figure}[h!b]
+    \includegraphics[width=0.99\textwidth]{Grafiken/Implementation/SmokeSimulation_Houdini.jpg}
+    \begin{footnotesize}
+        \caption{Setup der Rauchsimulation in Houdini. Links ist beispielhaft ein Frame der Simulation in seine Farbkanäle aufgeteilt. 
+        Die Richtungen aus denen der Rauch jeweils beleuchtet wurde ist dabei gut zu erkennen. }
+    \end{footnotesize}
+\end{figure}
+
+
+
+
+\begin{figure}[h!t]
+	\centering
+	\includegraphics[width=0.49\textwidth]{Grafiken/Implementation/Explo_T1_8x8.png}
+	\includegraphics[width=0.49\textwidth]{Grafiken/Implementation/Explo_T2_8x8.png}
+	\begin{footnotesize}
+		\caption{Exportierte Spritesheets aus der Rauchsimulation in Houdini. Beide Bilder zeigen die selbe Simulation mit unterschiedlichen Beleuchtungsrichtung des Rauchs aus 
+        den jeweiligen Richtungen. Links: Beleuchtung von rechts (R), links (G), oben (B) und den Alphawerten (A). 
+        Rechts: Rauchsimulation beleuchtet von vorne (R), hinten (G), unten (B). Hierbei ist der Alphachannel noch frei.}
+	\end{footnotesize}
+\end{figure}
+
+
+
 Die Texturen werden auf zwei verschiedene Arten erstellt. Für die Variante mit Parallax Occlusion Mapping werden \textcolor{red}{zwei/drei}
 Texturen in \textcolor{red}{Blender/HOUDINI} erstellt. Hier lassen sich relativ einfach und schnell visuell überzeugende Rauch- und
 Feuersimulationen erstellen. Die Simulationen basieren auf Fluidberechnungen, wodurch ein realistisches Abbild erzeugt werden kann.
@@ -24,13 +49,29 @@ Jeder Frame wird in der Textur mit einer Auflösung von 128 x 128 px gespeichert
 einer Auflösung der ganzen Textur von 1024 x 1024 px.
 In jedem Frame werden in Textur 1 die Tangent-Lightmaps (Top/Left/Right) in den jeweiligen RGB-Channels gespeichert.
 Der Alpha-Channel enthält die Bottom-Lightmap. In Textur 2 wird eine Heat-/Emissionmap im Rot-Channel gespeichert, die Alphainformation im
-Grün-Channel und die für das Parallax-Occlusion-Mapping benötigte Heightmap im blauen Farbkanal. Der Alpha-Channel wird hierbei nicht benutzt.
+Grün-Channel und die für das Parallax-Occlusion-Mapping benötigte Heightmap im blauen Farbkanal. Der Alpha-Channel wird hierbei nicht benutzt und könnte frei mit weiteren 
+Informationen gefüllt werden. Diese Art Informationen in die Texturkanäle zu speichern ersetzt 
 \textcolor{red}{BILDER VON BEIDEN SPRITES}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.49\textwidth]{Grafiken/Implementation/T1_RGB.png}
+	\includegraphics[width=0.49\textwidth]{Grafiken/Implementation/T1_A.png}
+	\begin{footnotesize}
+		\caption{links: T1(RGB), rechts: T1(A)}
+	\end{footnotesize}
+\end{figure}
 
 
 In den beiden Texturen fehlen nun noch die Beleuchtung aus den Richtungen von Vorne und von Hinten. Diese werden allerdings im Shader
 berechnet, anstatt sie in die Textur zu backen. Aus den verschiedenen Lightmaps kann daraufhin basierend auf der Richtung des Lichteinfalls
 auf die Textur relativ günstig und performant eine korrekte Beleuchtung des Rauchs generiert werden.
+
+
+
+
+
+
 
 \newpage
 \textcolor{red}{\textbf{TODO:}} \newline
@@ -56,6 +97,12 @@ Für das Rendering der Partikel werden zwei Shader entwickelt. Diese basieren au
 durch eine Volumentextur. Für beide Algorithmen wird Unitys Shader Graph verwendet. Shader Graph ist, genau wie Unitys VFX Graph, ein Node-Editor um
 schnell und übersichtlich Shader zu entwickeln. Hier besteht die Möglichkeit auch eigene Funktionen in Nodes zu verpacken und somit auf visuelle Art und Weise zu entwickeln.
 Dies macht vorallem das Debugging einfacher und erlaubt das schnelle Prototyping von Ideen.
+% Für den POM-Shader muss zuerst das Spritesheet 
+
+Die Beleuchtung des Rauchs wird zuvor in Blender/Houdini durchsimuliert. Dabei wird nicht nur die Beleuchtung der Oberfläche aus verschiedenen Richtungen, 
+sondern auch die Streuung, Reflexion und Absorption des Lichts innerhalb des Volumens berechnet und simuliert. 
+Dies hat den Vorteil, dass diese aufwändigen Berechnungen des Lichts bereits gemacht wurden und in der Echtzeitanwendung lediglich zwischen verschiedenen 
+Farbkanälen in der Textur interpolieren.
 
 
 \subsubsection{Parallax Occlusion Mapping}

@@ -1,7 +1,21 @@
 \section{Evaluierung der Methoden}
 \label{sec:5}
 \markboth{Evaluierung der Methoden}{Evaluierung der Methoden}
-\noindent
 
-\subsection{Parallax Mapping}
+Beide Methoden haben ihre Vor- und Nachteile. Die realistische Darstellung von voluminösen Materialien verlangt 
+eine besondere Herangehensweise, welche sich – im Gegensatz zu undurchsichtigen, festen Oberflächen – 
+nicht überzeugend mit herkömmlichen Texture-Mapping Methoden umsetzen lässt. 
+Die Implementierung der Shader ist aufgrund der 
+begrenzten Zeit im Rahmen dieser Arbeit nur prototypisch implementiert und daher nicht unbedingt optimiert. 
+In \textbf{\autoref{sec:6.3} \nameref{sec:6.3}} werden einige Optimierungsmöglichkeiten präsentiert. 
+Es lassen sich dennoch einige Schlüsse daraus ziehen, welche nun im Folgenden beschrieben werden. 
+
+
+\subsection{Parallax Occlusion Mapping}
+POM ist eine komplexere Variante des Normalmappings. Dementsprechend ist auch POM eine Technik für feste Oberflächen und weniger
+für den Einsatz bei der Simulation von Volumen gedacht. Um aber die Effizienz der billboard-basierten Partikelsysteme 
+nutzen zu können ist das Parallax Occlusion Mapping eine interessante Möglichkeit. Trotz der erhöhten Komplexität des Algorithmus
+gegenüber klassischeren Mappingverfahren läuft die Anwendung auf dem Testsystem stabil mit 90FPS. Hier gibt es also keine 
+Bedenken hinsichtlich der Shaderperformance. 
+
 \subsection{Ray Marching}
