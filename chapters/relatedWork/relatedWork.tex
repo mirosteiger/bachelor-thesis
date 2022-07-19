@@ -10,7 +10,6 @@ ohne dabei die physische Gesundheit der Personen aufs Spiel zu setzen, als auch 
 
 
 \subsection{Partikelsysteme}
-% Particle Systems
 Für die Simulation von Feuer und Rauch werden in computergenerierten Welten aufgrund ihrer  Performance seit vielen Jahren 
 überwiegend Partikelsysteme benutzt. 
 Partikelsysteme sind ein kostengünstige Lösung, was die Rechenzeit angeht und eignen sich daher um eben solche
@@ -34,10 +33,17 @@ und realitätsnahem Verhalten des Feuers finden muss.
 
 
 \subsection{Parallax Occlusion Mapping}
+Parallax Occlusion Mapping \parencite{Brawley2004} wurde als Weiterentwicklung des Parallax Mappings \parencite{Kaneko2001} präsentiert.
+POM wird mittlerweile in vielen Bereichen aufgrund der höhen Details bei gering aufgelösten Meshes \parencite{Tatarchuk2006} als 
+Alternative zu Vertexdisplacements, bzw. hochauflösenden Geometrien verwendet. Es gibt bereits Versuche POM im Zusammenhang mit Fluidsimulationen 
+anzuwenden \parencite{Kufner2017}. Hierbei wurde eine 2D-Fluidsimulation, unter anderem mithilfe von POM, in eine Art Pseudo-Volumen überführt. 
+Der von Kufner festgestellte Nachteil seiner Implementierung ist ein sichtbarer Treppeneffekt, welcher den Nutzen von POM für diese 
+Art der Simulation einschränkt. 
+%% Einsatz von POM in VR?
+
 
 
 \subsection{Ray Marching}
-% Raymarching in VR
 Partikelsysteme, basierend auf Billboards, haben das Problem der Darstellung in VR. Alle Vorteile, die diese Art von 
 Partikelsystem mit sich bringt gehen durch stereoskopisches Rendering verloren, da die Partikel plötzlich flach aussehen 
 oder sich zusammen mit der Bewegung des VR-Headset drehen und kippen können. Eine weitere Methode um solche volumetrischen 
