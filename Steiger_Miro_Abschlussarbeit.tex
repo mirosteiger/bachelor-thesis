@@ -5,6 +5,8 @@
 \usepackage{csquotes}
 \usepackage[ngerman]{babel}%Veröffentlichungssprache
 \usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{textgreek}
 \usepackage[export]{adjustbox}
 \usepackage{ragged2e}
 \usepackage[format=plain,justification=RaggedRight,singlelinecheck=false,font={small},labelsep=colon]{caption}
@@ -36,6 +38,8 @@ plainpages = false,
 hypertexnames = false,
 citecolor = black]{hyperref}
 \usepackage[parfill]{parskip}
+
+\newcommand*{\Scale}[2][4]{\scalebox{#1}{$#2$}}%
 
 \addto\extrasngerman{\def
 \sectionautorefname{Kapitel}
@@ -75,7 +79,7 @@ citecolor = black]{hyperref}
 
 
 \begin{document}
-
+\numberwithin{equation}{section}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%% TITELSEITE %%%%%%%%%%
@@ -136,7 +140,7 @@ citecolor = black]{hyperref}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \renewcommand*\contentsname{Inhalt}
-
+\vspace{3cm}
 \tableofcontents
 \newpage
 \pagenumbering{arabic}
@@ -168,8 +172,7 @@ citecolor = black]{hyperref}
 %%%%%%%%%% ERKLÄRUNG %%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Eidesstattliche Erklärung}
-\markboth{Zum Inhalt}{Zum Inhalt}
-\addcontentsline{toc}{section}{Eidesstattliche Erklärung}
+% \addcontentsline{toc}{section}{Eidesstattliche Erklärung}
 Ich erkläre an Eides statt, dass ich die vorgelegte Abschlussarbeit selbständig und ohne fremde Hilfe verfasst, andere als die angegebenen Quellen und Hilfsmittel nicht benutzt und die den benutzten Quellen wörtlich oder inhaltlich entnommenen Stellen als solche kenntlich gemacht habe.
 ~\\
 ~\\
