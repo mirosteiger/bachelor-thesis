@@ -36,7 +36,7 @@ berechnet.
 Im ersten Schritt wird also die Distanz zur nächstgelegenen Oberfläche berechnet. Daraus ergibt sich ein Radius in dem sich 
 mit Sicherheit nichts anderes befindet. Der Strahl bewegt sich nun um die Länge des berechneten Radius' in seine vorgesehene Richtung.
 Nun werden diese beiden Schritte an der neuen Position wiederholt. Dies passiert so lange, bis die Entfernung gegen null geht oder negativ wird. 
-Dies deutet darauf hin, dass eine Oberfläche getroffen wurde. Diese Variante von Ray Marching wird auch '\textit{Sphere Tracing}' genannt.
+Dies deutet darauf hin, dass eine Oberfläche getroffen wurde. Diese Variante von Ray Marching wird auch '\textit{Sphere Tracing}' genannt \parencite{Hart95}.
 Sphere Tracing ist, im Gegensatz zu einer konstanten Schrittweite, ein effizienter Algorithmus um Oberflächen entlang des Strahls zu finden,
 da hiermit die Anzahl der benötigten Schritte deutlich reduziert werden kann. 
 

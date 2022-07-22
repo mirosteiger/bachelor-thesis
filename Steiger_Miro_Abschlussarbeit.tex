@@ -26,6 +26,14 @@
 	\fancyhead[L]{\footnotesize{\leftmark}}
 	\fancyfoot{}
 
+
+	%%Font Size für Kapitel-Überschriften
+	\usepackage{titlesec}
+
+	\titleformat*{\section}{\LARGE\bfseries\sffamily}
+	\titleformat*{\subsection}{\Large\bfseries\sffamily}
+	\titleformat*{\subsubsection}{\large\bfseries\sffamily}
+
 \usepackage{etoolbox}
 \usepackage[colorlinks,
 pdfpagelabels,
@@ -39,8 +47,12 @@ hypertexnames = false,
 citecolor = black]{hyperref}
 \usepackage[parfill]{parskip}
 
+
+%scalebox für formeln
 \newcommand*{\Scale}[2][4]{\scalebox{#1}{$#2$}}%
 
+
+%%rename "Chapter" to "Kapitel"
 \addto\extrasngerman{\def
 \sectionautorefname{Kapitel}
 } %Definition "Kapitel" bei autoref von section
@@ -60,6 +72,8 @@ citecolor = black]{hyperref}
    andothers = {{et\,al\adddot}},
 }
 
+
+%biblatex-config
 \makeatletter
 \newrobustcmd*{\parentexttrack}[1]{%
   \begingroup
