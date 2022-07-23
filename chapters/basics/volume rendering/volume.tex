@@ -11,7 +11,7 @@ schnell an ihre Grenzen. Beim Grundgedanken des Volume Renderings geht es daher 
 wandert und welchen Einfluss die Partikel darauf haben.
 Es gibt einige Faktoren, die beeinflussen was das Auge am Ende von diesem Volumen sieht. Wenn das Licht durch solch ein Volumen wandert
 kann es absorbiert, reflektiert oder gestreut werden.
-Die Abschwächung durch Streuung und Absorption des Lichtes beim Durchlaufen eines Volumens kann mithilfe des Lambert-beerschen Gesetzes wie in \ref{eqn:beer} 
+Die Abschwächung durch Streuung und Absorption des Lichtes beim Durchlaufen eines Volumens kann mithilfe des Lambert-beerschen Gesetzes wie in \autoref{eqn:beer} 
 approximiert werden \parencite{Mayerhofer2020}. 
 Der Absorptionskoeffizient $\sigma_a$ beschreibt dabei die Wahrscheinlichkeit, dass ein Photon auf der Strecke $d$ durch das Medium absorbiert wird. 
 
@@ -48,7 +48,7 @@ Im ersten Schritt muss also die Distanz zur nächstgelegenen Oberfläche gefunde
 mit Sicherheit nichts anderes befindet. Der Strahl bewegt sich nun um die Länge des berechneten Radius' in seine vorgesehene Richtung.
 Nun werden diese beiden ersten Schritte an der neuen Position wiederholt. Dies passiert so lange, bis die Entfernung gegen einen festgelegten
 Grenzwert geht. Dies deutet darauf hin, dass eine Oberfläche getroffen wurde. Diese Variante von Ray Marching wird auch 
-'\textit{Sphere Tracing}' genannt \parencite{Hart95}. Sphere Tracing ist, im Gegensatz zu einer konstanten Schrittweite, ein effizienter Algorithmus um 
+'\textit{Sphere Tracing}' genannt \parencite{Hart96}. Sphere Tracing ist, im Gegensatz zu einer konstanten Schrittweite, ein effizienter Algorithmus um 
 Oberflächen entlang des Strahls zu finden, da hiermit die Anzahl der benötigten Schritte deutlich reduziert werden kann. 
 
 
