@@ -1,35 +1,95 @@
 \section{Konzeption und Umsetzung}
 \label{sec:4}
 \subsection{Idee}
+\label{sec:4.1}
 
 Da die Ergebnisse dieser Arbeit relevant für das KoViTReK Forschungsprojekt\footnote{\url{https://www.th-koeln.de/anlagen-energie-und-maschinensysteme/kovitrek\_87259.php}}
 sein könnten und dieses in der Laufzeit- und Entwicklungsumgebung Unity\footnote{\url{https://unity.com}}
 implementiert werden soll, werden auch die Partikelsysteme in der selben Umgebung entworfen.
 Der erste Ansatz basiert auf aufwändig vorberechneten Simulationen, welche in einem Texture Sheet gespeichert werden und daraufhin den Einsatz in Unity
-sehr effizient und realistisch machen. 
+sehr effizient und realistisch machen. Da der Fokus dieser Arbeit nicht auf der Fluidsimulation liegt und das Setup der Simulation mithilfe von Anleitungen
+und Tipps artistischer Natur aus Internetforen erzeugt wird, werde ich hier nicht weiter darauf eingehen, wie die VFX-Software den Rauch berechnet und erzeugt.
+Stattdessen werde ich in \textbf{\autoref{sec:4.2.1}} den Workflow beschreiben und auf einige Parameter der Simulation eingehen.
+
+Für die Darstellung mithilfe von Ray Marching werden echte Volumendaten, bzw. 3D-Texturen benötigt. Diese werden innerhalb von Unity
+mithilfe eines Shaders prozedural erzeugt. tba
 
 
 \subsection{Erstellung der Texturen}
-\label{sec:4.1}
-% \subsubsection{Texture Sheets}
+\label{sec:4.2}
 
+
+\subsubsection{Texture Sheets}
+\label{sec:4.2.1}
+\begin{figure}[h!]
+	\includegraphics[width=0.49\textwidth]{Grafiken/Implementation/Lightmaps/Smoke_LightSetup.png}
+	\centering
+	\begin{footnotesize}
+		\caption{Setup der Beleuchtung der Rauchsimulation in Houdini.}
+		\label{fig:lightSetup}
+	\end{footnotesize}
+\end{figure}
 
 Die Texturen werden auf zwei verschiedene Arten erstellt. Für die Variante mit Parallax Occlusion Mapping werden zwei
-Texturen in der von SideFX entwickelten 3D-VFX-Grafiksoftware Houdini \footnote{\url{https://www.sidefx.com/products/houdini/}} erstellt. 
-Houdini bietet die Möglichkeit relativ einfach und schnell physikalisch basierte und visuell überzeugende Rauch- und Feuersimulationen zu erstellen. 
+Texturen in der von SideFX entwickelten 3D-VFX-Grafiksoftware Houdini \footnote{\url{https://www.sidefx.com/products/houdini/}} erstellt.
+Houdini bietet die Möglichkeit relativ einfach und schnell physikalisch basierte und visuell überzeugende Rauch- und Feuersimulationen zu erstellen.
 Die Simulationen basieren auf Fluidberechnungen, wodurch ein realistisches Verhalten erzeugt und durch eine Vielzahl an Parametern beeinflusst werden kann.
-Eine Möglichkeit die Houdini bietet, ist das Rendering der Animation in verschiedene Layers. So kann jedes einzelne Licht separat berechnet, gerendert und 
-hinterher vorallem verwendet werden. Dazu werden Lichtquellen wie in \autoref{fig:lightSetup} aus allen sechs Richungen zum Rauch hin angeordnet, 
-sodass jeweils eine Seite beleuchtet wird. Die Animation des Rauchs wird daraufhin in eine sich selbst loopende Animation geschnitten und als einzelne Frames gerendert.
+Eine Möglichkeit die Houdini bietet, ist das Rendering der Animation in verschiedene Layers. So kann jedes einzelne Licht separat berechnet, gerendert und
+hinterher separat verwendet werden. Dazu werden Lichtquellen wie in \textbf{\autoref{fig:lightSetup}} aus allen sechs Richungen zum Rauch hin angeordnet,
+sodass jeweils eine Seite beleuchtet wird. Die Animation des Rauchs wird daraufhin wie in \textbf{\autoref{fig:seamlessCut}} in eine sich selbst nahtlos wiederholende Animation
+geschnitten und als einzelne Frames gerendert. Dazu muss im ersten Schritt eine Animation mit der doppelten Anzahl an Frames erzeugt werden, damit diese in der Hälfte
+geschnitten werden kann. Nun werden die beiden Abschnitte übereinander gelegt, sodass sich die Schnittkante auf gegenüberliegenden Seiten befinden. Somit sind der erste
+und der letzte Frame nahezu identisch. Als letztes wird ein Crossfade über beide Abschnitte gelegt, sodass die Clips jeweils an der Schnittkante voll eingeblendet
+sind. Somit ist der Schnitt nicht mehr sichtbar und das Video lässt sich unendlich wiederholen. Die Vorteile von dieser Methode werden in \textbf{\autoref{sec:5.1}}
+noch weiter erläutert.
+Um die verschiedenen Texturlayer in Unity verwenden zu können werden die Lichtrichtungen jedes einzelnen Frames in jeweils einen RGBA-Channel gelegt.
+So kann die Ansicht des Rauchs, in der beispielsweise nur die linke Seite beleuchtet wird in den Roten Kanal einer Textur gespeichert werden.
+Dies passiert ebenfalls für die anderen Richtungen von links, unten und oben. Die Ergebnisse sind in \textbf{\autoref{fig:lightDirections}} zu sehen.
+
+Die verschiedenen Farbkanäle können nun wieder in eine gemeinsame Textur zusammengeführt werden. 
 
 \begin{figure}[h!]
-    \includegraphics[width=0.49\textwidth]{Grafiken/Implementation/Lightmaps/Smoke_LightSetup.png}
+	\includegraphics[width=0.89\textwidth]{Grafiken/Implementation/Lightmaps/SeamlessCut.png}
 	\centering
-    \begin{footnotesize}
-        \caption{Schritte um Loop einer Rauchanimation ohne sichtbaren Schnittzu erzeugen. }
-		\label{fig:lightSetup}
-    \end{footnotesize}
+	\begin{footnotesize}
+		\caption{Schritte um Loop einer Rauchanimation ohne sichtbaren Schnittzu erzeugen. }
+		\label{fig:seamlessCut}
+	\end{footnotesize}
 \end{figure}
+
+
+
+
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.19\textwidth]{Grafiken/Implementation/Lightmaps/T1_R.png}
+	\includegraphics[width=0.19\textwidth]{Grafiken/Implementation/Lightmaps/T1_G.png}
+	\includegraphics[width=0.19\textwidth]{Grafiken/Implementation/Lightmaps/T1_B.png}
+	\includegraphics[width=0.19\textwidth]{Grafiken/Implementation/Lightmaps/T1_A.png}
+	\includegraphics[width=0.19\textwidth]{Grafiken/Implementation/Lightmaps/merged.png}
+
+	\begin{footnotesize}
+		\caption{Ein einzelner Frame der Simulation in seine Farbkanäle aufgeteilt. Die Richtungen aus denen der Rauch jeweils beleuchtet wurde ist dabei gut zu erkennen.
+			Von links: Roter Kanal(links), Grüner Kanal(rechts), Blauer Kanal(oben), Alpha Kanal(unten), Zusammengeführte Textur.}
+		\label{fig:lightDirections}
+	\end{footnotesize}
+\end{figure}
+
+
+
+
+
+
+
+
+\subsubsection{Volume Textures}
+
+
+
+
+
+
 
 
 % Die Animation wird daraufhin in einzelnen Frames auf einer Textur in einem Grid abgespeichert, auch Texture Sheet, Sprite Sheet oder Flipbook genannt.
@@ -41,76 +101,53 @@ sodass jeweils eine Seite beleuchtet wird. Die Animation des Rauchs wird daraufh
 % Informationen gefüllt werden. 
 %Diese Art Informationen in die Texturkanäle zu speichern ersetzt
 
-\begin{figure}[h!]
-    \includegraphics[width=0.49\textwidth]{Grafiken/Implementation/Lightmaps/Smoke_LightSetup.png}
-	\centering
-    \begin{footnotesize}
-        \caption{Setup der Beleuchtung der Rauchsimulation in Houdini.}
-		\label{fig:lightSetup}
-    \end{footnotesize}
-\end{figure}
 
 
-\begin{figure}[h!]
-	\centering
-		\includegraphics[width=0.24\textwidth]{Grafiken/Implementation/Lightmaps/T1_R.png}
-		\includegraphics[width=0.24\textwidth]{Grafiken/Implementation/Lightmaps/T1_G.png}
-		\includegraphics[width=0.24\textwidth]{Grafiken/Implementation/Lightmaps/T1_B.png}
-		\includegraphics[width=0.24\textwidth]{Grafiken/Implementation/Lightmaps/T1_A.png}
-	
-    \begin{footnotesize}
-        \caption{Setup der Rauchsimulation in Houdini. Links ist beispielhaft ein Frame der Simulation in seine Farbkanäle aufgeteilt. 
-        Die Richtungen aus denen der Rauch jeweils beleuchtet wurde ist dabei gut zu erkennen. }
-    \end{footnotesize}
-	\label{fig:lightDirections}
-\end{figure}
+% \begin{figure}[h]
+% 	\centering
+% 	\includegraphics[width=0.49\textwidth]{Grafiken/Implementation/T1_RGB.png}
+% 	\includegraphics[width=0.49\textwidth]{Grafiken/Implementation/T1_A.png}
+% 	\begin{footnotesize}
+% 		\caption{links: T1(RGB), rechts: T1(A)}
+% 	\label{fig:combinedChannel}
+% 	\end{footnotesize}
+% \end{figure}
 
-
-\begin{figure}[h]
-	\centering
-	\includegraphics[width=0.49\textwidth]{Grafiken/Implementation/T1_RGB.png}
-	\includegraphics[width=0.49\textwidth]{Grafiken/Implementation/T1_A.png}
-	\begin{footnotesize}
-		\caption{links: T1(RGB), rechts: T1(A)}
-	\end{footnotesize}
-	\label{fig:combinedChannel}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=0.49\textwidth]{Grafiken/Implementation/Explo_T1_8x8.png}
-	\includegraphics[width=0.49\textwidth]{Grafiken/Implementation/Explo_T2_8x8.png}
-	\begin{footnotesize}
-		\caption{Exportierte Spritesheets aus der Rauchsimulation in Houdini. Beide Bilder zeigen die selbe Simulation mit unterschiedlichen Beleuchtungsrichtung des Rauchs aus 
-        den jeweiligen Richtungen. Links: Beleuchtung von rechts (R), links (G), oben (B) und den Alphawerten (A). 
-        Rechts: Rauchsimulation beleuchtet von vorne (R), hinten (G), unten (B). Hierbei ist der Alphachannel noch frei.}
-	\end{footnotesize}
-	\label{fig:flipbook}
-\end{figure}
-\textcolor{red}{BILDER VON BEIDEN SPRITES}
+% \begin{figure}[h!]
+% 	\centering
+% 	\includegraphics[width=0.49\textwidth]{Grafiken/Implementation/Explo_T1_8x8.png}
+% 	\includegraphics[width=0.49\textwidth]{Grafiken/Implementation/Explo_T2_8x8.png}
+% 	\begin{footnotesize}
+% 		\caption{Exportierte Spritesheets aus der Rauchsimulation in Houdini. Beide Bilder zeigen die selbe Simulation mit unterschiedlichen Beleuchtungsrichtung des Rauchs aus 
+%         den jeweiligen Richtungen. Links: Beleuchtung von rechts (R), links (G), oben (B) und den Alphawerten (A). 
+%         Rechts: Rauchsimulation beleuchtet von vorne (R), hinten (G), unten (B). Hierbei ist der Alphachannel noch frei.}
+% 	\label{fig:flipbook}
+% 	\end{footnotesize}
+% \end{figure}
+% \textcolor{red}{BILDER VON BEIDEN SPRITES}
 
 
 
-In den beiden Texturen fehlen nun noch die Beleuchtung aus den Richtungen von Vorne und von Hinten. Diese werden allerdings im Shader
-berechnet, anstatt sie in die Textur zu backen. Aus den verschiedenen Lightmaps kann daraufhin basierend auf der Richtung des Lichteinfalls
-auf die Textur relativ günstig und performant eine korrekte Beleuchtung des Rauchs generiert werden.
+% In den beiden Texturen fehlen nun noch die Beleuchtung aus den Richtungen von Vorne und von Hinten. Diese werden allerdings im Shader
+% berechnet, anstatt sie in die Textur zu backen. Aus den verschiedenen Lightmaps kann daraufhin basierend auf der Richtung des Lichteinfalls
+% auf die Textur relativ günstig und performant eine korrekte Beleuchtung des Rauchs generiert werden.
 
 
 
-\newpage
-\textcolor{red}{\textbf{TODO:}} \newline
-POM: \newline
-- Alle Steps beschreiben\newline
-- Grafiken einfügen\newline
+% \newpage
+% \textcolor{red}{\textbf{TODO:}} \newline
+% POM: \newline
+% - Alle Steps beschreiben\newline
+% - Grafiken einfügen\newline
 
-RAYM: \newline
-- Volumetextures generieren / downloaden\newline
-- Vorgehen beschreiben\newline
-- Grafiken \newline
+% RAYM: \newline
+% - Volumetextures generieren / downloaden\newline
+% - Vorgehen beschreiben\newline
+% - Grafiken \newline
 
-% Raymarching: Volumetextures erstellen.
-Diese werden mithilfe von prozedural generierten Noisetexturen erzeugt.
-Daher basiert der zweite Ansatz auf dreidimensionalen Volumentexturen, welche mithilfe von Raymarching gesampled werden.
+% % Raymarching: Volumetextures erstellen.
+% Diese werden mithilfe von prozedural generierten Noisetexturen erzeugt.
+% Daher basiert der zweite Ansatz auf dreidimensionalen Volumentexturen, welche mithilfe von Raymarching gesampled werden.
 
 
 \subsection{Shader}
@@ -120,9 +157,9 @@ schnell und übersichtlich Shader zu entwickeln. Hier besteht die Möglichkeit a
 Dies macht vorallem das Debugging einfacher und erlaubt das schnelle Prototyping von Ideen.
 % Für den POM-Shader muss zuerst das Spritesheet 
 
-Die Beleuchtung des Rauchs wird zuvor in Houdini durchsimuliert. Dabei wird nicht nur die Beleuchtung der Oberfläche aus verschiedenen Richtungen, 
-sondern auch die Streuung, Reflexion und Absorption des Lichts innerhalb des Volumens berechnet und simuliert. 
-Dies hat den Vorteil, dass diese aufwändigen Berechnungen des Lichts bereits gemacht wurden und in der Echtzeitanwendung lediglich zwischen verschiedenen 
+Die Beleuchtung des Rauchs wird zuvor in Houdini durchsimuliert. Dabei wird nicht nur die Beleuchtung der Oberfläche aus verschiedenen Richtungen,
+sondern auch die Streuung, Reflexion und Absorption des Lichts innerhalb des Volumens berechnet und simuliert.
+Dies hat den Vorteil, dass diese aufwändigen Berechnungen des Lichts bereits gemacht wurden und in der Echtzeitanwendung lediglich zwischen verschiedenen
 Farbkanälen in der Textur interpolieren.
 
 
