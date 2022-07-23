@@ -34,9 +34,12 @@ Die Texturen werden auf zwei verschiedene Arten erstellt. Für die Variante mit 
 Texturen in der von SideFX entwickelten 3D-VFX-Grafiksoftware Houdini \footnote{\url{https://www.sidefx.com/products/houdini/}} erstellt.
 Houdini bietet die Möglichkeit relativ einfach und schnell physikalisch basierte und visuell überzeugende Rauch- und Feuersimulationen zu erstellen.
 Die Simulationen basieren auf Fluidberechnungen, wodurch ein realistisches Verhalten erzeugt und durch eine Vielzahl an Parametern beeinflusst werden kann.
+Dabei wird nicht nur die Beleuchtung der Oberfläche aus verschiedenen Richtungen, sondern auch die Streuung, Reflexion und Absorption des Lichts innerhalb
+des Volumens berechnet und simuliert.
 Eine Möglichkeit die Houdini bietet, ist das Rendering der Animation in verschiedene Layers. So kann jedes einzelne Licht separat berechnet, gerendert und
 hinterher separat verwendet werden. Dazu werden Lichtquellen wie in \textbf{\autoref{fig:lightSetup}} aus allen sechs Richungen zum Rauch hin angeordnet,
-sodass jeweils eine Seite beleuchtet wird. Die Animation des Rauchs wird daraufhin wie in \textbf{\autoref{fig:seamlessCut}} in eine sich selbst nahtlos wiederholende Animation
+sodass jeweils eine Seite beleuchtet wird.
+Die Animation des Rauchs wird daraufhin wie in \textbf{\autoref{fig:seamlessCut}} in eine sich selbst nahtlos wiederholende Animation
 geschnitten und als einzelne Frames gerendert. Dazu muss im ersten Schritt eine Animation mit der doppelten Anzahl an Frames erzeugt werden, damit diese in der Hälfte
 geschnitten werden kann. Nun werden die beiden Abschnitte übereinander gelegt, sodass sich die Schnittkante auf gegenüberliegenden Seiten befinden. Somit sind der erste
 und der letzte Frame nahezu identisch. Als letztes wird ein Crossfade über beide Abschnitte gelegt, sodass die Clips jeweils an der Schnittkante voll eingeblendet
@@ -46,20 +49,16 @@ Um die verschiedenen Texturlayer in Unity verwenden zu können werden die Lichtr
 So kann die Ansicht des Rauchs, in der beispielsweise nur die linke Seite beleuchtet wird in den Roten Kanal einer Textur gespeichert werden.
 Dies passiert ebenfalls für die anderen Richtungen von links, unten und oben. Die Ergebnisse sind in \textbf{\autoref{fig:lightDirections}} zu sehen.
 
-Die verschiedenen Farbkanäle können nun wieder in eine gemeinsame Textur zusammengeführt werden. 
+
 
 \begin{figure}[h!]
-	\includegraphics[width=0.89\textwidth]{Grafiken/Implementation/Lightmaps/SeamlessCut.png}
+	\includegraphics[width=\textwidth]{Grafiken/Implementation/Lightmaps/SeamlessCut.png}
 	\centering
 	\begin{footnotesize}
-		\caption{Schritte um Loop einer Rauchanimation ohne sichtbaren Schnittzu erzeugen. }
+		\caption{Schritte um Loop einer Rauchanimation ohne sichtbaren Schnitt zu erzeugen. }
 		\label{fig:seamlessCut}
 	\end{footnotesize}
 \end{figure}
-
-
-
-
 
 \begin{figure}[h!]
 	\centering
@@ -77,54 +76,31 @@ Die verschiedenen Farbkanäle können nun wieder in eine gemeinsame Textur zusam
 \end{figure}
 
 
+Die verschiedenen Farbkanäle können nun wieder in eine gemeinsame Textur zusammengeführt werden um dann in Unity in einem Shader weiterverarbeitet zu werden.
+Dabei wird jeder Frame mit einer Auflösung von 128x128 Pixel gespeichert. Bei einer Frameanzahl von 8x8 = 64 Frames entspricht das also
+einer Auflösung der ganzen Textur von 1024 x 1024 Pixel.
+
+Damit Parallax Occlusion Mapping angewendet werden kann werden jedoch zusätzlich Informationen über die Höhe benötigt.
+Dazu wird eine zweite Textur mit den gleichen Schritten wie zuvor erzeugt. Neben der Höheninformation wird außerdem noch die Alpha-Werte, sowie zwei weitere Lichtrichtungen –
+von vorne und von hinten – in die verschiedenen Kanäle gespeichert.
 
 
 
 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.49\textwidth]{Grafiken/Implementation/Explo_T1_8x8.png}
+	\includegraphics[width=0.49\textwidth]{Grafiken/Implementation/Explo_T2_8x8.png}
+	\begin{footnotesize}
+		\caption{Exportierte Spritesheets aus der Rauchsimulation in Houdini. }
+		\label{fig:flipbook}
+	\end{footnotesize}
+\end{figure}
 
 
-\subsubsection{Volume Textures}
+\subsubsection{Procedural 3D Noise}
+TODO
 
-
-
-
-
-
-
-
-% Die Animation wird daraufhin in einzelnen Frames auf einer Textur in einem Grid abgespeichert, auch Texture Sheet, Sprite Sheet oder Flipbook genannt.
-% Jeder Frame wird in der Textur mit einer Auflösung von 128 x 128 px gespeichert. Bei einer Frameanzahl von 8x8 = 64 Frames entspricht das also
-% einer Auflösung der ganzen Textur von 1024 x 1024 px.
-% In jedem Frame werden in Textur 1 die Tangent-Lightmaps (Top/Left/Right) in den jeweiligen RGB-Channels gespeichert.
-% Der Alpha-Channel enthält die Bottom-Lightmap. In Textur 2 wird eine Heat-/Emissionmap im Rot-Channel gespeichert, die Alphainformation im
-% Grün-Channel und die für das Parallax-Occlusion-Mapping benötigte Heightmap im blauen Farbkanal. Der Alpha-Channel wird hierbei nicht benutzt und könnte frei mit weiteren 
-% Informationen gefüllt werden. 
-%Diese Art Informationen in die Texturkanäle zu speichern ersetzt
-
-
-
-% \begin{figure}[h]
-% 	\centering
-% 	\includegraphics[width=0.49\textwidth]{Grafiken/Implementation/T1_RGB.png}
-% 	\includegraphics[width=0.49\textwidth]{Grafiken/Implementation/T1_A.png}
-% 	\begin{footnotesize}
-% 		\caption{links: T1(RGB), rechts: T1(A)}
-% 	\label{fig:combinedChannel}
-% 	\end{footnotesize}
-% \end{figure}
-
-% \begin{figure}[h!]
-% 	\centering
-% 	\includegraphics[width=0.49\textwidth]{Grafiken/Implementation/Explo_T1_8x8.png}
-% 	\includegraphics[width=0.49\textwidth]{Grafiken/Implementation/Explo_T2_8x8.png}
-% 	\begin{footnotesize}
-% 		\caption{Exportierte Spritesheets aus der Rauchsimulation in Houdini. Beide Bilder zeigen die selbe Simulation mit unterschiedlichen Beleuchtungsrichtung des Rauchs aus 
-%         den jeweiligen Richtungen. Links: Beleuchtung von rechts (R), links (G), oben (B) und den Alphawerten (A). 
-%         Rechts: Rauchsimulation beleuchtet von vorne (R), hinten (G), unten (B). Hierbei ist der Alphachannel noch frei.}
-% 	\label{fig:flipbook}
-% 	\end{footnotesize}
-% \end{figure}
-% \textcolor{red}{BILDER VON BEIDEN SPRITES}
 
 
 
@@ -152,18 +128,46 @@ Die verschiedenen Farbkanäle können nun wieder in eine gemeinsame Textur zusam
 
 \subsection{Shader}
 Für das Rendering der Partikel werden zwei Shader entwickelt. Diese basieren auf Parallax Occlusion Mapping und auf einem Raymarchingalgorithmus
-durch eine Volumentextur. Für beide Algorithmen wird Unitys Shader Graph verwendet. Shader Graph ist, genau wie Unitys VFX Graph, ein Node-Editor um
-schnell und übersichtlich Shader zu entwickeln. Hier besteht die Möglichkeit auch eigene Funktionen in Nodes zu verpacken und somit auf visuelle Art und Weise zu entwickeln.
-Dies macht vorallem das Debugging einfacher und erlaubt das schnelle Prototyping von Ideen.
-% Für den POM-Shader muss zuerst das Spritesheet 
-
-Die Beleuchtung des Rauchs wird zuvor in Houdini durchsimuliert. Dabei wird nicht nur die Beleuchtung der Oberfläche aus verschiedenen Richtungen,
-sondern auch die Streuung, Reflexion und Absorption des Lichts innerhalb des Volumens berechnet und simuliert.
-Dies hat den Vorteil, dass diese aufwändigen Berechnungen des Lichts bereits gemacht wurden und in der Echtzeitanwendung lediglich zwischen verschiedenen
-Farbkanälen in der Textur interpolieren.
+durch eine Volumentextur. Für POM wird Unitys Shader Graph verwendet. Shader Graph ist, genau wie Unitys VFX Graph, ein Node-Editor um
+schnell und übersichtlich Shader zu entwickeln. Hier besteht die Möglichkeit auch eigene Funktionen in Nodes
+zu verpacken und somit auf visuelle Art und Weise zu entwickeln. Dies macht vorallem das Debugging einfacher und erlaubt das schnelle Prototyping von Ideen,
+da einiges an Boilerplate-Code erspart wird.
 
 
 \subsubsection{Parallax Occlusion Mapping}
+
+Um die einzelnen Frames aus den Texture Sheets als Animation darstellen zu können, wird ein Flipbook-Node\footnote{\url{https://docs.unity3d.com/Packages/com.unity.shadergraph@12.0/manual/Flipbook-Node.html}}
+verwendet. Dieser manipuliert die UV-Koordinaten mithilfe der Information über Zeilen und Spalten des Texture Sheets,
+sodass die Koordinaten eines jeden Frames abhängig von der Zeit ausgegeben werden.
+Somit lässt sich auch die Framerate anpassen, mit der die Animation abgespielt werden soll.
+
+Diese UV-Koordinaten werden nun in einen Parallax Occlusion Mapping-Node weitergegeben, hier wird ebenfalls der Node von Unity\footnote{\url{https://docs.unity3d.com/Packages/com.unity.shadergraph@12.0/manual/Parallax-Occlusion-Mapping-Node.html}}
+benutzt. Dieser berechnet, basierend auf den übergebenen UV-Koordinaten des Flipbook-Players, sowie einer Heightmap und dem Blickwinkel die anzuzeigenden Texturkoordinaten.
+Es lassen sich außerdem die Anzahl der Schritte mit denen die Heightmap abgetastet werden soll, sowie die Amplitude des Offsets festlegen.
+Für die Implementierung des Rauchs wurde die Schrittanzahl auf 150 und die Amplitude auf 1 bis 3.5 gesetzt. Diese Werte haben sich durch ausprobieren ergeben.
+Eine höhere Amplitude verzerrt den Rauch so stark, sodass die in \autoref{sec:3.3.4} beschriebenen Artefakte auftreten.
+
+\textcolor{red}{>>SCREENSHOT VON ZU STARK VERZERRTEM RAUCH<<}
+
+Da die Beleuchtung des Rauchs zuvor in Houdini durchsimuliert und abgespeichert wurde muss im Shader nun eine Logik implementiert werden, welche jeweils die richtige Beleuchtung,
+abhängig von der Lichtrichtung anzeigt. Die durch den Flipbook- und POM-Node modifizierten UV-Koordinaten werden nun auf das Texture-Sheet abgebildet und somit die Animation durchlaufen.
+Da durch das Parallax Mapping die Koordinaten je nach Amplitude unterschiedlich stark verzerrt werden, muss der Rauch maskiert werden um das Fragmente, die am Rand erscheinen auszublenden.
+Mit der maskierten Animation kann dann unter einbeziehen des Main Lights (in Unity definiert als die Sonne, also ein directional light). Directional Lights haben keine Position,
+lediglich eine Richtung in die sie zeigen. Mithilfe dieser Richtung kann die korrekte Lightmap des Rauchs ausgewählt werden oder je nach Richtung des Lichts
+zwischen verschiedenen Maps interpoliert werden. Im Prinzip wird also für jede Achse des Lichts abgefragt, in welche Richtung das Licht zeigt und der entsprechende Farbchannel 
+der Rauchtextur zurückgegeben. 
+
+\begin{lstlisting}[language={[Sharp]C}]
+for (float direction : mainlight_vector.xyz) {
+	if(direction.X > 0){
+		return smoke_lightmap.G; 
+	}
+	else {
+		return smoke_lightmap.R;
+	}
+}
+
+\end{lstlisting}
 
 
 \subsubsection{Raymarcher}

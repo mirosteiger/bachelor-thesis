@@ -13,11 +13,33 @@ Es lassen sich dennoch einige Schlüsse daraus ziehen, welche nun im Folgenden b
 
 \subsection{Parallax Occlusion Mapping}
 \label{sec:5.1}
+
+PRO: \newline
+- Fluidsimulation -> geiler Look\newline
+- Beleuchtung ist recht einfach zu machen \newline
+- In Texturen lassen sich noch mehr Infos speichern (Emission, Gradients, etc.) \newline
+- 
+- Geringe Shaderlaufzeit\newline
+- Unendlich wiederholbar\newline
+- Sieht von weiter weg ganz gut aus\newline
+- Offset wird für beide Augen individuell berechnet\newline
+
 POM ist eine komplexere Variante des Normalmappings. Dementsprechend ist auch POM eine Technik für feste Oberflächen und weniger
 für den Einsatz bei der Simulation von Volumen gedacht. Um aber die Effizienz der billboard-basierten Partikelsysteme 
 nutzen zu können ist das Parallax Occlusion Mapping eine interessante Möglichkeit. Trotz der erhöhten Komplexität des Algorithmus
 gegenüber klassischeren Mappingverfahren läuft die Anwendung auf dem Testsystem stabil mit 90FPS. Hier gibt es also keine 
-Bedenken hinsichtlich der Shaderperformance. 
+Bedenken hinsichtlich der Shaderperformance. Auch die aufwändige Berechnung der Fluidsimulationen wird hier im Voraus erledigt. Somit
+ist es möglich realistisch aussehende Partikelsysteme unter geringem Rechenaufwand in der Echtzeitanwendung zu erzeugen.
+ 
+
+CONTRA\newline
+- Transparenz ist irgendwie weird\newline
+- Geringe Auflösung der einzelnen Frames \newline
+ -> Houdini Non-Commercial-Version erlaubt keine höhere Auflösung\newline
+- Basiert immernoch auf Billboards\newline
+ -> Trotz simulierter Tiefe ein flacher Eindruck in VR\newline
+
+
 
 \subsection{Ray Marching}
 \label{sec:5.2}
