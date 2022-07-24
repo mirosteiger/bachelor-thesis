@@ -6,14 +6,18 @@
 Da die Ergebnisse dieser Arbeit relevant für das KoViTReK Forschungsprojekt\footnote{\url{https://www.th-koeln.de/anlagen-energie-und-maschinensysteme/kovitrek\_87259.php}}
 sein könnten und dieses in der Laufzeit- und Entwicklungsumgebung Unity\footnote{\url{https://unity.com}}
 implementiert werden soll, werden auch die Partikelsysteme in der selben Umgebung entworfen.
+
+Ein wichtiger Faktor bei der Darstellung von Rauch ist die Beleuchtung. Eigenschaften wie Streuungen und Reflexionen innerhalb des Mediums zu simulieren ist 
+aufwändig zu berechnen und bisher nicht für die Echtzeitberechung in VR-Systemen, welche deutlich höhere Anforderungen an die Performance der Anwendung
+haben, gedacht. 
 Der erste Ansatz basiert auf einer Idee von Mederic Chasse, Technical Art Director  bei Highwire Games.
 Dieser schlägt einen Workflow vor, mit dem aufwändige Berechnungen solcher Simulationen in einer VFX Software erstellt, berechnet und gerendert werden.
-Die Animation wird in einem Texture Sheet gespeichert und kann somit den Einsatz in einer Game Engine sehr effizient und realistisch machen \parencite{Chasse2018}. 
+Die Animation wird in einem Texture Sheet gespeichert und kann somit den Einsatz in einer Game Engine sehr effizient machen und eine realistische Darstellung bieten \parencite{Chasse2018}. 
 Da der Fokus dieser Arbeit nicht auf der Fluidsimulation liegt und das Setup der Simulation mithilfe von Anleitungen
 und Tipps artistischer Natur aus Internetforen erzeugt wird, wird an dieser Stelle nicht weiter darauf eingegangen, wie die VFX-Software den Rauch berechnet und erzeugt.
 Stattdessen wird in \textbf{\autoref{sec:4.2.1}} der Workflow beschrieben und auf einige Parameter der Simulation eingegangen.
 
-Für die Darstellung mithilfe von Ray Marching werden echte Volumendaten, bzw. 3D-Texturen benötigt. Diese werden innerhalb von Unity
+Für die Darstellung mithilfe von Ray Marching werden richtige Volumendaten, bzw. 3D-Texturen benötigt. Diese werden innerhalb von Unity
 mithilfe eines Shaders prozedural erzeugt. tba
 
 
@@ -36,6 +40,9 @@ Die Texturen werden auf zwei verschiedene Arten erstellt. Für die Variante mit 
 Texturen in der von SideFX entwickelten 3D-VFX-Grafiksoftware Houdini \footnote{\url{https://www.sidefx.com/products/houdini/}} erstellt.
 Houdini bietet die Möglichkeit relativ einfach und schnell physikalisch basierte und visuell überzeugende Rauch- und Feuersimulationen zu erstellen.
 Die Simulationen basieren auf Fluidberechnungen, wodurch ein realistisches Verhalten erzeugt und durch eine Vielzahl an Parametern beeinflusst werden kann.
+
+Hier noch kurz die wichtigsten Parameter beschreiben, zb. Buoyancy, Dichte, Short tail des Rauchs, damit dieser eher aussieht wie ein Rauchball
+
 Dabei wird nicht nur die Beleuchtung der Oberfläche aus verschiedenen Richtungen, sondern auch die Streuung, Reflexion und Absorption des Lichts innerhalb
 des Volumens berechnet und simuliert.
 Eine Möglichkeit die Houdini bietet, ist das Rendering der Animation in verschiedene Layers. So kann jedes einzelne Licht separat berechnet, gerendert und
@@ -91,8 +98,8 @@ von vorne und von hinten – in die verschiedenen Kanäle gespeichert.
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.49\textwidth]{Grafiken/Implementation/Explo_T1_8x8.png}
-	\includegraphics[width=0.49\textwidth]{Grafiken/Implementation/Explo_T2_8x8.png}
+	\includegraphics[width=0.49\textwidth]{Grafiken/Implementation/Lightmaps/smokeSim_T1.png}
+	\includegraphics[width=0.49\textwidth]{Grafiken/Implementation/Lightmaps/smokeSim_T2.png}
 	\begin{footnotesize}
 		\caption{Exportierte Spritesheets aus der Rauchsimulation in Houdini. }
 		\label{fig:flipbook}
@@ -161,11 +168,11 @@ der Rauchtextur zurückgegeben.
 
 \begin{lstlisting}[language={[Sharp]C}]
 for (float direction : mainlight_vector.xyz) {
-	if(direction.X > 0){
-		return smoke_lightmap.G; 
+	if(direction.X > 0){ //Kommt das Licht von rechts?
+		return smokeLightmap_T1.R; //Korrekte 
 	}
 	else {
-		return smoke_lightmap.R;
+		return smokeLightmap_T2.R; //Licht von links
 	}
 }
 

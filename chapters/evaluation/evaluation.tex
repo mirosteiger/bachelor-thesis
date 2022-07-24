@@ -5,10 +5,11 @@
 Beide Methoden haben ihre Vor- und Nachteile. Die realistische Darstellung von voluminösen Materialien verlangt 
 eine besondere Herangehensweise, welche sich – im Gegensatz zu undurchsichtigen, festen Oberflächen – 
 nicht überzeugend mit herkömmlichen Texture-Mapping Methoden umsetzen lässt. 
-Die Implementierung der Shader ist aufgrund der 
-begrenzten Zeit im Rahmen dieser Arbeit nur prototypisch implementiert und daher nicht unbedingt optimiert. 
-In \textbf{\autoref{sec:6.3} \nameref{sec:6.3}} werden einige Optimierungsmöglichkeiten präsentiert. 
-Es lassen sich dennoch einige Schlüsse daraus ziehen, welche nun im Folgenden beschrieben werden. 
+Die Implementierung der Systeme ist aufgrund der begrenzten Zeit im Rahmen dieser Arbeit nur prototypisch mithilfe der 
+zur Verfügung stehenden Funktionen aus Unity implementiert und daher nicht bestmöglich optimiert. 
+In \textbf{\autoref{sec:6.3}} werden einige Optimierungsmöglichkeiten präsentiert. 
+Die Vor- und Nachteile, sowie das Potential für den Nutzen der jeweiligen Methoden lassen sich dennoch aus dem Entwurf 
+herausarbeiten und werden im Folgenden beschrieben . 
 
 
 \subsection{Parallax Occlusion Mapping}
@@ -24,6 +25,8 @@ PRO: \newline
 - Unendlich wiederholbar\newline
 - Sieht von weiter weg ganz gut aus\newline
 - Offset wird für beide Augen individuell berechnet\newline
+- Startframe kann zufällig gewählt werden -> gibt dem Rauch ein bisschen Variation ohne Overhead
+
 
 POM ist eine komplexere Variante des Normalmappings. Dementsprechend ist auch POM eine Technik für feste Oberflächen und weniger
 für den Einsatz bei der Simulation von Volumen gedacht. Um aber die Effizienz der billboard-basierten Partikelsysteme 
@@ -39,9 +42,9 @@ CONTRA\newline
  -> Houdini Non-Commercial-Version erlaubt keine höhere Auflösung\newline
 - Basiert immernoch auf Billboards\newline
  -> Trotz simulierter Tiefe ein flacher Eindruck in VR\newline
-- Funktioniert nicht gut bei mehreren Lichtquellen
-- Schattenwurf auf Umgebung funktioniert nicht
-- Beleuchtung der  Umgebung auch nicht möglich
+- Funktioniert nicht gut bei mehreren Lichtquellen\newline
+- Schattenwurf auf Umgebung funktioniert nicht\newline
+- Beleuchtung der  Umgebung auch nicht möglich\newline
 
 
 
