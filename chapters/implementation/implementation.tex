@@ -6,10 +6,12 @@
 Da die Ergebnisse dieser Arbeit relevant für das KoViTReK Forschungsprojekt\footnote{\url{https://www.th-koeln.de/anlagen-energie-und-maschinensysteme/kovitrek\_87259.php}}
 sein könnten und dieses in der Laufzeit- und Entwicklungsumgebung Unity\footnote{\url{https://unity.com}}
 implementiert werden soll, werden auch die Partikelsysteme in der selben Umgebung entworfen.
-Der erste Ansatz basiert auf aufwändig vorberechneten Simulationen, welche in einem Texture Sheet gespeichert werden und daraufhin den Einsatz in Unity
-sehr effizient und realistisch machen. Da der Fokus dieser Arbeit nicht auf der Fluidsimulation liegt und das Setup der Simulation mithilfe von Anleitungen
-und Tipps artistischer Natur aus Internetforen erzeugt wird, werde ich hier nicht weiter darauf eingehen, wie die VFX-Software den Rauch berechnet und erzeugt.
-Stattdessen werde ich in \textbf{\autoref{sec:4.2.1}} den Workflow beschreiben und auf einige Parameter der Simulation eingehen.
+Der erste Ansatz basiert auf einer Idee von Mederic Chasse, Technical Art Director  bei Highwire Games.
+Dieser schlägt einen Workflow vor, mit dem aufwändige Berechnungen solcher Simulationen in einer VFX Software erstellt, berechnet und gerendert werden.
+Die Animation wird in einem Texture Sheet gespeichert und kann somit den Einsatz in einer Game Engine sehr effizient und realistisch machen \parencite{Chasse2018}. 
+Da der Fokus dieser Arbeit nicht auf der Fluidsimulation liegt und das Setup der Simulation mithilfe von Anleitungen
+und Tipps artistischer Natur aus Internetforen erzeugt wird, wird an dieser Stelle nicht weiter darauf eingegangen, wie die VFX-Software den Rauch berechnet und erzeugt.
+Stattdessen wird in \textbf{\autoref{sec:4.2.1}} der Workflow beschrieben und auf einige Parameter der Simulation eingegangen.
 
 Für die Darstellung mithilfe von Ray Marching werden echte Volumendaten, bzw. 3D-Texturen benötigt. Diese werden innerhalb von Unity
 mithilfe eines Shaders prozedural erzeugt. tba
