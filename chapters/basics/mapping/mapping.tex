@@ -3,8 +3,15 @@
 Texture Mapping bezeichnet ein Verfahren, welches zweidimensionale Texturen auf ein dreidimensionales Objekt
 abbildet. Um die flachen Texturen auf die Oberfläche des Meshs abbilden zu können, muss das Objekt 'UV-unwrapped' werden.
 Durch diesen Vorgang wird jedem Punkt auf der Oberfläche des Meshs ein Punkt auf der Textur zugewiesen \parencite{Catmull1974} \parencite{Blinn1976}.
-Ein sehr einfaches Beispiel zur Veranschaulichung ist dabei das Würfelnetz.
-\textcolor{red}{>>GRAFIK VON WÜRFELNETZ/UV-UNWRAPPING<<}
+Ein sehr einfaches Beispiel zur Veranschaulichung ist dabei das Würfelnetz (\autoref{fig:wuerfelnetz}).
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.69\textwidth]{Grafiken/Basics/Mapping/Würfelnetz.png}
+	\begin{footnotesize}
+		\caption{Würfelnetz.}
+		\label{fig:wuerfelnetz}
+	\end{footnotesize}
+\end{figure}
 
 Texture Mapping sorgt dafür die Objekte 'anzumalen'.
 Reale Objekte haben oft sehr detaillierte Oberflächeneigenschaften und sind eigentlich niemals wirklich glatt.
@@ -67,8 +74,6 @@ Grad an Realismus. Ein deutlicher Nachteil liegt dabei allerdings in der Perform
 Ein weitgehender Einsatz von Displacement Mapping kann eine hohe Polygonanzahl schnell
 negativen Einfluss auf die Renderingzeiten nehmen. 
 
-\textcolor{red}{>>PERFORMANCEVERGLEICH MAPPINGVARIANTEN<<}
-\href{https://onlinelibrary.wiley.com/doi/abs/10.1111/cgf.13656}{Hier der Vergleich, TH-VPN nötig}
 
 \subsubsection{Parallax Mapping}
 

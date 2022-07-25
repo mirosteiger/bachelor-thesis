@@ -55,6 +55,7 @@ Oberflächen entlang des Strahls zu finden, da hiermit die Anzahl der benötigte
 Jede Oberfläche einer Szene kann durch eine solche Distanzfunktion dargestellt werden.
 Eine Kugel lässt sich also beispielsweise durch die folgende Funktion mit ihrer Position in Weltkoordinaten und einem Radius darstellen:
 
+\vspace{.8cm}
 \begin{lstlisting}[language={[Sharp]C}, label={lst:sphereSDF}, caption={SDF einer Kugel im Ursprung},captionpos=b, frame=single]
 float sdfSphere( vec3 pos, float radius ){
   return length(pos)-radius;
@@ -68,10 +69,12 @@ den Oberflächen interpoliert wird, sodass diese Geometrien den Anschein erwecke
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.80\textwidth]{Grafiken/Basics/Volume/sdfOperators.png}
+	\includegraphics[height=0.15\textheight]{Grafiken/Basics/Volume/sdf_cut.png}
+	\includegraphics[height=0.15\textheight]{Grafiken/Basics/Volume/sdf_mask.png}
+	\includegraphics[height=0.15\textheight]{Grafiken/Basics/Volume/sdf_union.png}
 	\begin{footnotesize}
 		\caption{Beispiele von verschiedenen SDF-Operatoren.
-			Von links: Union und Smooth Union, Subtraction und Smooth Subtraktion, Intersection und Smooth Intersection}
+			Von links: Subtraction, Intersection, Smooth Union}
 		\label{fig:sdfOperators}
 	\end{footnotesize}
 \end{figure}
