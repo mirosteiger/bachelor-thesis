@@ -6,6 +6,11 @@
 Da die Ergebnisse dieser Arbeit relevant für das KoViTReK Forschungsprojekt\footnote{\url{https://www.th-koeln.de/anlagen-energie-und-maschinensysteme/kovitrek\_87259.php}}
 sein könnten und dieses in der Laufzeit- und Entwicklungsumgebung Unity\footnote{\url{https://unity.com}}
 implementiert werden soll, werden auch die Partikelsysteme in der selben Umgebung entworfen.
+Aufgrund der verschiedenen visuellen Eigenschaften und des Verhaltens von Feuer und Rauch werden jeweils eigene Systeme konzipiert.
+
+Für die Implementierung und Evaluierung der Performance der beiden beschriebenen Methoden wurde ein System mit den folgenden Spezifikationen verwendet:
+
+<<<<<< Hier kommen die PC-Specs rein >>>>>>
 
 Ein wichtiger Faktor bei der Darstellung von Rauch ist die Beleuchtung. Eigenschaften wie Streuungen und Reflexionen innerhalb des Mediums zu simulieren ist
 aufwändig zu berechnen und bisher nicht für die Echtzeitberechung in VR-Systemen, welche deutlich höhere Anforderungen an die Performance der Anwendung
@@ -194,7 +199,7 @@ Um die Partikelsysteme umzusetzen wird der relativ junge, von Unity entwickelte 
 (kurz: VFX Graph) verwendet. VFX Graph ist ein nodesbasierter Editor, um schnell
 dynamische und komplexe Partikelsysteme zu erzeugen\footnote{\url{https://unity.com/de/visual-effect-graph}}.
 Im Gegensatz zum älteren Shuriken-Partikelsystem von Unity werden die Partikel hier auf der GPU
-simuliert, wodurch das System deutlich an Performance gewinnt und ein mehr Partikel zeichnen kann.
+simuliert, wodurch das System deutlich an Performance gewinnt und dafer mehr Partikel zeichnen kann.
 Shuriken nimmt die Berechnungen im Gegensatz zum VFX Graph auf der CPU vor\footnote{\url{https://docs.unity3d.com/Manual/ChoosingYourParticleSystem.html}}.
 Gerade für VR-Anwendungen bietet sich also dieses neue System an.
 VFX-Graph hat jedoch nur sehr begrenzte Möglichkeiten, was Physiksimulationen und Kollisionen der Partikel angeht.
