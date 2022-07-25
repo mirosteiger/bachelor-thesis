@@ -9,7 +9,7 @@ Die Implementierung der Systeme ist aufgrund der begrenzten Zeit im Rahmen diese
 zur Verfügung stehenden Funktionen aus Unity implementiert und daher nicht bestmöglich optimiert. 
 In \textbf{\autoref{sec:6.3}} werden einige Optimierungsmöglichkeiten präsentiert. 
 Die Vor- und Nachteile, sowie das Potential für den Nutzen der jeweiligen Methoden lassen sich dennoch aus dem Entwurf 
-herausarbeiten und werden im Folgenden beschrieben . 
+herausarbeiten und werden im Folgenden beschrieben.
 
 
 \subsection{Parallax Occlusion Mapping}
@@ -51,3 +51,12 @@ CONTRA\newline
 
 \subsection{Ray Marching}
 \label{sec:5.2}
+
+PRO: \newline
+- Sehr günstige AO aufgrund der bereits berechneten Distanz\newline
+- Lichtstrahl in Volumen weiterverfolgen kann Schatten erzeugen\newline
+- 
+
+CONTRA: \newline
+- Aufwändigere Berechnung\newline
+- 3D-Datenset beinhaltet keine Animation der Textur\newline

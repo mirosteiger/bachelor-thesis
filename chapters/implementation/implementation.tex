@@ -7,12 +7,12 @@ Da die Ergebnisse dieser Arbeit relevant für das KoViTReK Forschungsprojekt\foo
 sein könnten und dieses in der Laufzeit- und Entwicklungsumgebung Unity\footnote{\url{https://unity.com}}
 implementiert werden soll, werden auch die Partikelsysteme in der selben Umgebung entworfen.
 
-Ein wichtiger Faktor bei der Darstellung von Rauch ist die Beleuchtung. Eigenschaften wie Streuungen und Reflexionen innerhalb des Mediums zu simulieren ist 
+Ein wichtiger Faktor bei der Darstellung von Rauch ist die Beleuchtung. Eigenschaften wie Streuungen und Reflexionen innerhalb des Mediums zu simulieren ist
 aufwändig zu berechnen und bisher nicht für die Echtzeitberechung in VR-Systemen, welche deutlich höhere Anforderungen an die Performance der Anwendung
-haben, gedacht. 
+haben, gedacht.
 Der erste Ansatz basiert auf einer Idee von Mederic Chasse, Technical Art Director  bei Highwire Games.
 Dieser schlägt einen Workflow vor, mit dem aufwändige Berechnungen solcher Simulationen in einer VFX Software erstellt, berechnet und gerendert werden.
-Die Animation wird in einem Texture Sheet gespeichert und kann somit den Einsatz in einer Game Engine sehr effizient machen und eine realistische Darstellung bieten \parencite{Chasse2018}. 
+Die Animation wird in einem Texture Sheet gespeichert und kann somit den Einsatz in einer Game Engine sehr effizient machen und eine realistische Darstellung bieten \parencite{Chasse2018}.
 Da der Fokus dieser Arbeit nicht auf der Fluidsimulation liegt und das Setup der Simulation mithilfe von Anleitungen
 und Tipps artistischer Natur aus Internetforen erzeugt wird, wird an dieser Stelle nicht weiter darauf eingegangen, wie die VFX-Software den Rauch berechnet und erzeugt.
 Stattdessen wird in \textbf{\autoref{sec:4.2.1}} der Workflow beschrieben und auf einige Parameter der Simulation eingegangen.
@@ -163,17 +163,16 @@ abhängig von der Lichtrichtung anzeigt. Die durch den Flipbook- und POM-Node mo
 Da durch das Parallax Mapping die Koordinaten je nach Amplitude unterschiedlich stark verzerrt werden, muss der Rauch maskiert werden um das Fragmente, die am Rand erscheinen auszublenden.
 Mit der maskierten Animation kann dann unter einbeziehen des Main Lights (in Unity definiert als die Sonne, also ein directional light). Directional Lights haben keine Position,
 lediglich eine Richtung in die sie zeigen. Mithilfe dieser Richtung kann die korrekte Lightmap des Rauchs ausgewählt werden oder je nach Richtung des Lichts
-zwischen verschiedenen Maps interpoliert werden. Im Prinzip wird also für jede Achse des Lichts abgefragt, in welche Richtung das Licht zeigt und der entsprechende Farbchannel 
-der Rauchtextur zurückgegeben. 
+zwischen verschiedenen Maps interpoliert werden. Im Prinzip wird also für jede Achse des Lichts abgefragt, in welche Richtung das Licht zeigt und der entsprechende Farbchannel
+der Rauchtextur zurückgegeben.
 
-\begin{lstlisting}[language={[Sharp]C}]
-for (float direction : mainlight_vector.xyz) {
-	if(direction.X > 0){ //Kommt das Licht von rechts?
-		return smokeLightmap_T1.R; //Korrekte 
-	}
-	else {
-		return smokeLightmap_T2.R; //Licht von links
-	}
+\vspace{.6cm}
+\begin{lstlisting}[language={[Sharp]C}, label={lst:lightMapLogik}, caption={Logik zur Auswahl der richtigen Lightmap am Beispiel der X-Richtung des Lichts},captionpos=b, frame=single]
+if(direction.X > 0){
+  return smokeLightmap_T1.R; 
+}
+else {
+  return smokeLightmap_T2.R; //Licht von links
 }
 
 \end{lstlisting}

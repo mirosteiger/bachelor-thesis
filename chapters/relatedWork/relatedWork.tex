@@ -46,10 +46,14 @@ Art der Simulation einschränkt.
 
 
 \subsection{Ray Marching}
+
 Partikelsysteme, basierend auf Billboards, haben das Problem der Darstellung in VR. Alle Vorteile, die diese Art von 
 Partikelsystem mit sich bringt gehen durch stereoskopisches Rendering verloren, da die Partikel plötzlich flach aussehen 
-oder sich zusammen mit der Bewegung des VR-Headset drehen und kippen können. Eine weitere Methode um solche volumetrischen 
-Effekte zu rendern ist das Ray-Marching. Dieses bietet neben deutlich realistischeren Renderings den Vorteil, dass dieses 
+oder sich zusammen mit der Bewegung des VR-Headset drehen und kippen können.
+
+Eine Methode um volumetrische Effekte zu rendern ist das Ray Marching. Ray Marching im Zusammenhang mit SDFs gibt es 
+schon seit über 30 Jahren \parencite{Hart1989}.
+Ray Marching bietet neben deutlich realistischeren Renderings den Vorteil, dass dieses 
 auch in der Stereoansicht gut funktioniert und überzeugende Ergebnisse liefert \parencite{Wald2006}. Die Methode bietet 
 jedoch den Nachteil einer aufwändigeren Berechnung und daher auch längeren Renderingzeiten. Es wurde außerdem bereits von 
 \textcite{Zhang2020} versucht, die Charakteristiken von volumetrischen Effekten auf ein Billboard-System anzuwenden. 
