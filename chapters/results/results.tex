@@ -1,15 +1,33 @@
 \section{Ergebnisse}
 \label{sec:6}
 Hier kommen die Erkenntnisse meiner Arbeit rein
-\subsection{Zusammenfassung}
+\subsection{Fazit}
 \label{sec:6.1}
+Das Ziel dieser Bachelorarbeit war es zwei vielversprechende Methoden für das Stereorendering von Feuer und Rauch testweise zu implementieren, 
+zu vergleichen und die Eignung den möglichen Einsatz in VR-Systemen zu beurteilen. Nach Evaluierung der Ergebnisse von Parallax Occlusion Mapping
+und Ray Marching stellt sich heraus, dass sich POM potentiell für das Rendering von Rauch geeignet sein könnte, die Standard-Variante wie sie im Rahmen 
+dieser Arbeit für die Betrachtung in VR verwendet wurde jedoch einige Probleme mit sich bringt. Parallax Occlusion Mapping bringt den großen Vorteil
+der Berechnung des Offsets und der Verdeckung basierend auf dem Blickwinkel mit sich, was sich besonders gut für den Nutzen von HMDs eignet. Jedoch 
 
 
 
 \subsection{Limitationen}
 \label{sec:6.2}
+
+- Unity URP: Komplexe Renderingpipeline, Dokumentation nicht immer gut, viel Wissen aus Foren
+- Houdini: Non-Commercial-Version erlaubt nur eine gewisse Qualität der Exporte, Alpha Channel kaputt und damit useless.
+- Heightmap für Smoke nicht exportierbar
+- Breit gefächertes Feld mit vielen Varianten und unendlich Optimierungspotential -> Man kann nicht alles schaffen
+
+
+
+
+
 \subsection{Ausblick}
 \label{sec:6.3}
-
+- Viele Möglichkeiten zur Optimierung
+- Animationen können sehr aufwändig und damit deutlich realistischer werden
+- Möglichkeiten die Animation als Volumentextur zu rendern (4D-Texturen?)
+- 
 
 \newpage

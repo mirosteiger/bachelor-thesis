@@ -15,33 +15,50 @@ herausarbeiten und werden im Folgenden beschrieben.
 \subsection{Parallax Occlusion Mapping}
 \label{sec:5.1}
 
-PRO: \newline
-- Fluidsimulation -> geiler Look\newline
-- Beleuchtung ist recht einfach zu machen \newline
-- Beleuchtung ist dynamisch für eine geringe Zahl an Lichtquellen
-- Für dunklen Rauch ist die genaue Berechnung von Schatten nicht so wichtig
-- In Texturen lassen sich noch mehr Infos speichern (Color-Key (für Feuer), Emission, Gradients, etc.) \newline
-- Geringe Shaderlaufzeit\newline
-- Unendlich wiederholbar\newline
-- Sieht von weiter weg ganz gut aus\newline
-- Offset wird für beide Augen individuell berechnet\newline
-- Startframe kann zufällig gewählt werden -> gibt dem Rauch ein bisschen Variation ohne Overhead
-
 
 POM ist eine komplexere Variante des Normalmappings. Dementsprechend ist auch POM eine Technik für feste Oberflächen und weniger
-für den Einsatz bei der Simulation von Volumen gedacht. Um aber die Effizienz der billboard-basierten Partikelsysteme 
-nutzen zu können ist das Parallax Occlusion Mapping eine interessante Möglichkeit. Trotz der erhöhten Komplexität des Algorithmus
-gegenüber klassischeren Mappingverfahren läuft die Anwendung auf dem Testsystem stabil mit 90FPS. Hier gibt es also keine 
-Bedenken hinsichtlich der Shaderperformance. Auch die aufwändige Berechnung der Fluidsimulationen wird hier im Voraus erledigt. Somit
-ist es möglich realistisch aussehende Partikelsysteme unter geringem Rechenaufwand in der Echtzeitanwendung zu erzeugen.
- 
+für den Einsatz bei der Simulation von Volumen gedacht. Um aber die Effizienz der Billboard-basierten Partikelsysteme 
+nutzen zu können ist das Parallax Occlusion Mapping eine interessante Möglichkeit die es Wert ist getestet zu werden. 
+Trotz der erhöhten Komplexität des Algorithmus gegenüber klassischeren Mappingverfahren läuft die Anwendung auf dem Testsystem 
+stabil mit 90FPS. Hier gibt es also keine Bedenken hinsichtlich der Shaderperformance. Auch die aufwändige Berechnung der 
+Fluidsimulationen wird hier im Voraus erledigt. Somit ist es möglich realistisch aussehende Partikelsysteme unter geringem 
+Rechenaufwand in der Echtzeitanwendung zu erzeugen und diese dabei noch realistisch aussehen zu lassen. 
+Ein weiterer Vorteil, der sich aus der Natur des schwarzen Rauchs bei Bränden ergibt, ist die Tatsache, dass die genaue Berechnung
+von Selbstschattierungen hierbei nicht so essentiell ist wie bei weißem Rauch. 
+Dies ist zwar nicht direkt ein Vorteil von POM, gleicht aber einen Nachteil aus, den es in der Anwendung in einem Partikelsystem gibt. 
+Die Billboards sind in der Lage sich individuell selbst zu schattieren, gegenseitig ist dies jedoch nicht möglich. In Bezug auf den Schatten generell 
+gibt es das Problem, dass Billboard-basierte Partikelsysteme eigentlich nur flache Sprites sind und deshalb nicht in der Lage sind realistische Schatten
+auf die Umgebung werfen zu können. In Hinblick auf die Beleuchtung ist es mit POM auch möglich eine geringe Anzahl dynamischer Lichtquellen einzubeziehen. 
+%How, wie viele?
+Ein weiterer Vorteil der sich aus dieser Methode ergibt, sind die Texture Sheets. In eine einzige Textur lassen sich 4 verschiedene Informationen in die 
+RGBA-Kanäle speichern. Neben den verschiedenen Lightmaps aus 6 Richtungen können beispielsweise noch ein Color-Key oder Emission- und Heatmaps gespeichert werden.
+Mit weiteren Infos wie einer Heatmap lässt sich ein Übergang, bzw. eine Mischung von Feuer und Rauch erzeugen. Dies ist ein Phänomen, welches bei größeren Bränden
+oder Explosionen beobachten lässt (\autoref{fig:fettbrand}). 
+Die Anzahl der Lightmaps lässt sich auch reduzieren, indem die Lichtrichtungen von vorne und von hinten im Shader approximiert werden können. 
+Es gibt viele Möglichkeiten die Flexibilität von Texturen ausnutzen zu können und dabei die Menge an benötigten Daten und Berechnungen gering zu halten, 
+sodass der flüssige Einsatz in VR gegeben bleibt. Weiterhin lassen sich auf Kosten weiterer Texture Sheets 
+verschiedene Simulationen erstellen, sodass größere Varianz in das Aussehen des Partikelsystems eingebracht werden kann.
+Durch die unendliche Wiederholbarkeit kann die Animation ab einem zufällig gewählten Frame starten, wodurch schon mit einer einzigem Animation
+kaum auffällt, dass lediglich eine Animation das ganze System erzeugt. 
+
+Neben den ganzen Vorteilen, die diese Variante mit sich bringt gibt es auch negative Punkte. Bei zu geringer Auflösung sehen die Renderings schnell
+verpixelt aus, je näher diese betrachtet werden. Dies ist ein großer Nachteil der Texture Sheets. Wird die Auflösung jedes Frames verdoppelt, also in diesem 
+Fall von 128x128 Pixel auf 256x256 Pixel, so erhöht sich die Auflösung der gesamten Textur um den Faktor 4 für jeden Farbkanal. Selbst dann sind
+die einzelnen Frames noch sehr gering aufgelöst und nicht für die Betrachtung aus der Nähe gedacht. 
+Die visuellen Artefakte, wie beispielsweise das Einschneiden der benachbarten Frames aus dem Texture Sheet aus einem flachen Betrachtungswinkel. 
+schränken die Einsatzmöglichkeiten für die Anwendung in VR stark ein. 
+Bei der Darstellung des Feuers kommt der Faktor hinzu, dass Billboards nicht als Lichtquelle fungieren, was dem Realismus der Simulation schadet. 
+
+Abschließend lässt sich zu dem Rendering von Feuer und Rauch auf Basis von Parallax Occlusion Mapping sagen, dass sich diese Variante, so wie sie implementiert
+ist, nicht immer eignet. Die Nachteile 
+
+
 
 CONTRA\newline
 - Transparenz ist irgendwie weird\newline
 - Geringe Auflösung der einzelnen Frames \newline
- -> Houdini Non-Commercial-Version erlaubt keine höhere Auflösung\newline
-- Basiert immernoch auf Billboards\newline
- -> Trotz simulierter Tiefe ein flacher Eindruck in VR\newline
+% - Basiert immernoch auf Billboards\newline
+%  -> Trotz simulierter Tiefe ein flacher Eindruck in VR\newline
 - Funktioniert nicht gut bei mehreren Lichtquellen\newline
 - Schattenwurf auf Umgebung funktioniert nicht\newline
 - Beleuchtung der  Umgebung auch nicht möglich\newline
@@ -60,3 +77,7 @@ PRO: \newline
 CONTRA: \newline
 - Aufwändigere Berechnung\newline
 - 3D-Datenset beinhaltet keine Animation der Textur\newline
+
+
+
+

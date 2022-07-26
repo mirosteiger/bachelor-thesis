@@ -6,19 +6,25 @@
 Da die Ergebnisse dieser Arbeit relevant für das KoViTReK Forschungsprojekt\footnote{\url{https://www.th-koeln.de/anlagen-energie-und-maschinensysteme/kovitrek\_87259.php}}
 sein könnten und dieses in der Laufzeit- und Entwicklungsumgebung Unity\footnote{\url{https://unity.com}}
 implementiert werden soll, werden auch die Partikelsysteme in der selben Umgebung entworfen.
+Aufgrund der verschiedenen visuellen Eigenschaften und des Verhaltens von Feuer und Rauch werden jeweils eigene Systeme konzipiert.
+
+Für die Implementierung und Evaluierung der Performance der beiden beschriebenen Methoden wurde ein System mit den folgenden Spezifikationen verwendet:
+
+<<<<<< Hier kommen die PC-Specs rein >>>>>>
 
 Ein wichtiger Faktor bei der Darstellung von Rauch ist die Beleuchtung. Eigenschaften wie Streuungen und Reflexionen innerhalb des Mediums zu simulieren ist
-aufwändig zu berechnen und bisher nicht für die Echtzeitberechung in VR-Systemen, welche deutlich höhere Anforderungen an die Performance der Anwendung
-haben, gedacht.
-Der erste Ansatz basiert auf einer Idee von Mederic Chasse, Technical Art Director  bei Highwire Games.
-Dieser schlägt einen Workflow vor, mit dem aufwändige Berechnungen solcher Simulationen in einer VFX Software erstellt, berechnet und gerendert werden.
-Die Animation wird in einem Texture Sheet gespeichert und kann somit den Einsatz in einer Game Engine sehr effizient machen und eine realistische Darstellung bieten \parencite{Chasse2018}.
+aufwändig zu berechnen und unter Berücksichtigung aller Faktoren eher weniger für die Echtzeitberechung in VR-Systemen gedacht, welche deutlich höhere Anforderungen an die Performance der Anwendung
+haben. Der erste Ansatz basiert auf einer Idee von Mederic Chasse, Technical Art Director  bei Highwire Games.
+Dieser beschreibt im Forum \href{realtimevfx.com}{realtimevfx.com} einen Workflow, mit dem aufwändige Berechnungen solcher Simulationen in einer VFX Software erstellt, berechnet und gerendert werden.
+Die Animation wird in einem Texture Sheet gespeichert und kann somit eine realistische Darstellung bieten, während der Einsatz in einer Game Engine effizient bleibt \parencite{Chasse2018}.
 Da der Fokus dieser Arbeit nicht auf der Fluidsimulation liegt und das Setup der Simulation mithilfe von Anleitungen
 und Tipps artistischer Natur aus Internetforen erzeugt wird, wird an dieser Stelle nicht weiter darauf eingegangen, wie die VFX-Software den Rauch berechnet und erzeugt.
 Stattdessen wird in \textbf{\autoref{sec:4.2.1}} der Workflow beschrieben und auf einige Parameter der Simulation eingegangen.
 
 Für die Darstellung mithilfe von Ray Marching werden richtige Volumendaten, bzw. 3D-Texturen benötigt. Diese werden innerhalb von Unity
-mithilfe eines Shaders prozedural erzeugt. tba
+mithilfe eines Shaders prozedural erzeugt. 
+
+<<<<TODO>>>>
 
 
 \subsection{Erstellung der Texturen}
@@ -194,7 +200,7 @@ Um die Partikelsysteme umzusetzen wird der relativ junge, von Unity entwickelte 
 (kurz: VFX Graph) verwendet. VFX Graph ist ein nodesbasierter Editor, um schnell
 dynamische und komplexe Partikelsysteme zu erzeugen\footnote{\url{https://unity.com/de/visual-effect-graph}}.
 Im Gegensatz zum älteren Shuriken-Partikelsystem von Unity werden die Partikel hier auf der GPU
-simuliert, wodurch das System deutlich an Performance gewinnt und ein mehr Partikel zeichnen kann.
+simuliert, wodurch das System deutlich an Performance gewinnt und dafer mehr Partikel zeichnen kann.
 Shuriken nimmt die Berechnungen im Gegensatz zum VFX Graph auf der CPU vor\footnote{\url{https://docs.unity3d.com/Manual/ChoosingYourParticleSystem.html}}.
 Gerade für VR-Anwendungen bietet sich also dieses neue System an.
 VFX-Graph hat jedoch nur sehr begrenzte Möglichkeiten, was Physiksimulationen und Kollisionen der Partikel angeht.
