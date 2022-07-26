@@ -2,16 +2,16 @@
 \subsection{Volume Rendering}
 
 Unter dem Begriff Volume Rendering versteht sich eine Reihe von Methoden, die es ermöglichen ein 3D-Datenset zu visualisieren.
-Anders als beim Rendern von Geometrien mit einer festen Oberfläche, geht es hierbei darum alle Daten aus
+Anders als beim rendern von Geometrien mit einer festen Oberfläche, geht es hierbei darum alle Daten aus
 dem jeweiligen Volumen darstellen zu können. Dies sind beispielsweise volumetrische Effekte wie Feuer und Rauch, Wolken oder Nebel,
 welche sich, aufgrund ihrer gasförmigen Eigenschaften, nicht wirklich realistisch mit Geometrie darstellen lassen.
-Volumen haben keine wirkliche Oberfläche, sondern besteht aus unzähligen winzigen Rußpartikeln.
+Volumen haben keine wirkliche Oberfläche, sondern bestehen aus unzähligen winzigen Rußpartikeln.
 Möchte man also solche Volumen darstellen, so geraten die bisherigen Herangehensweisen, die sich die Oberflächen der Objekte zunutze machen,
 schnell an ihre Grenzen. Beim Grundgedanken des Volume Renderings geht es daher um die Frage, wie das Licht durch diese Volumen
 wandert und welchen Einfluss die Partikel darauf haben.
-Es gibt einige Faktoren, die beeinflussen was das Auge am Ende von diesem Volumen sieht. Wenn das Licht durch solch ein Volumen wandert
+Es gibt einige Faktoren, die beeinflussen wie das Licht, das das Auge am Ende nach Austritt eines Volumens erreicht, verändert wird. Wenn das Licht durch solch ein Volumen wandert
 kann es absorbiert, reflektiert oder gestreut werden.
-Die Abschwächung durch Streuung und Absorption des Lichtes beim Durchlaufen eines Volumens kann verienfacht mithilfe des Lambert-beerschen Gesetzes wie in \autoref{eqn:beer}
+Die Abschwächung durch Streuung und Absorption des Lichtes beim Durchlaufen eines Volumens kann vereinfacht mithilfe des Lambert-beerschen Gesetzes wie in \autoref{eqn:beer}
 approximiert werden \parencite{Mayerhofer2020}.
 Der Absorptionskoeffizient $\sigma_a$ beschreibt dabei die Wahrscheinlichkeit, dass ein Photon auf der Strecke $d$ durch das Medium absorbiert oder anderweitig
 reflektiert wird.
@@ -30,10 +30,9 @@ reflektiert wird.
 
 Ray Marching ist eine dieser Möglichkeiten ein Volumen darzustellen. Die Idee hierbei ist es – ähnlich wie beim Ray Tracing –
 Strahlen von der Kamera aus durch jeden Pixel des zu rendernden Bildes zu schicken und dabei zu prüfen, ob der Strahl auf etwas trifft.
-Der Unterschied besteht hierbei jedoch darin, dass sich Ray Marching auf sogenannten '\textit{signed distance functions}' (SDF) beruht.
-SDFs beschreiben, wie weit die nächstgelegene Oberfläche entfernt ist. Befindet sich der Strahl noch außerhalb der Geometrie, so ist
-der Wert der Funktion positiv, befindet sich der Strahl innerhalb, so wird der Wert negativ. Dazu wird die Entfernung zu allen Objekten
-in der Szene berechnet.
+Der Unterschied besteht hierbei jedoch darin, dass sich Ray Marching auf sogenannte '\textit{signed distance functions}' (SDF) bezieht.
+Mit SDFs lässt sich beschreiben, wie weit die nächstgelegene Oberfläche entfernt ist. Dazu wird die Entfernung zu jedem Objekt
+in der Szene berechnet und die kürzeste gewählt.
 
 \begin{figure}[h]
 	\centering
@@ -55,6 +54,7 @@ Oberflächen entlang des Strahls zu finden, da hiermit die Anzahl der benötigte
 Jede Oberfläche einer Szene kann durch eine solche Distanzfunktion dargestellt werden.
 Eine Kugel lässt sich also beispielsweise durch die folgende Funktion mit ihrer Position in Weltkoordinaten und einem Radius darstellen:
 
+\vspace{0.5cm}
 \begin{lstlisting}[language={[Sharp]C}, label={lst:sphereSDF}, caption={SDF einer Kugel im Ursprung},captionpos=b, frame=single]
 float sdfSphere( vec3 pos, float radius ){
   return length(pos)-radius;
@@ -81,7 +81,7 @@ den Oberflächen interpoliert wird, sodass diese Geometrien den Anschein erwecke
 
 \subsubsection{Volume Ray Marching}
 
-\begin{figure}[h]
+\begin{figure}[hb]
 	\centering
 	\includegraphics[width=0.80\textwidth]{Grafiken/Basics/Volume/Volume_RayMarching.png}
 	\begin{footnotesize}
@@ -109,8 +109,12 @@ Voxel sind das Äquivalent zu einem Pixel im dreidimensionalen Raum und wird dur
 	\label{eqn:drebin}
 	C_{out} = C_{in} \cdot (1 - O(x)) + C(x) * O(x).
 \end{equation}
-<<<Formel stimmt nicht ganz, muss ich noch mal recherchieren>>>
+(Berechnung der Farbe des austretenden Lichts mit $O(x)$ als Opacity und $C(x)$ als Farbe des Voxels)
 
 
-% Ein Nebenprodukt, das sich durch Ray Marching ergibt, ist eine Variante des Ambient Occlusion \parencite{Evans2006}.
+<<<<Formel stimmt nicht ganz, muss ich noch mal recherchieren>>>>
 
+\textit{
+Ein Nebenprodukt, das sich durch Ray Marching ergibt, ist eine Variante des Ambient Occlusion \parencite{Evans2006}.
+}
+→ Näher beschreiben oder weglassen

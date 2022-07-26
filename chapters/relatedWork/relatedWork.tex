@@ -40,7 +40,7 @@ eine Methode vorgestellt um die Silhouetten der Oberflächen korrekt darstellen 
 Außerdem gibt es bereits Versuche POM im Zusammenhang mit Fluidsimulationen 
 anzuwenden \parencite{Kufner2017}. Hierbei wurde eine 2D-Fluidsimulation, unter anderem mithilfe von POM, in eine Art Pseudo-Volumen überführt. 
 Der von Kufner festgestellte Nachteil seiner Implementierung ist ein sichtbarer Treppeneffekt, welcher den Nutzen von POM für diese 
-Art der Simulation einschränkt. 
+Art der Simulation einschränkt, da eine höhere Samplerate, die dem Treppeneffekt entgegenkommen würde bedeutet, dass die Performance eingeschränkt wird. 
 %% Einsatz von POM in VR?
 
 
@@ -50,7 +50,6 @@ Art der Simulation einschränkt.
 Partikelsysteme, basierend auf Billboards, haben das Problem der Darstellung in VR. Alle Vorteile, die diese Art von 
 Partikelsystem mit sich bringt gehen durch stereoskopisches Rendering verloren, da die Partikel plötzlich flach aussehen 
 oder sich zusammen mit der Bewegung des VR-Headset drehen und kippen können.
-
 Eine Methode um volumetrische Effekte zu rendern ist das Ray Marching. Ray Marching im Zusammenhang mit SDFs gibt es 
 schon seit über 30 Jahren \parencite{Hart1989}.
 Ray Marching bietet neben deutlich realistischeren Renderings den Vorteil, dass dieses 

@@ -31,7 +31,9 @@ gibt es das Problem, dass Billboard-basierte Partikelsysteme eigentlich nur flac
 auf die Umgebung werfen zu können. In Hinblick auf die Beleuchtung ist es mit POM auch möglich eine geringe Anzahl dynamischer Lichtquellen einzubeziehen. 
 %How, wie viele?
 Ein weiterer Vorteil der sich aus dieser Methode ergibt, sind die Texture Sheets. In eine einzige Textur lassen sich 4 verschiedene Informationen in die 
-RGBA-Kanäle speichern. Neben den verschiedenen Lightmaps aus 6 Richtungen können beispielsweise noch ein Color-Key oder Emissionmaps gespeichert werden. 
+RGBA-Kanäle speichern. Neben den verschiedenen Lightmaps aus 6 Richtungen können beispielsweise noch ein Color-Key oder Emission- und Heatmaps gespeichert werden.
+Mit weiteren Infos wie einer Heatmap lässt sich ein Übergang, bzw. eine Mischung von Feuer und Rauch erzeugen. Dies ist ein Phänomen, welches bei größeren Bränden
+oder Explosionen beobachten lässt (\autoref{fig:fettbrand}). 
 Die Anzahl der Lightmaps lässt sich auch reduzieren, indem die Lichtrichtungen von vorne und von hinten im Shader approximiert werden können. 
 Es gibt viele Möglichkeiten die Flexibilität von Texturen ausnutzen zu können und dabei die Menge an benötigten Daten und Berechnungen gering zu halten, 
 sodass der flüssige Einsatz in VR gegeben bleibt. Weiterhin lassen sich auf Kosten weiterer Texture Sheets 
@@ -48,7 +50,7 @@ schränken die Einsatzmöglichkeiten für die Anwendung in VR stark ein.
 Bei der Darstellung des Feuers kommt der Faktor hinzu, dass Billboards nicht als Lichtquelle fungieren, was dem Realismus der Simulation schadet. 
 
 Abschließend lässt sich zu dem Rendering von Feuer und Rauch auf Basis von Parallax Occlusion Mapping sagen, dass sich diese Variante, so wie sie implementiert
-ist, nicht eignet. Die Nachteile 
+ist, nicht immer eignet. Die Nachteile 
 
 
 
