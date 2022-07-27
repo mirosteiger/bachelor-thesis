@@ -1,5 +1,21 @@
 \section{Konzeption und Umsetzung}
 \label{sec:4}
+
+Für die Implementierung und Evaluierung der Performance der beiden beschriebenen Methoden wurde ein System mit den folgenden Spezifikationen verwendet:
+
+\begin{table}[h]
+	\renewcommand*{\arraystretch}{2}
+	\setlength{\tabcolsep}{1.5cm}
+	\begin{tabular}{lll}
+		\hspace{-1.5cm}Betriebssystem & Win10 64-Bit                             \\ \hline
+		\hspace{-1.5cm}Prozessor      & Intel(R) Core(TM) i5-9600K CPU @ 3.70GHz \\ \hline
+		\hspace{-1.5cm}RAM            & 16GB                                     \\ \hline
+		\hspace{-1.5cm}Grafikkarte    & NVIDIA GeForce RTX 2080 Ti               \\ \hline
+		\hspace{-1.5cm}Speicher       & Samsung SSD 970 EVO Plus 500GB           \\ \hline
+	\end{tabular}
+	\caption{Spezifikationen des Computers, der im Rahmen dieser Arbeit verwendet wurde.}
+\end{table}
+
 \subsection{Idee}
 \label{sec:4.1}
 
@@ -8,21 +24,18 @@ sein könnten und dieses in der Laufzeit- und Entwicklungsumgebung Unity\footnot
 implementiert werden soll, werden auch die Partikelsysteme in der selben Umgebung entworfen.
 Aufgrund der verschiedenen visuellen Eigenschaften und des Verhaltens von Feuer und Rauch werden jeweils eigene Systeme konzipiert.
 
-Für die Implementierung und Evaluierung der Performance der beiden beschriebenen Methoden wurde ein System mit den folgenden Spezifikationen verwendet:
-
-<<<<<< Hier kommen die PC-Specs rein >>>>>>
-
 Ein wichtiger Faktor bei der Darstellung von Rauch ist die Beleuchtung. Eigenschaften wie Streuungen und Reflexionen innerhalb des Mediums zu simulieren ist
 aufwändig zu berechnen und unter Berücksichtigung aller Faktoren eher weniger für die Echtzeitberechung in VR-Systemen gedacht, welche deutlich höhere Anforderungen an die Performance der Anwendung
 haben. Der erste Ansatz basiert auf einer Idee von Mederic Chasse, Technical Art Director  bei Highwire Games.
-Dieser beschreibt im Forum \href{realtimevfx.com}{realtimevfx.com} einen Workflow, mit dem aufwändige Berechnungen solcher Simulationen in einer VFX Software erstellt, berechnet und gerendert werden.
+Dieser beschreibt im Forum \textit{realtimevfx.com} einen Workflow, mit dem aufwändige Berechnungen solcher Simulationen in einer VFX Software erstellt, durchsimuliert und in Texturen gebacken
+werden können.
 Die Animation wird in einem Texture Sheet gespeichert und kann somit eine realistische Darstellung bieten, während der Einsatz in einer Game Engine effizient bleibt \parencite{Chasse2018}.
 Da der Fokus dieser Arbeit nicht auf der Fluidsimulation liegt und das Setup der Simulation mithilfe von Anleitungen
 und Tipps artistischer Natur aus Internetforen erzeugt wird, wird an dieser Stelle nicht weiter darauf eingegangen, wie die VFX-Software den Rauch berechnet und erzeugt.
 Stattdessen wird in \textbf{\autoref{sec:4.2.1}} der Workflow beschrieben und auf einige Parameter der Simulation eingegangen.
 
-Für die Darstellung mithilfe von Ray Marching werden richtige Volumendaten, bzw. 3D-Texturen benötigt. Diese werden innerhalb von Unity
-mithilfe eines Shaders prozedural erzeugt. 
+Für die Darstellung durch Ray Marching werden richtige Volumendaten, bzw. 3D-Texturen benötigt. Diese werden innerhalb von Unity
+per Shader prozedural erzeugt.
 
 <<<<TODO>>>>
 
@@ -42,25 +55,44 @@ mithilfe eines Shaders prozedural erzeugt.
 	\end{footnotesize}
 \end{figure}
 
-Die Texturen werden auf zwei verschiedene Arten erstellt. Für die Variante mit Parallax Occlusion Mapping werden zwei
-Texturen in der von SideFX entwickelten 3D-VFX-Grafiksoftware Houdini \footnote{\url{https://www.sidefx.com/products/houdini/}} erstellt.
-Houdini bietet die Möglichkeit relativ einfach und schnell physikalisch basierte und visuell überzeugende Rauch- und Feuersimulationen zu erstellen.
-Die Simulationen basieren auf Fluidberechnungen, wodurch ein realistisches Verhalten erzeugt und durch eine Vielzahl an Parametern beeinflusst werden kann.
+Die Texturen werden auf zwei verschiedene Arten erstellt. Für die Variante mit Parallax Occlusion Mapping werden drei verschiedene
+Texturen in der von JangaFX entwickelten 3D-VFX-Grafiksoftware EmberGen \footnote{\url{https://jangafx.com/software/embergen/}} erstellt.
+Embergen wurde speziell für Feuer und Rauchsimulationen entwickelt und bietet die Möglichkeit, relativ einfach und schnell, physikalisch basierte und visuell
+überzeugende Rauch- und Feuersimulationen zu erstellen (\autoref{fig:embergen}) .
+Die Simulationen basieren auf Fluidsimulationen, wodurch ein realistisches Verhalten erzeugt, und durch eine Vielzahl an Parametern beeinflusst werden kann.
 
-Hier noch kurz die wichtigsten Parameter beschreiben, zb. Buoyancy, Dichte, Short tail des Rauchs, damit dieser eher aussieht wie ein Rauchball
+Damit der Rauch als Partikel verwendet werden kann, sollte dieser nicht wie eine komplette Rauchfahne, sonder idealerweise wie ein einzelner Rauchball geformt sein.
+Bei der Verwendung in einem Partikelsystem können die Partikel dadurch an einem zufälligen Ort mit zufälliger Größe erzeugt und eingeblendet werden. Auf diese
+Art wird verhindert, dass der Rauch unnatürlich aussieht. Er bleibt vorallem flexibler was eine mögliche Interaktion des Nutzers mit dem Partikelsystem angeht.
+Um einen solchen Rauchball zu erzeugen spielen einige Parameter innerhalb der VFX-Software eine wichtige Rolle. Einer dieser Faktoren ist die Dissipation, also
+wie schnell sich der Rauch auflöst. Dieser Wert wurde so hoch wie möglich gestellt, damit der Rauch sich nicht über eine große Fläche zieht, sondern ein kleines Volumen
+bleibt. Neben Einstellungen für Force-Fields, um die Simulation etwas zufälliger zu gestalten und Parametern, die sich auf die Dichte, Geschwindigkeit und Druck des Rauchs
+und des Feuers beziehen, gibt es eine Vielzahl an Einstellungen für die Domäne in der die Simulation stattfindet. Die Simulation wird auf Basis von Voxeln berechnet.
+Es lässt sich festlegen, wie groß das Voxelgitter in X, Y und Z-Richtung sein soll. Dazu lässt sich festlegen, wie groß jedes Voxel für die Berechnung sein soll.
+Die Simulation für diese Arbeit wurde in einem 256x256x256 Gitter bei einer Voxelgröße von 10cm durchgeführt. Dies entspricht einer Gesamtanzahl von fast 16.8 Millionen Voxeln.
 
-Dabei wird nicht nur die Beleuchtung der Oberfläche aus verschiedenen Richtungen, sondern auch die Streuung, Reflexion und Absorption des Lichts innerhalb
+\begin{figure}[h!]
+	\includegraphics[width=\textwidth]{Grafiken/Implementation/embergen.png}
+	\centering
+	\begin{footnotesize}
+		\caption{Minimales Szenensetup um eine Rauchsimulation zu erzeugen. Auf der linken Seite ist das Ergebnis des Netzwerks auf der rechten Seite zu sehen. Das Shading ergibt sich aus der
+			integrierten 6-Punkt-Beleuchtung}
+		\label{fig:embergen}
+	\end{footnotesize}
+\end{figure}
+
+Bei dieser Simulation wird nicht nur die Beleuchtung der Oberfläche aus verschiedenen Richtungen, sondern auch die Streuung, Reflexion und Absorption des Lichts innerhalb
 des Volumens berechnet und simuliert.
-Eine Möglichkeit die Houdini bietet, ist das Rendering der Animation in verschiedene Layers. So kann jedes einzelne Licht separat berechnet, gerendert und
-hinterher separat verwendet werden. Dazu werden Lichtquellen wie in \textbf{\autoref{fig:lightSetup}} aus allen sechs Richungen zum Rauch hin angeordnet,
+Eine Möglichkeit die EmberGen bietet, ist das 6-Point Lighting.
+Mit dieser Option kann jedes einzelne Licht separat berechnet werden. Dazu werden Lichtquellen wie in \textbf{\autoref{fig:lightSetup}} aus allen sechs Richungen zum Rauch hin angeordnet,
 sodass jeweils eine Seite beleuchtet wird.
 Die Animation des Rauchs wird daraufhin wie in \textbf{\autoref{fig:seamlessCut}} in eine sich selbst nahtlos wiederholende Animation
 geschnitten und als einzelne Frames gerendert. Dazu muss im ersten Schritt eine Animation mit der doppelten Anzahl an Frames erzeugt werden, damit diese in der Hälfte
 geschnitten werden kann. Nun werden die beiden Abschnitte übereinander gelegt, sodass sich die Schnittkante auf gegenüberliegenden Seiten befinden. Somit sind der erste
 und der letzte Frame nahezu identisch. Als letztes wird ein Crossfade über beide Abschnitte gelegt, sodass die Clips jeweils an der Schnittkante voll eingeblendet
-sind. Somit ist der Schnitt nicht mehr sichtbar und das Video lässt sich unendlich wiederholen. Die Vorteile von dieser Methode werden in \textbf{\autoref{sec:5.1}}
+sind. Somit ist der Schnitt nicht mehr sichtbar und das Video lässt sich unendlich wiederholen. Die Vorteile einer sich endlos wiederholenden Animation werden in \textbf{\autoref{sec:5.1}}
 noch weiter erläutert.
-Um die verschiedenen Texturlayer in Unity verwenden zu können werden die Lichtrichtungen jedes einzelnen Frames in jeweils einen RGBA-Channel gelegt.
+Um die verschiedenen Texturlayer in Unity verwenden zu können werden die Lichtrichtungen jedes einzelnen Frames in jeweils einen RGBA-Channel gepackt.
 So kann die Ansicht des Rauchs, in der beispielsweise nur die linke Seite beleuchtet wird in den Roten Kanal einer Textur gespeichert werden.
 Dies passiert ebenfalls für die anderen Richtungen von links, unten und oben. Die Ergebnisse sind in \textbf{\autoref{fig:lightDirections}} zu sehen.
 
@@ -92,13 +124,12 @@ Dies passiert ebenfalls für die anderen Richtungen von links, unten und oben. D
 
 
 Die verschiedenen Farbkanäle können nun wieder in eine gemeinsame Textur zusammengeführt werden um dann in Unity in einem Shader weiterverarbeitet zu werden.
-Dabei wird jeder Frame mit einer Auflösung von 128x128 Pixel gespeichert. Bei einer Frameanzahl von 8x8 = 64 Frames entspricht das also
-einer Auflösung der ganzen Textur von 1024 x 1024 Pixel.
+Dabei wird jeder Frame mit einer Auflösung von 256x256 Pixeln gespeichert. Bei einer Frameanzahl von 8x8 = 64 Frames entspricht das also
+einer Auflösung eines Texture Sheets von 2048 x 2048 Pixeln.
 
-Damit Parallax Occlusion Mapping angewendet werden kann werden jedoch zusätzlich Informationen über die Höhe benötigt.
-Dazu wird eine zweite Textur mit den gleichen Schritten wie zuvor erzeugt. Neben der Höheninformation wird außerdem noch die Alpha-Werte, sowie zwei weitere Lichtrichtungen –
-von vorne und von hinten – in die verschiedenen Kanäle gespeichert.
-
+Damit Parallax Occlusion Mapping angewendet werden kann werden jedoch zusätzlich Informationen über die Höhe oder Tiefe benötigt.
+Dazu wird eine weitere Textur mit den gleichen Schritten wie zuvor erzeugt. In diese Textur wird die Tiefenkarte abgespeichert. Zudem kann in ein einem separaten
+Farbkanal die Alpha-Information gespeichert werden.
 
 
 
@@ -113,23 +144,12 @@ von vorne und von hinten – in die verschiedenen Kanäle gespeichert.
 \end{figure}
 
 
+
+
+
 \subsubsection{Procedural 3D Noise}
 TODO
 
-
-
-
-% In den beiden Texturen fehlen nun noch die Beleuchtung aus den Richtungen von Vorne und von Hinten. Diese werden allerdings im Shader
-% berechnet, anstatt sie in die Textur zu backen. Aus den verschiedenen Lightmaps kann daraufhin basierend auf der Richtung des Lichteinfalls
-% auf die Textur relativ günstig und performant eine korrekte Beleuchtung des Rauchs generiert werden.
-
-
-
-% \newpage
-% \textcolor{red}{\textbf{TODO:}} \newline
-% POM: \newline
-% - Alle Steps beschreiben\newline
-% - Grafiken einfügen\newline
 
 % RAYM: \newline
 % - Volumetextures generieren / downloaden\newline
@@ -144,25 +164,26 @@ TODO
 \subsection{Shader}
 Für das Rendering der Partikel werden zwei Shader entwickelt. Diese basieren auf Parallax Occlusion Mapping und auf einem Raymarchingalgorithmus
 durch eine Volumentextur. Für POM wird Unitys Shader Graph verwendet. Shader Graph ist, genau wie Unitys VFX Graph, ein Node-Editor um
-schnell und übersichtlich Shader zu entwickeln. Hier besteht die Möglichkeit auch eigene Funktionen in Nodes
-zu verpacken und somit auf visuelle Art und Weise zu entwickeln. Dies macht vorallem das Debugging einfacher und erlaubt das schnelle Prototyping von Ideen,
-da einiges an Boilerplate-Code erspart wird.
+schnell und übersichtlich Shader zu entwickeln. Dies macht vorallem das Debugging einfacher und erlaubt das schnelle Prototyping von Ideen,
+da einiges an Boilerplate-Code erspart wird. Zusätzlich besteht die Möglichkeit auch eigene Funktionen in Nodes
+zu verpacken und somit auf visuelle Art und Weise zu entwickeln.
 
 
 \subsubsection{Parallax Occlusion Mapping}
 
-Um die einzelnen Frames aus den Texture Sheets als Animation darstellen zu können, wird ein Flipbook-Node\footnote{\url{https://docs.unity3d.com/Packages/com.unity.shadergraph@12.0/manual/Flipbook-Node.html}}
+Um die einzelnen Frames aus den Texture Sheets als Animation darstellen zu können, wird ein
+Flipbook-Node\footnote{\url{https://docs.unity3d.com/Packages/com.unity.shadergraph@12.0/manual/Flipbook-Node.html}}
 verwendet. Dieser manipuliert die UV-Koordinaten mithilfe der Information über Zeilen und Spalten des Texture Sheets,
 sodass die Koordinaten eines jeden Frames abhängig von der Zeit ausgegeben werden.
 Somit lässt sich auch die Framerate anpassen, mit der die Animation abgespielt werden soll.
 
-Diese UV-Koordinaten werden nun in einen Parallax Occlusion Mapping-Node weitergegeben, hier wird ebenfalls der Node von Unity\footnote{\url{https://docs.unity3d.com/Packages/com.unity.shadergraph@12.0/manual/Parallax-Occlusion-Mapping-Node.html}}
+Diese UV-Koordinaten werden nun in einen Parallax Occlusion Mapping-Node weitergegeben, hier wird ebenfalls der Node von
+Unity\footnote{\url{https://docs.unity3d.com/Packages/com.unity.shadergraph@12.0/manual/Parallax-Occlusion-Mapping-Node.html}}
 benutzt. Dieser berechnet, basierend auf den übergebenen UV-Koordinaten des Flipbook-Players, sowie einer Heightmap und dem Blickwinkel die anzuzeigenden Texturkoordinaten.
+Der Algorithmus mit dem sich das Parallax Offset berechnen lässt wurde in \autoref{sec:3.3.4}
 Es lassen sich außerdem die Anzahl der Schritte mit denen die Heightmap abgetastet werden soll, sowie die Amplitude des Offsets festlegen.
 Für die Implementierung des Rauchs wurde die Schrittanzahl auf 150 und die Amplitude auf 1 bis 3.5 gesetzt. Diese Werte haben sich durch ausprobieren ergeben.
-Eine höhere Amplitude verzerrt den Rauch so stark, sodass die in \autoref{sec:3.3.4} beschriebenen Artefakte auftreten.
 
-\textcolor{red}{>>SCREENSHOT VON ZU STARK VERZERRTEM RAUCH<<}
 
 Da die Beleuchtung des Rauchs zuvor in Houdini durchsimuliert und abgespeichert wurde muss im Shader nun eine Logik implementiert werden, welche jeweils die richtige Beleuchtung,
 abhängig von der Lichtrichtung anzeigt. Die durch den Flipbook- und POM-Node modifizierten UV-Koordinaten werden nun auf das Texture-Sheet abgebildet und somit die Animation durchlaufen.
@@ -171,6 +192,7 @@ Mit der maskierten Animation kann dann unter einbeziehen des Main Lights (in Uni
 lediglich eine Richtung in die sie zeigen. Mithilfe dieser Richtung kann die korrekte Lightmap des Rauchs ausgewählt werden oder je nach Richtung des Lichts
 zwischen verschiedenen Maps interpoliert werden. Im Prinzip wird also für jede Achse des Lichts abgefragt, in welche Richtung das Licht zeigt und der entsprechende Farbchannel
 der Rauchtextur zurückgegeben.
+
 
 \vspace{.6cm}
 \begin{lstlisting}[language={[Sharp]C}, label={lst:lightMapLogik}, caption={Logik zur Auswahl der richtigen Lightmap am Beispiel der X-Richtung des Lichts},captionpos=b, frame=single]

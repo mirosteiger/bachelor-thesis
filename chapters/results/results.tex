@@ -1,33 +1,41 @@
-\section{Ergebnisse}
+\section{Schluss}
 \label{sec:6}
-Hier kommen die Erkenntnisse meiner Arbeit rein
+
 \subsection{Fazit}
 \label{sec:6.1}
 Das Ziel dieser Bachelorarbeit war es zwei vielversprechende Methoden für das Stereorendering von Feuer und Rauch testweise zu implementieren, 
-zu vergleichen und die Eignung den möglichen Einsatz in VR-Systemen zu beurteilen. Nach Evaluierung der Ergebnisse von Parallax Occlusion Mapping
-und Ray Marching stellt sich heraus, dass sich POM potentiell für das Rendering von Rauch geeignet sein könnte, die Standard-Variante wie sie im Rahmen 
-dieser Arbeit für die Betrachtung in VR verwendet wurde jedoch einige Probleme mit sich bringt. Parallax Occlusion Mapping bringt den großen Vorteil
-der Berechnung des Offsets und der Verdeckung basierend auf dem Blickwinkel mit sich, was sich besonders gut für den Nutzen von HMDs eignet. Jedoch 
+zu vergleichen und die Eignung für den möglichen Einsatz in VR-Systemen zu beurteilen. Nach Evaluierung der Ergebnisse von Parallax Occlusion Mapping
+und Ray Marching stellt sich heraus, dass POM potentiell für das Rendering von Rauch geeignet sein könnte, die Standard-Variante wie sie im Rahmen 
+dieser Arbeit in Kombination mit den Texture Sheets für die Betrachtung in VR verwendet wurde jedoch einige Probleme mit sich bringt. Parallax Occlusion 
+Mapping bringt den großen Vorteil der Berechnung des Offsets und der Verdeckung basierend auf dem Blickwinkel mit sich, was sich besonders gut für den 
+Einsatz von HMDs eignet. Jedoch ist aus den Erkenntnissen dieser Arbeit der Volume Rendering-Ansatz vorzuziehen. 
+Durch das Rendering eines tatsächlichen Volumens sieht der Rauch in Virtueller Realität realistischer asu, als durch eine Illusion auf einem zweidimensionalen Sprite. 
 
 
 
 \subsection{Limitationen}
 \label{sec:6.2}
 
-- Unity URP: Komplexe Renderingpipeline, Dokumentation nicht immer gut, viel Wissen aus Foren
-- Houdini: Non-Commercial-Version erlaubt nur eine gewisse Qualität der Exporte, Alpha Channel kaputt und damit useless.
-- Heightmap für Smoke nicht exportierbar
-- Breit gefächertes Feld mit vielen Varianten und unendlich Optimierungspotential -> Man kann nicht alles schaffen
-
-
+Die Erkenntnisse dieser Arbeit beziehen sich auf sehr grundlegende Implementierungen der beiden Varianten als Proof of Concept. Dies hängt zum einen mit 
+Unitys Universal Rendering Pipeline zusammen, welche einerseits vorteilhaft für VR-Anwendungen ist, es andererseits aber beispielsweise schwieriger macht
+auf die Lichter in der Szene zuzugreifen. Zudem ist die Dokumentation der Software, gerade was die Programmierung von Shadern angeht, teilweise nicht hilfreich. 
+Es musste viel auf Ideen und Meinungen in Foren oder Videos zurückgegriffen werden um beide Methoden im zeitlichen Rahmen implementieren zu können. 
+Weiterhin wurde für die Erstellung der Lightmaps zunächst auf eine andere Software, Houdini von SideFX zurückgegriffen.
+Houdini bietet eine Non-Commercial-Version an, die einige Limitationen mit sich bringt. Darunter beispielsweise eine begrenzte Auflösung der Texturen, 
+teilweise fehlende Informationen beim rendern der Bildsequenzen und Wasserzeichen in den Texture Sheets. Die Erstellung und Aufbereitung der Texturen hat viel Zeit
+in Anspruch genommen, wobei das Ergebnis am Ende qualitativ fast nicht nutzbar, sodass die Software gewechselt werden musste um diesen Ansatz weiter verfolgen zu können.
+Mit mehr Zeit und Ressourcen lassen sich hier jedoch brauchbare Ergebnisse erzeugen, die letztendlich die Qualität des Partikelsystems erhöhen können. 
 
 
 
 \subsection{Ausblick}
 \label{sec:6.3}
-- Viele Möglichkeiten zur Optimierung
-- Animationen können sehr aufwändig und damit deutlich realistischer werden
-- Möglichkeiten die Animation als Volumentextur zu rendern (4D-Texturen?)
-- 
+Diese Arbeit zeigt auf, dass die beiden Methoden für das Gebiet der Feuer und Rauchsimulation für virtuelle Umgebungen Potential haben, allerdings auch noch 
+weiterentwickelt werden müssen um Einsatzfähig zu werden.   
+Die Simulation von Phänomenen wie Feuer und Rauch ein breit gefächertes Feld. Es gibt unzählige Optimierungsmöglichkeiten, was es schwerer macht, einen Fokus auf
+bestimmte Dinge zu setzen. Viele Themen die ein Feuer realistischer machen, wie beispielsweise die korrekte Beleuchtung der Umgebung oder das korrekte Verhalten 
+der Partikelsysteme konnten in dieser Arbeit aufgrund der Zeit und ihrer Komplexität nicht angegangen werden und könnten für weitere Forschungsansätze interessant sein. 
+Zudem könnte mehr Variation und damit Realismus durch verschiedene Animationen erzeugt werden. Gerade im Bereich der prozeduralen Texturgenerierung könnte es interessant
+sein eine Art 4D-Textur zu entwickeln.
 
 \newpage
