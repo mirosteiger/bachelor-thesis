@@ -3,14 +3,16 @@
 
 \subsection{Fazit}
 \label{sec:6.1}
-Das Ziel dieser Bachelorarbeit war es zwei vielversprechende Methoden für das Stereorendering von Feuer und Rauch testweise zu implementieren, 
-zu vergleichen und die Eignung für den möglichen Einsatz in VR-Systemen zu beurteilen. Nach Evaluierung der Ergebnisse von Parallax Occlusion Mapping
-und Ray Marching stellt sich heraus, dass POM potentiell für das Rendering von Rauch geeignet sein könnte, die Standard-Variante wie sie im Rahmen 
-dieser Arbeit in Kombination mit den Texture Sheets für die Betrachtung in VR verwendet wurde jedoch einige Probleme mit sich bringt. Parallax Occlusion 
-Mapping bringt den großen Vorteil der Berechnung des Offsets und der Verdeckung basierend auf dem Blickwinkel mit sich, was sich besonders gut für den 
-Einsatz von HMDs eignet. Jedoch ist aus den Erkenntnissen dieser Arbeit der Volume Rendering-Ansatz vorzuziehen. 
-Durch das Rendering eines tatsächlichen Volumens sieht der Rauch in Virtueller Realität realistischer asu, als durch eine Illusion auf einem zweidimensionalen Sprite. 
+Das Ziel dieser Bachelorarbeit ist es, zwei vielversprechende Methoden für das Stereorendering von Feuer und Rauch testweise zu implementieren, 
+zu vergleichen und die Eignung für den möglichen Einsatz in VR-Systemen zu beurteilen. 
+Nach Evaluierung der Ergebnisse von Parallax Occlusion Mapping und Ray Marching stellt sich heraus, dass beide Algorithmen potentiell für das Rendering von Rauch geeignet sein könnte.
 
+Die Darstellung der POM-basierten Billboards, so wie sie im Rahmen dieser Arbeit in Kombination mit den Texture Sheets für die Betrachtung in VR verwendet wurde, 
+bringt jedoch auch einige Probleme, wie die beschriebenen Artefakte und Verzerrungen mit sich. 
+
+Parallax Occlusion Mapping hat den großen Vorteil, dass die Offsets und Verdeckungen basierend auf dem Blickwinkel berechnet werden. 
+Dies ist eine Stärke, die für den Einsatz in Virtual Reality mit HMDs spricht. Jedoch ist aus den Erkenntnissen dieser Arbeit der Volume Rendering-Ansatz vorzuziehen. 
+Durch das Rendering eines tatsächlichen Volumens sieht der Rauch in Virtueller Realität realistischer aus, als durch eine Illusion auf einem zweidimensionalen Sprite. 
 
 
 \subsection{Limitationen}

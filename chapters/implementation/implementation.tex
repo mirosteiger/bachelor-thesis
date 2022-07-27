@@ -50,13 +50,13 @@ per Shader prozedural erzeugt.
 	\includegraphics[width=0.49\textwidth]{Grafiken/Implementation/Lightmaps/Smoke_LightSetup.png}
 	\centering
 	\begin{footnotesize}
-		\caption{Setup der Beleuchtung der Rauchsimulation in Houdini.}
+		\caption{Setup der 6-Punkt-Beleuchtung einer Rauchsimulation}
 		\label{fig:lightSetup}
 	\end{footnotesize}
 \end{figure}
 
 Die Texturen werden auf zwei verschiedene Arten erstellt. Für die Variante mit Parallax Occlusion Mapping werden drei verschiedene
-Texturen in der von JangaFX entwickelten 3D-VFX-Grafiksoftware EmberGen \footnote{\url{https://jangafx.com/software/embergen/}} erstellt.
+Texturen, in der von JangaFX entwickelten 3D-VFX-Grafiksoftware EmberGen\footnote{\url{https://jangafx.com/software/embergen/}}, erstellt.
 Embergen wurde speziell für Feuer und Rauchsimulationen entwickelt und bietet die Möglichkeit, relativ einfach und schnell, physikalisch basierte und visuell
 überzeugende Rauch- und Feuersimulationen zu erstellen (\autoref{fig:embergen}) .
 Die Simulationen basieren auf Fluidsimulationen, wodurch ein realistisches Verhalten erzeugt, und durch eine Vielzahl an Parametern beeinflusst werden kann.
@@ -84,16 +84,16 @@ Die Simulation für diese Arbeit wurde in einem 256x256x256 Gitter bei einer Vox
 Bei dieser Simulation wird nicht nur die Beleuchtung der Oberfläche aus verschiedenen Richtungen, sondern auch die Streuung, Reflexion und Absorption des Lichts innerhalb
 des Volumens berechnet und simuliert.
 Eine Möglichkeit die EmberGen bietet, ist das 6-Point Lighting.
-Mit dieser Option kann jedes einzelne Licht separat berechnet werden. Dazu werden Lichtquellen wie in \textbf{\autoref{fig:lightSetup}} aus allen sechs Richungen zum Rauch hin angeordnet,
+Mit dieser Option kann jedes einzelne Licht separat berechnet werden. Dazu werden Lichtquellen wie in \textbf{\autoref{fig:lightSetup}} aus allen sechs Richtungen zum Rauch hin angeordnet,
 sodass jeweils eine Seite beleuchtet wird.
-Die Animation des Rauchs wird daraufhin wie in \textbf{\autoref{fig:seamlessCut}} in eine sich selbst nahtlos wiederholende Animation
+Die Animation des Rauches wird daraufhin wie in \textbf{\autoref{fig:seamlessCut}} in eine sich selbst nahtlos wiederholende Animation
 geschnitten und als einzelne Frames gerendert. Dazu muss im ersten Schritt eine Animation mit der doppelten Anzahl an Frames erzeugt werden, damit diese in der Hälfte
 geschnitten werden kann. Nun werden die beiden Abschnitte übereinander gelegt, sodass sich die Schnittkante auf gegenüberliegenden Seiten befinden. Somit sind der erste
-und der letzte Frame nahezu identisch. Als letztes wird ein Crossfade über beide Abschnitte gelegt, sodass die Clips jeweils an der Schnittkante voll eingeblendet
-sind. Somit ist der Schnitt nicht mehr sichtbar und das Video lässt sich unendlich wiederholen. Die Vorteile einer sich endlos wiederholenden Animation werden in \textbf{\autoref{sec:5.1}}
+und der letzte Frame nahezu identisch. Als letztes wird ein Crossfade über beide Abschnitte gelegt, wodurch die Clips jeweils an der Schnittkante voll eingeblendet
+sind. Das Resultat ist, dass der Schnitt nicht mehr sichtbar und das Video lässt sich unendlich wiederholen. Die Vorteile einer sich endlos wiederholenden Animation werden in \textbf{\autoref{sec:5.1}}
 noch weiter erläutert.
 Um die verschiedenen Texturlayer in Unity verwenden zu können werden die Lichtrichtungen jedes einzelnen Frames in jeweils einen RGBA-Channel gepackt.
-So kann die Ansicht des Rauchs, in der beispielsweise nur die linke Seite beleuchtet wird in den Roten Kanal einer Textur gespeichert werden.
+So kann die Ansicht des Rauchs, in der beispielsweise nur die linke Seite beleuchtet wird, in den Roten Kanal einer Textur gespeichert werden.
 Dies passiert ebenfalls für die anderen Richtungen von links, unten und oben. Die Ergebnisse sind in \textbf{\autoref{fig:lightDirections}} zu sehen.
 
 
@@ -116,18 +116,18 @@ Dies passiert ebenfalls für die anderen Richtungen von links, unten und oben. D
 	\includegraphics[width=0.19\textwidth]{Grafiken/Implementation/Lightmaps/merged.png}
 
 	\begin{footnotesize}
-		\caption{Ein einzelner Frame der Simulation in seine Farbkanäle aufgeteilt. Die Richtungen aus denen der Rauch jeweils beleuchtet wurde ist dabei gut zu erkennen.
+		\caption{Ein einzelner Frame der Simulation in seine Farbkanäle aufgeteilt. Die Richtungen, aus denen der Rauch jeweils beleuchtet wurde, ist dabei gut zu erkennen.
 			Von links: Roter Kanal(links), Grüner Kanal(rechts), Blauer Kanal(oben), Alpha Kanal(unten), Zusammengeführte Textur.}
 		\label{fig:lightDirections}
 	\end{footnotesize}
 \end{figure}
 
 
-Die verschiedenen Farbkanäle können nun wieder in eine gemeinsame Textur zusammengeführt werden um dann in Unity in einem Shader weiterverarbeitet zu werden.
+Die verschiedenen Farbkanäle können nun wieder in eine gemeinsame Textur zusammengeführt werden, um dann in Unity in einem Shader weiterverarbeitet zu werden.
 Dabei wird jeder Frame mit einer Auflösung von 256x256 Pixeln gespeichert. Bei einer Frameanzahl von 8x8 = 64 Frames entspricht das also
 einer Auflösung eines Texture Sheets von 2048 x 2048 Pixeln.
 
-Damit Parallax Occlusion Mapping angewendet werden kann werden jedoch zusätzlich Informationen über die Höhe oder Tiefe benötigt.
+Damit Parallax Occlusion Mapping angewendet werden kann, werden jedoch zusätzlich Informationen über die Höhe oder Tiefe benötigt.
 Dazu wird eine weitere Textur mit den gleichen Schritten wie zuvor erzeugt. In diese Textur wird die Tiefenkarte abgespeichert. Zudem kann in ein einem separaten
 Farbkanal die Alpha-Information gespeichert werden.
 
@@ -179,24 +179,24 @@ Somit lässt sich auch die Framerate anpassen, mit der die Animation abgespielt 
 
 Diese UV-Koordinaten werden nun in einen Parallax Occlusion Mapping-Node weitergegeben, hier wird ebenfalls der Node von
 Unity\footnote{\url{https://docs.unity3d.com/Packages/com.unity.shadergraph@12.0/manual/Parallax-Occlusion-Mapping-Node.html}}
-benutzt. Dieser berechnet, basierend auf den übergebenen UV-Koordinaten des Flipbook-Players, sowie einer Heightmap und dem Blickwinkel die anzuzeigenden Texturkoordinaten.
+benutzt. Dieser berechnet, basierend auf den übergebenen UV-Koordinaten des Flipbook-Players, sowie einer Heightmap und dem Blickwinkel, die anzuzeigenden Texturkoordinaten.
 Der Algorithmus mit dem sich das Parallax Offset berechnen lässt wurde in \autoref{sec:3.3.4}
 Es lassen sich außerdem die Anzahl der Schritte mit denen die Heightmap abgetastet werden soll, sowie die Amplitude des Offsets festlegen.
-Für die Implementierung des Rauchs wurde die Schrittanzahl auf 150 und die Amplitude auf 1 bis 3.5 gesetzt. Diese Werte haben sich durch ausprobieren ergeben.
+Für die Implementierung des Rauches wurde die Schrittanzahl auf 150 und die Amplitude auf 1 bis 3.5 gesetzt. Diese Werte haben sich durch Ausprobieren ergeben.
+Eine höhere Amplitude lässt Verzerrungsartefakte auftreten.
 
 
-Da die Beleuchtung des Rauchs zuvor in Houdini durchsimuliert und abgespeichert wurde muss im Shader nun eine Logik implementiert werden, welche jeweils die richtige Beleuchtung,
-abhängig von der Lichtrichtung anzeigt. Die durch den Flipbook- und POM-Node modifizierten UV-Koordinaten werden nun auf das Texture-Sheet abgebildet und somit die Animation durchlaufen.
-Da durch das Parallax Mapping die Koordinaten je nach Amplitude unterschiedlich stark verzerrt werden, muss der Rauch maskiert werden um das Fragmente, die am Rand erscheinen auszublenden.
-Mit der maskierten Animation kann dann unter einbeziehen des Main Lights (in Unity definiert als die Sonne, also ein directional light). Directional Lights haben keine Position,
-lediglich eine Richtung in die sie zeigen. Mithilfe dieser Richtung kann die korrekte Lightmap des Rauchs ausgewählt werden oder je nach Richtung des Lichts
-zwischen verschiedenen Maps interpoliert werden. Im Prinzip wird also für jede Achse des Lichts abgefragt, in welche Richtung das Licht zeigt und der entsprechende Farbchannel
-der Rauchtextur zurückgegeben.
+Da die Beleuchtung des Rauches zuvor in EmberGen durchsimuliert und abgespeichert wurde, muss im Shader nun eine Logik implementiert werden, welche jeweils die richtige Beleuchtung,
+abhängig von der Lichtrichtung, anzeigt. Die durch den Flipbook- und POM-Node modifizierten UV-Koordinaten werden nun auf das Texture-Sheet abgebildet und somit die Animation durchlaufen.
+Mit der erstellten Animation kann dann unter Einbeziehung des Main Lights (in Unity definiert als die Sonne, also ein directional light) die Richtung, aus der
+das Licht kommt, bestimmt werden. Directional Lights haben keine Position, lediglich eine Richtung in die sie zeigen. Mithilfe dieser Richtung kann die korrekte Lightmap
+des Rauchs ausgewählt werden oder je nach Richtung des Lichts zwischen verschiedenen Maps interpoliert werden. Im Prinzip wird also für jede Achse des Lichts abgefragt,
+in welche Richtung das Licht zeigt. Basierend auf dieser Info kann der entsprechende Farbchannel der Rauchtextur zurückgegeben werden.
 
 
 \vspace{.6cm}
-\begin{lstlisting}[language={[Sharp]C}, label={lst:lightMapLogik}, caption={Logik zur Auswahl der richtigen Lightmap am Beispiel der X-Richtung des Lichts},captionpos=b, frame=single]
-if(direction.X > 0){
+\begin{lstlisting}[language={[Sharp]C}, label={lst:lightMapLogik}, caption={Logik zur Auswahl der richtigen Lightmap am Beispiel der X-Richtung des Lichts.},captionpos=b, frame=single]
+if(lightDirection.X > 0){
   return smokeLightmap_T1.R; 
 }
 else {
@@ -209,20 +209,21 @@ else {
 \subsubsection{Raymarcher}
 
 Da Feuer und Rauch volumetrische Effekte ohne feste Oberfläche sind, lassen sich diese nicht wirklich durch Geometrie abbilden. Die Idee ist also ein
-Volumen zu erzeugen und Strahlen durch dieses Volumen zu schicken, welches in festen Abständen das Volumen abtastet um daraus Informationen zu erhalten.
+Volumen zu erzeugen und Strahlen durch dieses Volumen zu schicken, welches in festen Abständen das Volumen abtastet, um daraus Informationen zu erhalten.
 Hierbei wird das Licht, welches ebenfalls in dieses transluzente Volumen eindringt und absorbiert oder gebrochen wird, an jedem Samplepunkt berechnet.
-
 Die Texturen werden daher wie in \textbf{\autoref{sec:4.1}} beschrieben durch generiertes Rauschen erzeugt.
 % Um die notwendige Rechenleistung zu reduzieren, wird auch das generierte Rauschen in Texturen gebacken.  
+Da Unitys Universal Rendering Pipeline standardmäßig auf Forward-Rendering basiert und damit kein Ray Marching unterstützt, muss diese Option in den Rendering Pipeline Settings
+auf Deferred Rendering umgestellt werden\footnote{\url{https://docs.unity3d.com/Manual/RenderingPaths.html}}.
 
 
 
 \subsection{Partikelsystem}
-Um die Partikelsysteme umzusetzen wird der relativ junge, von Unity entwickelte Editor 'Visual Effects Graph'
-(kurz: VFX Graph) verwendet. VFX Graph ist ein nodesbasierter Editor, um schnell
+Um die Partikelsysteme umzusetzen, wird der relativ junge, von Unity entwickelte Editor 'Visual Effects Graph'
+(kurz: VFX Graph), verwendet. VFX Graph ist ein nodesbasierter Editor, um schnell
 dynamische und komplexe Partikelsysteme zu erzeugen\footnote{\url{https://unity.com/de/visual-effect-graph}}.
 Im Gegensatz zum älteren Shuriken-Partikelsystem von Unity werden die Partikel hier auf der GPU
-simuliert, wodurch das System deutlich an Performance gewinnt und dafer mehr Partikel zeichnen kann.
+simuliert, wodurch das System deutlich an Performance gewinnt und daher mehr Partikel zeichnen kann.
 Shuriken nimmt die Berechnungen im Gegensatz zum VFX Graph auf der CPU vor\footnote{\url{https://docs.unity3d.com/Manual/ChoosingYourParticleSystem.html}}.
 Gerade für VR-Anwendungen bietet sich also dieses neue System an.
 VFX-Graph hat jedoch nur sehr begrenzte Möglichkeiten, was Physiksimulationen und Kollisionen der Partikel angeht.

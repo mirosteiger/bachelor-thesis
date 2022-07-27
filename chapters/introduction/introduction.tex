@@ -8,18 +8,18 @@ anderen Seite helfen solche Simulationen auch im Bereich der Gefahrenbekämpfung
 So kann eine realistische Feuersimulation dazu beitragen, einen Trainingssimulator für die Feuerwehr zu
 entwerfen \parencite{Schlager2017}. Der Nutzer kann dabei mithilfe von Head-Mounted-Displays in ein virtuelles Brandszenario versetzt werden,
 ohne dabei wirklichen Gefahren ausgesetzt zu sein. Eine solche Anwendung findet seinen Nutzen sowohl im Training
-von Einsatzkräften, als auch bereits bei der Entscheidung einem solchen Beruf nachzugehen.
-Hierbei gibt es verschiedenste Ansätze um ein künstliches erzeugtes Feuer auf einem
+von Einsatzkräften, als auch bereits bei der Entscheidung, einem solchen Beruf nachzugehen.
+Hierbei gibt es verschiedenste Ansätze, um ein künstliches erzeugtes Feuer auf einem
 Bildschirm anzeigen zu lassen. Eine gängige Methode für das Rendering von Gasen und Flüssigkeiten
 in Videospielen, in denen sich auch Feuer und Rauch aufgrund ihrer physikalischen Eigenschaften
 wiederfinden, sind der Einsatz von Partikelsystemen. Die physikalisch korrekte Simulation kann dabei,
-unter anderem mithilfe von Fluidsimulationen, sehr realitätsnah dargestellt werden.
-Auf realen physikalischen Eigenschaften basierende Simulationen sind jedoch sehr aufwändig in der
+unter anderem auf Basis von Fluidsimulationen, sehr realitätsnah dargestellt werden.
+Auf realen, physikalischen Eigenschaften basierende Simulationen sind jedoch sehr aufwändig in der
 Berechnung und bisher kaum für die Echtzeitanwendung gedacht.
 Gerade in Virtual-Reality-Systemen, in denen die Performance besonders wichtig für das Nutzererlebnis sind,
 eignet sich die aufwändige Simulation von Fluiden aufgrund ihrer Performance nicht. Als Alternative hat
 sich hierfür eine Art von Partikelsystem etabliert, welche sich anstatt der physikalisch korrekten
-Eigenschaften eher an einer optischen Illusion mithilfe animierter Texturen bedienen.
+Eigenschaften eher an einer optischen Illusion unter Anwendung animierter Texturen bedienen.
 Hierbei ist das Konzept des 'Billboardings' ein weit verbreiteter und beliebter Ansatz,
 um realistischere Renderings der Partikel zu erzeugen. Diese bieten eine optisch überzeugende und
 dabei noch effiziente Lösung.
@@ -41,7 +41,7 @@ orientiert sind. Dadurch lässt sich nicht erkennen, dass lediglich flache Textu
 Aufgrund dieser Eigenschaft sehen die Partikel voluminös aus und täuschen Tiefe vor.
 In VR-Anwendungen müssen jedoch immer zwei Bilder erzeugt werden, eins für jedes Auge.
 Dadurch, dass sich die flachen Billboards immer zur jeweiligen Kamera, bzw. zum Mittelpunkt
-zwischen beiden Augen orientieren, zerstört dies die Illusion und es lässt sich erkennen, dass
+zwischen beiden Augen orientieren, zerstört dies die Illusion, und es lässt sich erkennen, dass
 die Partikel ihre Tiefe lediglich vortäuschen. So sieht ein Feuer-Partikelsystem, basierend auf Texturen,
 schnell sehr unecht aus und die Immersion ist gestört.
 Um in einem Traingsszenario der Feuerwehr jedoch einen wirklichen Nutzen zu finden, sollte das Feuer
@@ -64,10 +64,10 @@ Mindest-Framerate einhalten können.
 Zunächst wird in Kapitel 2: \textbf{\nameref{sec:2}} ein kurzer Überblick über bereits vorhandene, verwandte Arbeiten
 und Beiträge aus den Bereichen Partikelsystemen, Parallax Occlusion Mapping, Ray Marching und deren Anwendung in VR gegeben.
 Das Kapitel 3: \textbf{\nameref{sec:3}} setzt sich mit den thematischen Grundlagen zu VR, Feuer- und Rauchsimulationen,
-Mapping Verfahren und Volume Rendering auseinander, welche benötigt werden um die geplanten Partikelsysteme zu implementieren.
+Mapping Verfahren und Volume Rendering auseinander, welche benötigt werden, um die geplanten Partikelsysteme zu implementieren.
 Im vierten Teil der Arbeit geht es um die \textbf{\nameref{sec:4}} der gewählten Methoden. Hierbei werden die Schritte 
 von der Idee über die Erstellung der Texturen und Shader bis hin zu fertigen Partikelsystemen beschrieben.
-Anschließend werden im 5. Kapitel \textbf{\nameref{sec:5}} beide  Methoden individuell auf auf ihre Vor und Nachteile hinsichtlich 
+Anschließend werden im 5. Kapitel \textbf{\nameref{sec:5}} beide  Methoden individuell auf auf ihre Vor- und Nachteile hinsichtlich 
 der Performance und ihrer optischen Qualität geprüft. 
 Im letzten Teil wird in Kapitel 6: \textbf{\nameref{sec:6}} eine Zusammenfassung der Ergebnisse, sowie mögliche Anwendungsszenarien
 der Methoden diskutiert. Abschließen werden einige weitere Optimierungsmöglichkeiten vorgestellt. 

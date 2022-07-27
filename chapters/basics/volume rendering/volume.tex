@@ -1,16 +1,16 @@
 \newpage
 \subsection{Volume Rendering}
 
-Unter dem Begriff Volume Rendering versteht sich eine Reihe von Methoden, die es ermöglichen ein 3D-Datenset zu visualisieren.
-Anders als beim rendern von Geometrien mit einer festen Oberfläche, geht es hierbei darum alle Daten aus
+Unter dem Begriff Volume Rendering versteht sich eine Reihe von Methoden, die es ermöglichen, ein 3D-Datenset zu visualisieren.
+Anders als beim Rendern von Geometrien mit einer festen Oberfläche, geht es hierbei darum, alle Daten aus
 dem jeweiligen Volumen darstellen zu können. Dies sind beispielsweise volumetrische Effekte wie Feuer und Rauch, Wolken oder Nebel,
 welche sich, aufgrund ihrer gasförmigen Eigenschaften, nicht wirklich realistisch mit Geometrie darstellen lassen.
-Volumen haben keine wirkliche Oberfläche, sondern bestehen aus unzähligen winzigen Rußpartikeln.
+Volumen haben keine wirkliche Oberfläche, sondern bestehen aus unzähligen winzigen Partikeln oder Gasen.
 Möchte man also solche Volumen darstellen, so geraten die bisherigen Herangehensweisen, die sich die Oberflächen der Objekte zunutze machen,
 schnell an ihre Grenzen. Beim Grundgedanken des Volume Renderings geht es daher um die Frage, wie das Licht durch diese Volumen
 wandert und welchen Einfluss die Partikel darauf haben.
-Es gibt einige Faktoren, die beeinflussen wie das Licht, das das Auge am Ende nach Austritt eines Volumens erreicht, verändert wird. Wenn das Licht durch solch ein Volumen wandert
-kann es absorbiert, reflektiert oder gestreut werden.
+Es gibt einige Faktoren, die beeinflussen können wie das Licht verändert wird bis es das das Auge nach Austritt aus einem Volumen erreicht.
+Während das Licht durch solch ein Volumen wandert, kann es absorbiert, reflektiert oder gestreut werden.
 Die Abschwächung durch Streuung und Absorption des Lichtes beim Durchlaufen eines Volumens kann vereinfacht mithilfe des Lambert-beerschen Gesetzes wie in \autoref{eqn:beer}
 approximiert werden \parencite{Mayerhofer2020}.
 Der Absorptionskoeffizient $\sigma_a$ beschreibt dabei die Wahrscheinlichkeit, dass ein Photon auf der Strecke $d$ durch das Medium absorbiert oder anderweitig
@@ -28,11 +28,12 @@ reflektiert wird.
 
 \subsubsection{Ray Marching}
 
-Ray Marching ist eine dieser Möglichkeiten ein Volumen darzustellen. Die Idee hierbei ist es – ähnlich wie beim Ray Tracing –
-Strahlen von der Kamera aus durch jeden Pixel des zu rendernden Bildes zu schicken und dabei zu prüfen, ob der Strahl auf etwas trifft.
+Ray Marching ist eine dieser Möglichkeiten, ein Volumen darzustellen. Die Idee hierbei ist es – ähnlich wie beim Ray Tracing –
+Strahlen von der Kamera aus durch jeden Pixel des zu rendernden Bildes zu schicken und dabei in festgelegten Abständen zu prüfen,
+ob der Strahl auf etwas trifft.
 Der Unterschied besteht hierbei jedoch darin, dass sich Ray Marching auf sogenannte '\textit{signed distance functions}' (SDF) bezieht.
 Mit SDFs lässt sich beschreiben, wie weit die nächstgelegene Oberfläche entfernt ist. Dazu wird die Entfernung zu jedem Objekt
-in der Szene berechnet und die kürzeste gewählt.
+in der Szene berechnet und die kürzeste Distanz gewählt.
 
 \begin{figure}[h]
 	\centering
@@ -44,12 +45,12 @@ in der Szene berechnet und die kürzeste gewählt.
 \end{figure}
 
 
-Im ersten Schritt muss also die Distanz zur nächstgelegenen Oberfläche gefunden werden. Daraus ergibt sich ein Radius in dem sich
-mit Sicherheit nichts anderes befindet. Der Strahl bewegt sich nun um die Länge des berechneten Radius' in seine vorgesehene Richtung.
+Im ersten Schritt muss also die Distanz zur nächstgelegenen Oberfläche gefunden werden. Daraus ergibt sich ein Radius, in dem sich
+mit Sicherheit nichts anderes befindet. Der Strahl bewegt sich nun um die Länge des berechneten Radius in seine vorgesehene Richtung.
 Anschließend werden diese beiden ersten Schritte an der neuen Position wiederholt. Dies passiert so lange, bis die Entfernung gegen einen festgelegten
-Grenzwert geht. Dies deutet darauf hin, dass eine Oberfläche getroffen wurde. Diese Variante von Ray Marching wird auch
-'\textit{Sphere Tracing}' genannt \parencite{Hart96}. Sphere Tracing ist, im Gegensatz zu einer konstanten Schrittweite, ein effizienter Algorithmus um
-Oberflächen entlang des Strahls zu finden, da hiermit die Anzahl der benötigten Schritte deutlich reduziert werden kann.
+Grenzwert läuft. Dies deutet darauf hin, dass eine Oberfläche getroffen wurde. Diese Variante von Ray Marching wird auch
+'\textit{Sphere Tracing}' genannt \parencite{Hart96}. Sphere Tracing ist, im Gegensatz zu einer konstanten Schrittweite, ein effizienter Algorithmus,
+um Oberflächen entlang des Strahls zu finden, da hiermit die Anzahl der benötigten Schritte deutlich reduziert werden kann.
 
 Jede Oberfläche einer Szene kann durch eine solche Distanzfunktion dargestellt werden.
 Eine Kugel lässt sich also beispielsweise durch die folgende Funktion mit ihrer Position in Weltkoordinaten und einem Radius darstellen:
@@ -61,17 +62,20 @@ float sdfSphere( vec3 pos, float radius ){
 }
 \end{lstlisting}
 
-Mithilfe dieser Funktionen lassen sich mehrere SDFs auf verschiedene Art und Weise kombinieren und neue Formen erzeugen (\autoref{fig:sdfOperators}).
-Dabei gibt es Möglichkeiten wie beispielsweise die Vereinigung zweier Objekte, die Schnittmenge oder auch die Differenz.
+Mithilfe dieser Funktionen lassen sich mehrere SDFs auf verschiedene Art und Weise kombinieren und deformieren, wodurch sich neue Formen
+erzeugen lassen (\autoref{fig:sdfOperators}).
+Dabei gibt es verschiedene Möglichkeiten, wie z.B. die Vereinigung zweier Objekte, die Schnittmenge oder auch die Differenz.
 Mit dem Smooth Union-Operator lassen sich beispielsweise sogenannte Blobs oder Metaballs erzeugen, indem zwischen
-den Oberflächen interpoliert wird, sodass diese Geometrien den Anschein erwecken miteinander zu verschmelzen.
+den Oberflächen interpoliert wird, sodass diese Geometrien den Anschein erwecken, miteinander zu verschmelzen.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.80\textwidth]{Grafiken/Basics/Volume/sdfOperators.png}
+	\includegraphics[height=0.15\textheight]{Grafiken/Basics/Volume/sdf_cut.png}
+	\includegraphics[height=0.15\textheight]{Grafiken/Basics/Volume/sdf_mask.png}
+	\includegraphics[height=0.15\textheight]{Grafiken/Basics/Volume/sdf_union.png}
 	\begin{footnotesize}
 		\caption{Beispiele von verschiedenen SDF-Operatoren.
-			Von links: Union und Smooth Union, Subtraction und Smooth Subtraktion, Intersection und Smooth Intersection}
+			Von links: Subtraction, Intersection, Smooth Union.}
 		\label{fig:sdfOperators}
 	\end{footnotesize}
 \end{figure}
@@ -86,35 +90,34 @@ den Oberflächen interpoliert wird, sodass diese Geometrien den Anschein erwecke
 	\includegraphics[width=0.80\textwidth]{Grafiken/Basics/Volume/Volume_RayMarching.png}
 	\begin{footnotesize}
 		\caption{Vereinfachte Darstellung des Volume Ray Marching. Der Weg des Lichtes durch
-			das Medium in der Realität aufgrund von In- und Out-Scattering, Absorption oder Emissionen innerhalb des
+			das Medium. In der Realität ist die Berechnung aufgrund von In- und Out-Scattering, Absorption oder Emissionen innerhalb des
 			Volumens komplexer.}
 		\label{fig:volumeRayMarching}
 	\end{footnotesize}
 \end{figure}
 
 
-Möchte man nun aber komplexere Volumen darstellen, so gelingt dies mithilfe einer Volumentextur. Der Ansatz bleibt dabei der Gleiche.
-Es wird ein Objekt benötigt, welches als eine Domain fungiert. Dieses kann in Form von oben beschriebenen SDFs repräsentiert sein.
-Innerhalb dieser Geometrie befindet kann nun alles mögliche dargestellt werden, da hierbei keine Geometrie die Grundlage des
-Volumens darstellt. Es lässt sich mittels Code beispielsweise innerhalb eines Würfels eine Kugel darstellen,
-sodass es für den Betrachter aussieht wie eine wirkliche Kugel.
+Möchte man nun aber komplexere Volumen darstellen, so gelingt dies unter Einsatz einer Volumentextur. Der Ansatz bleibt dabei der Gleiche.
+Es wird ein Objekt benötigt, welches als Volumen Container fungiert. Dieses kann in Form von oben beschriebenen SDFs repräsentiert sein.
+Innerhalb dieser Geometrie kann nun alles mögliche dargestellt werden, da hierbei keine feste Oberfläche die Grundlage des
+Volumens darstellt. Es lässt sich mittels Code beispielsweise innerhalb eines Würfels eine Kugel darstellen.
 
 
-Wurde per Sphere Tracing eine Oberfläche ermittelt, so wird in festgelegten Schritten (sample rate) das Innere der Geometrie durchlaufen und an jedem Schritt das
-ein Wert berechnet, der sich auch Farbe, Dichte und Tiefe im Volumen berechnet (\autoref{fig:volumeRayMarching}).
-Mithilfe von \autoref{eqn:drebin} \parencite{Drebin1988} lässt sich durch das aus einem Voxel austretende Licht ein Farbwert bestimmen. 
-Voxel sind das Äquivalent zu einem Pixel im dreidimensionalen Raum und wird durch ein 3D-Gitternetz repräsentiert. 
+Wurde per Sphere Tracing eine Oberfläche ermittelt, so wird in festgelegten Schritten (sample rate) das Innere der Geometrie durchlaufen
+und an jedem Schritt ein Wert berechnet, der sich aus Farbe, Dichte und Tiefe im Volumen ergibt (\autoref{fig:volumeRayMarching}).
+Mithilfe von \autoref{eqn:drebin} \parencite{Drebin1988} lässt sich durch das aus einem Voxel austretende Licht ein Farbwert bestimmen.
+Voxel sind das Äquivalent zu einem Pixel im dreidimensionalen Raum und werden durch ein 3D-Gitternetz repräsentiert.
 
 \begin{equation}
 	\label{eqn:drebin}
 	C_{out} = C_{in} \cdot (1 - O(x)) + C(x) * O(x).
 \end{equation}
-(Berechnung der Farbe des austretenden Lichts mit $O(x)$ als Opacity und $C(x)$ als Farbe des Voxels)
+(Berechnung der Farbe des austretenden Lichts mit $O(x)$ als Opacity und $C(x)$ als Farbe des Voxels.)
 
 
 <<<<Formel stimmt nicht ganz, muss ich noch mal recherchieren>>>>
 
 \textit{
-Ein Nebenprodukt, das sich durch Ray Marching ergibt, ist eine Variante des Ambient Occlusion \parencite{Evans2006}.
+	Ein Nebenprodukt, das sich durch Ray Marching ergibt, ist eine Variante des Ambient Occlusion \parencite{Evans2006}.
 }
 → Näher beschreiben oder weglassen

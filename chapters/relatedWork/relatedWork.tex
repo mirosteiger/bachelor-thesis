@@ -5,21 +5,21 @@ Die Idee eines Einsatztrainings für die Brandbekämpfung in Virtual Reality ist
 'Serious Games' sogar eine eigene Kategorie, bei der es sich um Videospiele handelt, bei denen der
 Bildungsaspekt im Vordergrund steht. Auch in der Brandvorbeugung und -bekämpfung entstanden bereits einige Anwendungen,
 die versuchen, sich die Möglichkeiten von VR zunutze zu machen.
-Das Ziel der Anwendungen ist dabei oft das selbe. Sowohl um die Einsatzkräfte in realistischen Szenarios zu trainieren,
+Das Ziel der Anwendungen ist dabei oft dasselbe. Sowohl um die Einsatzkräfte in realistischen Szenarios zu trainieren,
 ohne dabei die physische Gesundheit der Personen aufs Spiel zu setzen \parencite{WilliamsBell2014} , als auch die Umwelt und die finanziellen Mittel zu schonen.
 
 
 \subsection{Partikelsysteme}
-Für die Simulation von Feuer und Rauch werden in computergenerierten Welten aufgrund ihrer  Performance seit vielen Jahren 
+Für die Simulation von Feuer und Rauch werden in computergenerierten Welten aufgrund ihrer Performance seit vielen Jahren 
 überwiegend Partikelsysteme benutzt. 
-Partikelsysteme sind ein kostengünstige Lösung, was die Rechenzeit angeht und eignen sich daher um eben solche
+Partikelsysteme sind ein kostengünstige Lösung in Hinblick auf die Rechenzeit. Daher eignen sich diese besonders um solche
 volumetrischen Effekte, die schwer zu modellieren und zu berechnen sind, in Echtzeitsystemen darzustellen zu können. 
 Dies erzeugt auf flachen Bildschirmen die Illusion, dass diese Texturen keine flachen Bilder, 
 sondern voluminös sind. Hierbei handelt es sich um Systeme von einzelnen Partikeln, welche über verschiedene 
 Eigenschaften verfügen und diverse Formen annehmen können. Ein solches System kann Partikel in Form von beispielsweise Punkten, 
 Linien, Sprites oder Meshes emitieren \parencite{Reeves1983}.
 
-In \textcite{Schlager2017} wurde bereits mithilfe von Partikelsystemen ein interaktiver Trainingssimulator für die Anwendung 
+In \textcite{Schlager2017} wurde bereits unter Anwendung von Partikelsystemen ein interaktiver Trainingssimulator für die Anwendung 
 eines Feuerlöschers entwickelt. Der Nutzer lernt den korrekten Umgang mit einem Feuerlöscher und muss für die gegebenen Situationen 
 aus verschiedenen Löschmitteln das jeweils am besten geeignete Mittel auswählen und den Brand löschen. Solche Trainings 
 gibt es zwar bereits mit echtem Brand und Feuerlöschern, jedoch lernt der Nutzer hierbei nichts darüber, wie sich ein Feuer in 
@@ -33,14 +33,15 @@ und realitätsnahem Verhalten des Feuers finden muss.
 
 
 \subsection{Parallax Occlusion Mapping}
-Parallax Occlusion Mapping \parencite{Brawley2004} wurde als Weiterentwicklung des Parallax Mappings \parencite{Kaneko2001} präsentiert.
+Parallax Occlusion Mapping (POM) \parencite{Brawley2004} wurde als Weiterentwicklung des Parallax Mappings \parencite{Kaneko2001} präsentiert.
 POM wird mittlerweile in vielen Bereichen aufgrund der höhen Details bei gering aufgelösten Meshes \parencite{Tatarchuk2006} als 
 Alternative zu Vertexdisplacements, bzw. hochauflösenden Geometrien verwendet. Es wurde mit dem Prism Parallax Occlusion Mapping
-eine Methode vorgestellt um die Silhouetten der Oberflächen korrekt darstellen zu können \parencite{Dachsbacher2007}. 
-Außerdem gibt es bereits Versuche POM im Zusammenhang mit Fluidsimulationen 
+eine Methode vorgestellt, um die Silhouetten der Oberflächen korrekt darstellen zu können \parencite{Dachsbacher2007}. 
+Außerdem gibt es bereits Versuche, POM im Zusammenhang mit Fluidsimulationen 
 anzuwenden \parencite{Kufner2017}. Hierbei wurde eine 2D-Fluidsimulation, unter anderem mithilfe von POM, in eine Art Pseudo-Volumen überführt. 
-Der von Kufner festgestellte Nachteil seiner Implementierung ist ein sichtbarer Treppeneffekt, welcher den Nutzen von POM für diese 
-Art der Simulation einschränkt, da eine höhere Samplerate, die dem Treppeneffekt entgegenkommen würde bedeutet, dass die Performance eingeschränkt wird. 
+Der von Kufner festgestellte Nachteil seiner Implementierung ist ein sichtbarer Treppeneffekt. Da eine höhere Samplerate – die diesem 
+Treppeneffekt entgegenkommen würde – bedeutet, dass die Performance negativ beeinflusst wird, ist der Nutzen von POM, für diese 
+Art der Simulation, eingeschränkt.
 %% Einsatz von POM in VR?
 
 
@@ -48,12 +49,12 @@ Art der Simulation einschränkt, da eine höhere Samplerate, die dem Treppeneffe
 \subsection{Ray Marching}
 
 Partikelsysteme, basierend auf Billboards, haben das Problem der Darstellung in VR. Alle Vorteile, die diese Art von 
-Partikelsystem mit sich bringt gehen durch stereoskopisches Rendering verloren, da die Partikel plötzlich flach aussehen 
+Partikelsystem mit sich bringt, gehen durch stereoskopisches Rendering verloren, da die Partikel plötzlich flach aussehen 
 oder sich zusammen mit der Bewegung des VR-Headset drehen und kippen können.
-Eine Methode um volumetrische Effekte zu rendern ist das Ray Marching. Ray Marching im Zusammenhang mit SDFs gibt es 
+Eine Methode, um volumetrische Effekte zu rendern, ist das Ray Marching. Ray Marching im Zusammenhang mit SDFs gibt es 
 schon seit über 30 Jahren \parencite{Hart1989}.
-Ray Marching bietet neben deutlich realistischeren Renderings den Vorteil, dass dieses 
+Dieser Ansatz bietet neben deutlich realistischeren Renderings den Vorteil, dass dieses 
 auch in der Stereoansicht gut funktioniert und überzeugende Ergebnisse liefert \parencite{Wald2006}. Die Methode bietet 
-jedoch den Nachteil einer aufwändigeren Berechnung und daher auch längeren Renderingzeiten. Es wurde außerdem bereits von 
+jedoch den Nachteil einer aufwändigeren Berechnung, und daher auch längeren Renderingzeiten. Es wurde außerdem bereits von 
 \textcite{Zhang2020} versucht, die Charakteristiken von volumetrischen Effekten auf ein Billboard-System anzuwenden. 
 Hierbei hängt die Real Time-Performance allerdings stark von der Komplexität der zu rendernden Szene ab.
