@@ -1,44 +1,55 @@
-\section{Evaluierung der Methoden}
+\section{Evaluierung }
 \label{sec:5}
-\markboth{Evaluierung der Methoden}{Evaluierung der Methoden}
+\markboth{Evaluierung}{Evaluierung}
 
 Beide Methoden haben ihre Vor- und Nachteile. Die realistische Darstellung von voluminösen Materialien verlangt
 eine besondere Herangehensweise, welche sich – im Gegensatz zu undurchsichtigen, festen Oberflächen –
 nicht überzeugend mit herkömmlichen Texture-Mapping Methoden umsetzen lässt.
 Die Implementierung der Systeme ist aufgrund der begrenzten Zeit im Rahmen dieser Arbeit nur prototypisch mithilfe der
 zur Verfügung stehenden Funktionen aus Unity implementiert und daher nicht bestmöglich optimiert.
-In \textbf{\autoref{sec:6.3}} werden einige Optimierungsmöglichkeiten präsentiert.
-Die Vor- und Nachteile, sowie das Potential für den Nutzen der jeweiligen Methoden lassen sich dennoch aus dem Entwurf
-herausarbeiten und werden in den folgenden Abschnitten beschrieben.
+In \textbf{\autoref{sec:6.3}} werden weitere Optimierungsmöglichkeiten präsentiert.
+Einige Vor- und Nachteile, sowie das Potential für den Nutzen der jeweiligen Methoden, lassen sich dennoch aus dem Entwurf
+ableiten und werden in den folgenden Abschnitten beschrieben.
 
 
 \subsection{Parallax Occlusion Mapping}
 \label{sec:5.1}
-
-
-POM ist eine komplexere Variante des Normalmappings. Dementsprechend ist auch POM eine Technik für feste Oberflächen und weniger
-für den Einsatz bei der Simulation von Volumen gedacht. Um aber die Effizienz der Billboard-basierten Partikelsysteme
-nutzen zu können ist das Parallax Occlusion Mapping eine interessante Möglichkeit, die es wert ist, getestet zu werden.
-Trotz der erhöhten Komplexität des Algorithmus gegenüber klassischeren Mappingverfahren läuft die Anwendung auf dem Testsystem
-stabil mit 90FPS. Hier gibt es also keine Bedenken hinsichtlich der Shaderperformance. Auch die aufwändige Berechnung der
-Fluidsimulationen wird hier im Voraus erledigt. Somit ist es möglich, realistisch aussehende Partikelsysteme unter geringem
-Rechenaufwand in der Echtzeitanwendung zu erzeugen und diese dabei noch realistisch aussehen zu lassen.
-Ein weiterer Vorteil, der sich aus der Natur des schwarzen Rauches bei Bränden ergibt, ist die Tatsache, dass die genaue Berechnung
-von Selbstschattierungen hierbei nicht so essentiell ist wie bei weißem Rauch.
-Dies ist zwar nicht direkt ein Vorteil von POM, gleicht aber einen Nachteil aus, den es in der Anwendung in einem Partikelsystem gibt.
-Die Texturen auf den Billboards sind in der Lage, sich individuell selbst zu schattieren, gegenseitig ist dies jedoch nicht möglich (\textbf{\autoref{fig:pomShadows}}). 
-In Bezug auf den Schatten generell gibt es das Problem, dass Billboard-basierte Partikelsysteme eigentlich nur flache Sprites sind und deshalb nicht in der 
-Lage sind, realistische Schatten auf die Umgebung werfen zu können. In Hinblick auf die Beleuchtung ist es mit POM auch möglich, eine geringe Anzahl dynamischer 
-Lichtquellen einzubeziehen (\textbf{\autoref{fig:dynamicLightingSmoke}}).
-
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.89\textwidth]{Grafiken/Implementation/litSmoke.png}
+	\includegraphics[width=0.89\textwidth]{Grafiken/Implementation/pom_Vergleich.png}
 	\begin{footnotesize}
-		\caption{Dynamische Beleuchtung des Rauchs}
-		\label{fig:dynamicLightingSmoke}
+		\caption{Vergleich verschiedener Verfahren, aus flacherem Blickwinkel betrachtet. 
+		(a) Normal Mapping, (b) 6-Punkt-beleuchtetes Parallax Occlusion Mapping, einzelner Frame der Simulation. (c) 6-Punkt-beleuchtetes Parallax Occlusion Mapping, Texture Sheet-Animation. }
+		\label{fig:pomVergleich}
 	\end{footnotesize}
 \end{figure}
+
+POM ist eine komplexere Variante des Normalmappings. Dementsprechend ist auch diese Technik eher für feste Oberflächen und weniger
+für den Einsatz bei der Simulation von Volumen gedacht. Um aber die Effizienz der Billboard-basierten Partikelsysteme
+nutzen zu können ist das Parallax Occlusion Mapping eine interessante Möglichkeit, die es wert ist, getestet zu werden. Vorallem für die Anwendung bei dichtem, schwarzen Rauch.
+
+In \textbf{\autoref{fig:pomVergleich}} ist ein Vergleich der Variante von POM mit einem einzelnen Sprite, sowie einer Animation, basierend auf einem Texture Sheet, zu sehen. 
+Auf der linken Seite befindet sich ein Frame der Simulation ohne Parallax Offsetting, lediglich mit einer Normal Map. Dieser Vergleich macht den Vorteil der 6-Punkt-Beleuchtung und 
+des Parallax Occlusion Mappings gegenüber herkömmlichen Mappingverfahren deutlich. 
+Bei der Betrachtung in VR entsteht ein realistischerer Eindruck von Tiefe, da sich blickwinkelabhängig verschiedene Teile der Textur gegenseitig verdecken. Gerade wenn sich beim Betrachten
+um die Textur herum bewegt wird, verstärkt sich dieser Effekt.  
+Dies bestätigt die Vermutung, dass sich POM für VR deutlich mehr eignet als herkömmliches Normal Mapping. Jedoch gilt dies nur für das Standbild des Rauches.
+Auf der rechten Seite sieht man deutlich, wie sich die benachbarten Frames bei der Animation des Rauches mit in den sichtbaren Bereich hineingezerrt werden.
+Ein weiteres Problem der Texture Sheet-basierten Animation sind die Randflächen des Rauches. Dadurch, dass die Höhe an der Umrandung des Rauches in der Textur unmittelbar abfällt,
+werden einige Pixel, die an einer solchen Schnittkante liegen, stark verzogen. Selbst bei geringem Pixeloffset, bei dem sich der Parallax-Effekt noch kaum bemerkbar macht. 
+Auch dies ist in \textbf{\autoref{fig:pomVergleich}} erkennbar. Da sich der Rauch mit jedem Frame verändert, springen
+die Artefakte entlang der Randflächen. Der Effekt tritt stärker auf, wenn zunächst die Animation durchlaufen und daraufhin das Pixeloffset berechnet wird. Die Artefakte lassen sich 
+reduzieren, indem die Rehenfolge der UV-Manipulationen umgekehrt wird. Die Implementierung des POM Nodes von Unity verhindert damit jedoch die Animation der Heightmap, was 
+die Texture Sheet-Animation – in Kombination mit Parallax Occlusion Mapping – in der Art und Weise wie sie hier implementiert ist, unbrauchbar macht. 
+
+In Anbetracht der Performance läuft die Anwendung, auf dem Testsystem in einer VR-Umgebung, stabil mit 90FPS. Trotz der erhöhten Komplexität des Algorithmus gegenüber klassischeren 
+Mappingverfahren hält sich der Rechenaufwand in Grenzen. Hier gibt es also keine Bedenken hinsichtlich der Shaderlaufzeit. Auch die aufwändige Berechnung der Fluidsimulationen wird hier im Voraus erledigt. 
+Somit ist es möglich, realistisch aussehende Partikelsysteme unter geringem Rechenaufwand in der Echtzeitanwendung zu erzeugen. Ein weiterer Vorteil, der sich aus der Natur des schwarzen 
+Rauches bei Bränden ergibt, ist die Tatsache, dass die genaue Berechnung von Selbstschattierungen hierbei nicht so essentiell ist wie bei weißem Rauch. Dies ist zwar nicht direkt ein Vorteil von POM, 
+gleicht aber einen Nachteil aus, den es in der Anwendung in einem Partikelsystem gibt: Die Texturen auf den Billboards sind in der Lage, sich individuell selbst zu schattieren. 
+Eine gegenseitige Schattierung ist jedoch ohne weiteres nicht möglich (\textbf{\autoref{fig:pomShadows}}). 
+In Bezug auf Schattierung im Allgemeinen gibt es das Problem, dass Billboard-basierte Partikelsysteme eigentlich nur flache Sprites sind und deshalb nicht in der 
+Lage sind, realistische Schatten auf die Umgebung werfen zu können. Weiterhin werden Transparenzen 
 
 
 
@@ -51,16 +62,21 @@ Lichtquellen einzubeziehen (\textbf{\autoref{fig:dynamicLightingSmoke}}).
 	\end{footnotesize}
 \end{figure}
 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.89\textwidth]{Grafiken/Implementation/litSmoke.png}
+	\begin{footnotesize}
+		\caption{Dynamische Beleuchtung des Rauchs}
+		\label{fig:dynamicLightingSmoke}
+	\end{footnotesize}
+\end{figure}
 
-
-
-%How, wie viele?
 
 Ein weiterer Vorteil, der sich aus dieser Methode ergibt, sind die Texture Sheets. In eine einzige Textur lassen sich 4 verschiedene Informationen in die
 RGBA-Kanäle speichern. Neben den verschiedenen Lightmaps aus 6 Richtungen können beispielsweise noch ein Color-Key oder Emission- und Heatmaps gespeichert werden.
 Mit weiteren Infos wie einer Heatmap lässt sich ein Übergang, bzw. eine Mischung von Feuer und Rauch erzeugen. Dies ist ein Phänomen, welches sich bei größeren Bränden
 oder Explosionen beobachten lässt (\textbf{\autoref{fig:explosion}}).
-Die Anzahl der Lightmaps lässt sich auch reduzieren, indem die Lichtrichtungen von vorne und von hinten im Shader approximiert werden können.
+Die Anzahl der Lightmaps lässt sich auch reduzieren, indem die Lichtrichtungen von vorne und von hinten im Shader approximiert werden.
 Es gibt viele Möglichkeiten, die Flexibilität von Texturen ausnutzen zu können und dabei die Menge an benötigten Daten und Berechnungen gering zu halten,
 sodass der flüssige Einsatz in VR gegeben bleibt. Weiterhin lassen sich auf Kosten weiterer Texture Sheets
 verschiedene Simulationen erstellen, sodass größere Varianz in das Aussehen des Partikelsystems eingebracht werden kann.
@@ -70,11 +86,12 @@ kaum auffällt, dass das ganze System auf dieser einen Animation basiert.
 
 Neben den ganzen Vorteilen, die diese Variante mit sich bringt gibt es auch negative Punkte. Bei zu geringer Auflösung sehen die Renderings schnell
 verpixelt aus, je näher diese betrachtet werden. Dies ist ein großer Nachteil der Texture Sheets. Wird die Auflösung jedes Frames verdoppelt, also in diesem
-Fall von 256x256 Pixeln auf 512x512 Pixel, so erhöht sich die Auflösung der gesamten Textur um den Faktor vier für jeden der RGBA-Kanäle. Selbst dann sind
+Fall von 256x256 Pixel auf 512x512 Pixel, so erhöht sich die Auflösung der gesamten Textur um den Faktor vier für jeden der RGBA-Kanäle. Selbst dann sind
 die einzelnen Frames noch relativ gering aufgelöst und nicht für die Betrachtung aus der Nähe gedacht. Je detaillierter die Simulation auf denen die Texture Sheets basieren,
 desto höher sollte die Auflösung sein um auch alle diese Details abbilden zu können.
 Die visuellen Artefakte, wie beispielsweise das Einschneiden der benachbarten Frames aus dem Texture Sheet aus einem flachen Betrachtungswinkel (\textbf{\autoref{fig:smokeBleeding}}),
-schränken die Einsatzmöglichkeiten für die Anwendung in VR stark ein.
+schränken die Einsatzmöglichkeiten für die Anwendung in VR stark ein. Die Verzerrung am Rand, welche durch eine starke Kante in der Heightmap hervorgerufen wird, macht das
+Parallax Occlusion Mapping ebenfalls, für die Darstellung von voluminösen Medien, ungeeignet. 
 Bei der Darstellung des Feuers kommt der Faktor hinzu, dass Billboards nicht als Lichtquelle fungieren, was dem Realismus der Simulation schadet.
 
 Abschließend lässt sich zu dem Rendering von Feuer und Rauch auf Basis von Parallax Occlusion Mapping sagen, dass sich diese Variante, so wie sie für diese Arbet

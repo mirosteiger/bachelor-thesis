@@ -34,10 +34,9 @@ Da der Fokus dieser Arbeit nicht auf der Fluidsimulation liegt und das Setup der
 und Tipps artistischer Natur aus Internetforen erzeugt wird, wird an dieser Stelle nicht weiter darauf eingegangen, wie die VFX-Software den Rauch berechnet und erzeugt.
 Stattdessen wird in \textbf{\autoref{sec:4.2.1}} der Workflow beschrieben und auf einige Parameter der Simulation eingegangen.
 
-Für die Darstellung durch Ray Marching werden richtige Volumendaten, bzw. 3D-Texturen benötigt. Diese werden innerhalb von Unity
-per Shader prozedural erzeugt.
+Für die Darstellung durch Ray Marching werden richtige Volumendaten, bzw. 3D-Texturen benötigt. Diese werden aus derselben Simulation erzeugt, die auch für die Lightmaps verwendet wird.
 
-<<<<TODO>>>>
+
 
 
 \subsection{Erstellung der Texturen}
@@ -226,7 +225,7 @@ Der Algorithmus des Ray Marchers schickt Strahlen von der Kamera durch jeden Pix
 inkrementell das Volumen durchlaufen. Dabei werden an jedem Punkt die Werte für die Dichte aus den Textur Slices, die das Volumen darstellen, gelesen. Zudem
 wird das Licht, welches den jeweiligen Punkt im Volumen erreicht mit gespeichert. Dies gelingt durch einen Ray Cast von dem abgetasteten Punkt in Richtung der Lichtquelle.
 
-Für den Shader wird ein Custom Function-Node für das Marching erzeugt. Der Algorithmus läuft die in \textbf{\autoref{alg:rayM}} grob zusammengefassten Schritte für jeden Strahl durch:
+Für den Shader wird ein Custom Function-Node für das Marching erzeugt. Der Algorithmus läuft die in \textbf{\autoref{alg:rayM}} grob zusammengefassten Schritte für jeden Strahl durch.
 
 
 \begin{algorithm}
@@ -243,17 +242,6 @@ Für den Shader wird ein Custom Function-Node für das Marching erzeugt. Der Alg
 		\State color = (density, lighting, 0)
 	\end{algorithmic}
 \end{algorithm}
-
-Ray Marching Algorithmus:  → Nur Notizen für mich :)  \\
-- Ray Cast in Volumen.\\
-- An jedem Sample: \\ \textit{
-	- Dichte auslesen\\
-	- Ray Cast zur Lichtquelle\\
-	- Daraus berechnen wie viel Licht ankommt\\
-	- mit der Dichte verrechnen\\
-	- Nächster Schritt\\
-}
-- Alle Werte auf einem Strahl zusammen rechnen\\
 
 \subsection{Partikelsystem}
 Um die Partikelsysteme umzusetzen, wird der relativ junge, von Unity entwickelte Editor 'Visual Effects Graph'
