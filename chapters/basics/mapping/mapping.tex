@@ -3,8 +3,8 @@
 Texture Mapping bezeichnet ein Verfahren, welches zweidimensionale Texturen auf ein dreidimensionales Objekt
 abbildet. Um die flachen Texturen auf die Oberfläche des Meshs abbilden zu können, muss das Objekt 'UV-unwrapped' werden.
 Durch diesen Vorgang wird jedem Punkt auf der Oberfläche des Meshs ein Punkt auf der Textur zugewiesen \parencite{Catmull1974} \parencite{Blinn1976}.
-Ein sehr einfaches Beispiel zur Veranschaulichung ist dabei das Würfelnetz (\textbf{\autoref{fig:wuerfelnetz}}).
-\begin{figure}[h]
+Ein sehr einfaches Beispiel zur Veranschaulichung ist dabei das Würfelnetz (vgl. \textbf{\autoref{fig:wuerfelnetz}}).
+\begin{figure}[!h]
 	\centering
 	\includegraphics[width=0.69\textwidth]{Grafiken/Basics/Mapping/Würfelnetz.png}
 	\begin{footnotesize}
@@ -40,7 +40,7 @@ Hier werden die Richtungen der Normalen in jedem Pixel durch einen Vektor reprä
 welcher sich aus den RGB-Werten eines jeden Pixels ergibt. Daraus lassen sich Schattierungen simulieren,
 welche kleine Unebenheiten (mit geringer Tiefe) wie Beulen oder Kratzer realistischer aussehen lassen.
 Dieser wird aus Lichtquellen, deren Einfallsrichtung und den Normalen aus der Textur berechnet.
-Somit wird auch bei geringer Polygonanzahl eine deutlich realistischer aussehende Oberfläche gerendert.
+Somit wird auch bei geringer Polygonanzahl eine deutlich realistischer aussehende Oberfläche gerendert (vgl. \textbf{\autoref{fig:diffuseNormal}}).
 \parencite{Cohen1998}.
 
 Diese Texturen bieten einen sehr kostengünstigen
@@ -60,6 +60,7 @@ geschwächt.
 		\caption{links: Einfache diffuse Beleuchtung der Textur, rechts: Normal Mapping. Beide Geometrien sind komplett flach. 
 		Hierbei sieht man gut den Unterschied zwischen dem flachen Look
 		der diffus beleuchteten Textur und dem realistischeren Aussehen durch Einbeziehen der Oberflächennormalen aus der Normal Map.}
+		\label{fig:diffuseNormal}
 	\end{footnotesize}
 \end{figure}
 
@@ -77,9 +78,18 @@ negativen Einfluss auf die Renderingzeiten nehmen.
 
 \subsubsection{Parallax Mapping}
 
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=0.89\textwidth]{Grafiken/Basics/Mapping/parallax_mapping.png}
+	\begin{footnotesize}
+		\caption{Berechnung der verschobenen Texturkoordinaten auf Basis der Heightmap. Quelle: \parencite{LearnOpenGL:Parallax}}
+		\label{fig:parallax}
+	\end{footnotesize}
+\end{figure}
+
 Parallax Mapping (oder auch Offset (Bump-)Mapping) ist eine weitere Methode, um sich die Möglichkeiten von
 Bump Mapping-Verfahren zunutze zu machen. Anders als bei tatsächlicher Modifizierung der Vertices
-durch Displacement Maps werden hier nur die Texturkoordinaten abhängig vom Blickwinkel verschoben. \parencite{Kaneko2001, Welsh2004}
+durch Displacement Maps werden hier nur die Texturkoordinaten abhängig vom Blickwinkel verschoben (vgl. \textbf{\autoref{fig:parallax}}) \parencite{Kaneko2001, Welsh2004}.
 Durch Bewegung der Oberfläche oder des Betrachters entsteht somit ein realistischerer Eindruck
 von Tiefe in der Textur, welcher den des Displacement Mappings approximiert darstellt.
 Dabei ist Parallax Mapping allerdings immer noch deutlich effizienter als echtes Vertex-Displacement
@@ -91,11 +101,12 @@ Selbstschattierung oder -verdeckung vorzutäuschen.
 \subsubsection{Parallax Occlusion Mapping}
 \label{sec:3.3.4}
 
-\begin{figure}[h]
+\begin{figure}!h]
 	\centering
-	\includegraphics[width=0.8\textwidth]{Grafiken/Basics/Mapping/Infografik_POM.png}
+	\includegraphics[width=0.89\textwidth]{Grafiken/Basics/Mapping/Infografik_POM.png}
 	\begin{footnotesize}
-		\caption{Verschiebung der Texturkoordinaten beim Parllax Occlusion Mapping}
+		\caption{Verschiebung der Texturkoordinaten beim Parllax Occlusion Mapping. Quelle: \parencite{LearnOpenGL:POM}}
+		\label{fig:pom}
 	\end{footnotesize}
 \end{figure}
 
@@ -107,15 +118,16 @@ Durch Einsatz von dynamischer Beleuchtung und Selbstokklusion kann außerdem ein
 Die Informationen aus der Heightmap werden hierbei für Berechnungen im Fragmentshader verwendet.
 Anstatt wie beim Displacement Mapping Details zu extrudieren, wird bei POM in die Tiefe simuliert.
 Hierbei wird für die Oberfläche der Wert 1.0, und damit der höchste Punkt, angenommen.
-Zunächst wird für jeden zu rendernden Pixel mittels Ray Castings vom Betrachter zur Geometrie-Oberfläche ein Schnittpunkt  $T_0$ ausfindig gemacht.
+Zunächst wird für jeden zu rendernden Pixel mittels Ray Castings vom Betrachter zur Geometrie-Oberfläche ein Schnittpunkt  $T_0$ ausfindig gemacht 
+(vgl. \textbf{\autoref{fig:pom}}).
 Der Strahl $\vec{v}$ wird nun weiter durch das – durch die Heightmap ausgedrückte – Volumen verfolgt und Schrittweise abgetastet. Wenn sich der Strahl 
 mit der Heightmap im Punkt $T_P$ schneidet, kann mit der Position die neue, zu rendernde Texturkoordinate ermittelt werden. 
 Je geringer die Schrittweite ist, desto genauer kann die Oberfläche gerendert werden.
 Ist die Schrittgröße zu groß, kann die Heightmap nicht detailliert genug abgetastet werden und es entstehen Aliaseffekte. Es zeichnet sich
-ein Treppeneffekt ab (\textbf{\autoref{fig:alias}}). Zusätzlich kann ein zu starkes Offset die Textur unnatürlich weit verzerren. 
+ein Treppeneffekt ab (vgl. \textbf{\autoref{fig:alias}}). Zusätzlich kann ein zu starkes Offset die Textur unnatürlich weit verzerren. 
 
 
-\begin{figure}[ht]
+\begin{figure}[!ht]
 	\includegraphics[width=0.49\textwidth]{Grafiken/Basics/Mapping/Vergleich_DisplacementNormalTesselated.png}
 	\includegraphics[width=0.49\textwidth]{Grafiken/Basics/Mapping/Vergleich_POM_64Steps.png}
 	\begin{footnotesize}
@@ -126,7 +138,7 @@ ein Treppeneffekt ab (\textbf{\autoref{fig:alias}}). Zusätzlich kann ein zu sta
 \end{figure}
 
 
-\begin{figure}[h]
+\begin{figure}[!h]
 	\centering
 	\includegraphics[width=1\textwidth]{Grafiken/Basics/Mapping/aliasing.png}
 	\begin{footnotesize}

@@ -34,7 +34,7 @@ Der Unterschied besteht hierbei jedoch darin, dass sich Ray Marching auf sogenan
 Mit SDFs lässt sich beschreiben, wie weit die nächstgelegene Oberfläche entfernt ist. Dazu wird die Entfernung zu jedem Objekt
 in der Szene berechnet und die kürzeste Distanz gewählt.
 
-\begin{figure}[h]
+\begin{figure}[!h]
 	\centering
 	\includegraphics[width=0.80\textwidth]{Grafiken/Basics/Volume/Sphere_Tracing.png}
 	\begin{footnotesize}
@@ -52,14 +52,16 @@ Grenzwert läuft. Dies deutet darauf hin, dass eine Oberfläche getroffen wurde.
 um Oberflächen entlang des Strahls zu finden, da hiermit die Anzahl der benötigten Schritte deutlich reduziert werden kann.
 
 Jede Oberfläche einer Szene kann durch eine solche Distanzfunktion dargestellt werden.
-Eine Kugel lässt sich also beispielsweise durch die folgende Funktion mit ihrer Position in Weltkoordinaten und einem Radius darstellen:
+Eine Kugel lässt sich also beispielsweise durch 
 
-\vspace{0.5cm}
-\begin{lstlisting}[language={[Sharp]C}, label={lst:sphereSDF}, caption={SDF einer Kugel im Ursprung},captionpos=b, frame=single]
-float sdfSphere( vec3 pos, float radius ){
-	return length(pos)-radius;
-}
-\end{lstlisting}
+\vspace{-0.3cm  }
+\begin{equation}
+	\vec{d} = length(center) - radius.
+\end{equation}
+
+mit ihrer Position in Weltkoordinaten und einem Radius darstellen:
+
+
 
 Mithilfe dieser Funktionen lassen sich mehrere SDFs auf verschiedene Art und Weise kombinieren und deformieren, wodurch sich neue Formen
 erzeugen lassen (\textbf{\autoref{fig:sdfOperators}}).
@@ -67,7 +69,7 @@ Dabei gibt es verschiedene Möglichkeiten, wie z.B. die Vereinigung zweier Objek
 Mit dem Smooth Union-Operator lassen sich beispielsweise sogenannte Blobs oder Metaballs erzeugen, indem zwischen
 den Oberflächen interpoliert wird, sodass diese Geometrien den Anschein erwecken, miteinander zu verschmelzen.
 
-\begin{figure}[h]
+\begin{figure}[!h]
 	\centering
 	\includegraphics[height=0.15\textheight]{Grafiken/Basics/Volume/sdf_cut.png}
 	\includegraphics[height=0.15\textheight]{Grafiken/Basics/Volume/sdf_mask.png}
@@ -84,7 +86,7 @@ den Oberflächen interpoliert wird, sodass diese Geometrien den Anschein erwecke
 
 \subsubsection{Volume Ray Marching}
 
-\begin{figure}[h]
+\begin{figure}[!h]
 	\centering
 	\includegraphics[width=0.80\textwidth]{Grafiken/Basics/Volume/Volume_RayMarching.png}
 	\begin{footnotesize}
@@ -101,7 +103,7 @@ Es wird ein Objekt benötigt, welches als Volumen Container fungiert. Dieses kan
 Innerhalb dieser Geometrie kann nun alles mögliche dargestellt werden, da hierbei keine feste Oberfläche die Grundlage des
 Volumens darstellt. Es lässt sich mittels Code beispielsweise innerhalb eines Würfels eine Kugel darstellen (\textbf{\autoref{fig:sphereInsideCube}}).
 
-\begin{figure}[h]
+\begin{figure}[!h]
 	\centering
 	\includegraphics[width=0.80\textwidth]{Grafiken/Implementation/Raymarch/sphereInsideCube.png}
 	\begin{footnotesize}

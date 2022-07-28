@@ -7,14 +7,13 @@ eine besondere Herangehensweise, welche sich – im Gegensatz zu undurchsichtige
 nicht überzeugend mit herkömmlichen Texture-Mapping Methoden umsetzen lässt.
 Die Implementierung der Systeme ist aufgrund der begrenzten Zeit im Rahmen dieser Arbeit nur prototypisch mithilfe der
 zur Verfügung stehenden Funktionen aus Unity implementiert und daher nicht bestmöglich optimiert.
-In \textbf{\autoref{sec:6.3}} werden weitere Optimierungsmöglichkeiten präsentiert.
 Einige Vor- und Nachteile, sowie das Potential für den Nutzen der jeweiligen Methoden, lassen sich dennoch aus dem Entwurf
 ableiten und werden in den folgenden Abschnitten beschrieben.
 
 
 \subsection{Parallax Occlusion Mapping}
 \label{sec:5.1}
-\begin{figure}[h!]
+\begin{figure}[!h]
 	\centering
 	\includegraphics[width=0.89\textwidth]{Grafiken/Implementation/pom_Vergleich.png}
 	\begin{footnotesize}
@@ -125,8 +124,8 @@ CONTRA\newline
 \subsection{Ray Marching}
 \label{sec:5.2}
 
-Aufgrund der massiven Einschränkungen in der Qualität des Exports aus Houdini wurde, für die bessere Betrachtung in VR, ein Set Volume Slices aus dem Github-Repository von Dylan Meville, 
-verwendet\footnote{\url{https://github.com/DMeville/DMVolumeRendering/blob/main/DMVolumeRendering/Assets/VolumeRubberCube.exr}, abgerufen am 28.07.2022}.
+Aufgrund der massiven Einschränkungen in der Qualität des Exports aus Houdini wurde, für die bessere Betrachtung in VR, ein Set Volume Slices aus dem 
+Github-Repository von Dylan Meville verwendet\footnote{\url{https://github.com/DMeville/DMVolumeRendering/blob/main/DMVolumeRendering/Assets/VolumeRubberCube.exr}, abgerufen am 28.07.2022}.
 
 
 

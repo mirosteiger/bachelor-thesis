@@ -3,7 +3,7 @@
 
 Für die Implementierung und Evaluierung der Performance der beiden beschriebenen Methoden wurde ein System mit den folgenden Spezifikationen verwendet:
 
-\begin{table}[h]
+\begin{table}[h!]
 	\renewcommand*{\arraystretch}{2}
 	\setlength{\tabcolsep}{1.5cm}
 	\begin{tabular}{lll}
@@ -34,11 +34,12 @@ Da der Fokus dieser Arbeit nicht auf der Fluidsimulation liegt und das Setup der
 und Tipps artistischer Natur aus Internetforen erzeugt wird, wird an dieser Stelle nicht weiter darauf eingegangen, wie die VFX-Software den Rauch berechnet und erzeugt.
 Stattdessen wird in \textbf{\autoref{sec:4.2.1}} der Workflow beschrieben und auf einige Parameter der Simulation eingegangen.
 
-Für die Darstellung durch Volume Ray Marching werden richtige Volumendaten, bzw. 3D-Texturen benötigt. Diese werden aus derselben Simulation erzeugt, die auch für die Lightmaps verwendet wird.
-Es wird ein Ray Marching Shader implementiert, der eine 3D-Textur innerhalb der Geometrie darstellen kann, auf die dieser Shader angewendet wird. 
-Für das Feuer ergibt es 
-Es gibt zwei Möglichkeiten des Rauch zu 
-
+Für die Darstellung durch Ray Marching werden Volumendaten, bzw. 3D-Texturen benötigt. Diese werden aus derselben Simulation erzeugt, die auch für die Lightmaps verwendet wird.
+Alternativ können Volumendaten auch mittels Code generiert werden.
+Es wird ein Volume Ray Marching Shader implementiert, der eine Geometrie schrittweise durchläuft und das Volumen dabei abtasten und darstellen kann.
+Es gibt zwei Möglichkeiten mit denen die Volumen animiert werden können. Einerseits lässt sich das Volumen im Inneren eines solchen Containers animieren.
+Der Rauch kann bewegt, skaliert und rotiert werden. Andererseits können die Volumendaten statisch in Weltkoordinaten angeordnet sein und der Container
+animiert werden, sodass immer nur ein Ausschnitt des tatsächlichen Volumens zu sehen ist.
 
 
 \subsection{Erstellung der Texturen}
@@ -133,7 +134,7 @@ Dazu wird eine weitere Textur mit den gleichen Schritten wie zuvor erzeugt. In d
 Farbkanal die Alpha-Information gespeichert werden.
 
 
-\begin{figure}[hb]
+\begin{figure}[!hb]
 	\centering
 	\includegraphics[width=0.49\textwidth]{Grafiken/Implementation/Lightmaps/smokeSim_T1.png}
 	\includegraphics[width=0.49\textwidth]{Grafiken/Implementation/Lightmaps/smokeSim_T2.png}
@@ -144,30 +145,17 @@ Farbkanal die Alpha-Information gespeichert werden.
 \end{figure}
 
 
+\subsubsection{Volume Textures}
 Für den Ray Marcher wird eine Volumentextur mit Dichtewerten benötigt. Da schrittweise durch das Volumen gelaufen, und dabei überprüft wird, wie viel Licht
 durch dieses Volumen wandert, wird hier keine Lichtinformation in der Textur notwendig. Diese wird in Echtzeit von dem Algorithmus berechnet.
 Für die Volumentextur kann aus EmberGen, auf Basis derselben Simulation, eine VDB-Datei exportiert werden.
-Diese Datei enthält die Volumendaten. Diese kann in der Software Houdini von SideFX importiert werden. Von dort aus lässt sich ein einzelner Frame als Texture Sheet exportieren,
-wobei jeder Frame hierbei einen sogennanten Slice des Volumens darstellt. Durch diese Darstellung kann die Information in Unity als 3D-Textur verwendet werden.
+
+Diese Datei enthält die Volumendaten. Diese kann in der Software Houdini von SideFX importiert werden. Von dort aus lässt sich ein einzelner Frame als
+Texture Sheet exportieren, wobei jeder Frame hierbei einen sogennanten Slice des Volumens darstellt.
+Durch diese Darstellung kann die Information in Unity als 3D-Textur verwendet werden.
 Hierbei wird nicht, wie bei der Animation für Parallax Occlusion Mapping, die Zeit als dritte Dimension angesehen, sondern eine weitere räumliche Achse.
 Die einzelnen Frames werden übereinander gelegt. Somit bildet diese Textur die Basis für eine statische Rauchwolke, welche durch Ray Marching dargestellt werden kann.
 
-
-
-
-
-% \subsubsection{Volume Textures}
-% TODO
-
-
-% RAYM: \newline
-% - Volumetextures generieren / downloaden\newline
-% - Vorgehen beschreiben\newline
-% - Grafiken \newline
-
-% % Raymarching: Volumetextures erstellen.
-% Diese werden mithilfe von prozedural generierten Noisetexturen erzeugt.
-% Daher basiert der zweite Ansatz auf dreidimensionalen Volumentexturen, welche mithilfe von Raymarching gesampled werden.
 
 
 \subsection{Shader}
@@ -203,47 +191,52 @@ des Rauchs ausgewählt werden oder je nach Richtung des Lichts zwischen verschie
 in welche Richtung das Licht zeigt. Basierend auf dieser Info kann der entsprechende Farbchannel der Rauchtextur zurückgegeben werden.
 
 
-\vspace{.6cm}
-\begin{lstlisting}[language={[Sharp]C}, label={lst:lightMapLogik}, caption={Logik zur Auswahl der richtigen Lightmap am Beispiel der X-Richtung des Lichts.},captionpos=b, frame=single]
-if(lightDirection.X > 0){
-  return smokeLightmap_T1.R; 
-}
-else {
-  return smokeLightmap_T2.R; //Licht von links
-}
+\begin{algorithm}
+	\caption{Auswahl der richtigen Lightmap am Beispiel der X-Richtung des Lichts.}
+	\label{alg:lightMapLogik}
+	\begin{algorithmic}[1]
 
-\end{lstlisting}
-
+		\If{$lightDirection.r > 0$}
+			\Return {$smokeLightmapT1.r$}
+		\Else
+		\Return {$smokeLightmapT2.r$}
+		\EndIf
+	\end{algorithmic}
+\end{algorithm}
 
 \subsubsection{Raymarcher}
 
 Da Feuer und Rauch volumetrische Effekte ohne feste Oberfläche sind, lassen sich diese nicht wirklich durch Geometrie abbilden. Die Idee ist also ein
 Volumen zu erzeugen und Strahlen durch dieses Volumen zu schicken, welches in festen Abständen das Volumen abtastet, um daraus Informationen zu erhalten.
 Hierbei wird das Licht, welches ebenfalls in dieses transluzente Volumen eindringt und absorbiert oder gebrochen wird, an jedem Samplepunkt berechnet.
-Die Texturen werden daher wie in \textbf{\autoref{sec:4.1}} beschrieben durch generiertes Rauschen erzeugt.
-% Um die notwendige Rechenleistung zu reduzieren, wird auch das generierte Rauschen in Texturen gebacken.  
+% Die Texturen werden daher wie in \textbf{\autoref{sec:4.1}} beschrieben durch generiertes Rauschen erzeugt. 
 
-Der Algorithmus des Ray Marchers schickt Strahlen von der Kamera durch jeden Pixel. Wird ein Objekt getroffen, so wird mit einer festgelegten Schrittweite
-inkrementell das Volumen durchlaufen. Dabei werden an jedem Punkt die Werte für die Dichte aus den Textur Slices, die das Volumen darstellen, gelesen. Zudem
-wird das Licht, welches den jeweiligen Punkt im Volumen erreicht mit gespeichert. Dies gelingt durch einen Ray Cast von dem abgetasteten Punkt in Richtung der Lichtquelle.
+Für den Shader wird ein Custom Function-Node für das Marching erzeugt. Der Algorithmus läuft die in \textbf{\autoref{alg:rayM}} grob zusammengefassten
+Schritte für jeden Strahl durch.
+Es werden Strahlen, von der Oberfläche des Objekts in Richtung $\vec{v}$ $= P_{Obj} - P_{Cam} $ durch das Volumen geschickt.
+Dieses wird inkrementell durchlaufen. Dabei werden an jedem Punkt die Werte für die Dichte aus den Texture Slices, die das Volumen darstellen, gelesen. Zudem
+wird das Licht, welches den jeweiligen Punkt im Volumen erreicht, mit berechnet. Dies gelingt durch einen Ray Cast von
+dem jeweils abgetasteten Punkt in Richtung der Lichtquelle. Die Schritte von zuvor werden also für jeden dieser Punkte wiederholt.
+Basierend auf dem lambert-beerschen gesetzt (\autoref{eqn:beer}) wird berechnet, wie viel Licht in jedem Punkt ankommt.
 
-Für den Shader wird ein Custom Function-Node für das Marching erzeugt. Der Algorithmus läuft die in \textbf{\autoref{alg:rayM}} grob zusammengefassten Schritte für jeden Strahl durch.
 
 
 \begin{algorithm}
 	\caption{Volume Ray Marching Algorithmus.}\label{alg:rayM}
-	\begin{algorithmic}
-
+	\begin{algorithmic}[1]
 		\For {every sample point $P_i$ along viewing ray $\vec{v}$}
-		\State $density$ += sampledTextureDensity
+		\State sample density from texture
 		\State Cast ray $\vec{l}$ from sample point to light position
 		\For {every sample point $L_j$ on $\vec{l}$}
-		\State $lighting$ += sampledLightDensity
+		\State float $sampleTransparency$ *=
+		\State float $lighting$ += sampledDensity
 		\EndFor
 		\EndFor
-		\State color = (density, lighting, 0)
+		\State out = (density, lighting, 0)
 	\end{algorithmic}
 \end{algorithm}
+
+Dieser Shader kann nun auf eine beliebige Geometrie angewendet werden. Der Einfachheit halber wird ein Würfel als Volumecontainer verwendet.
 
 \subsection{Partikelsystem}
 Um die Partikelsysteme umzusetzen, wird der relativ junge, von Unity entwickelte Editor 'Visual Effects Graph'
@@ -257,7 +250,4 @@ VFX-Graph hat jedoch nur sehr begrenzte Möglichkeiten, was Physiksimulationen u
 Es muss also ein System erstellt werden, welches trotz der Einschränkungen ein möglichst realistisches
 Verhalten der Feuer- und Rauchpartikel gewährleistet.
 
-
-
-
-\newpage
+<<Hier noch die Parameter beschreiben, mit denen die Simulation gesteuert werden kann.>>

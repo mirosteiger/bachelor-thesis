@@ -15,6 +15,10 @@
 \usepackage{makecell}
 \usepackage[Algorithmus]{algorithm} 
 \usepackage{algpseudocode} 
+\newcommand{\vars}{\texttt}
+\newcommand{\func}{\textrm}
+\let\oldReturn\Return
+\renewcommand{\Return}{\State\oldReturn}
 \newcommand{\algorithmautorefname}{Algorithmus}
 \usepackage[a4paper]{geometry}
 \geometry{left=2.62cm,right=3.28cm,top=2cm,bottom=2.4cm}%Seitenränder
@@ -94,6 +98,7 @@ citecolor = black]{hyperref}
 \makeatother
 \renewcommand*{\nameyeardelim}{\addcomma\space}
 \addbibresource{chapters/literature/refs.bib}
+\addbibresource{chapters/literature/imagerefs.bib}
 
 
 \begin{document}
