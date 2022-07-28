@@ -26,10 +26,10 @@ Rechenaufwand in der Echtzeitanwendung zu erzeugen und diese dabei noch realisti
 Ein weiterer Vorteil, der sich aus der Natur des schwarzen Rauches bei Bränden ergibt, ist die Tatsache, dass die genaue Berechnung
 von Selbstschattierungen hierbei nicht so essentiell ist wie bei weißem Rauch.
 Dies ist zwar nicht direkt ein Vorteil von POM, gleicht aber einen Nachteil aus, den es in der Anwendung in einem Partikelsystem gibt.
-Die Texturen auf den Billboards sind in der Lage, sich individuell selbst zu schattieren, gegenseitig ist dies jedoch nicht möglich \autoref{fig:pomShadows}. 
+Die Texturen auf den Billboards sind in der Lage, sich individuell selbst zu schattieren, gegenseitig ist dies jedoch nicht möglich (\textbf{\autoref{fig:pomShadows}}). 
 In Bezug auf den Schatten generell gibt es das Problem, dass Billboard-basierte Partikelsysteme eigentlich nur flache Sprites sind und deshalb nicht in der 
 Lage sind, realistische Schatten auf die Umgebung werfen zu können. In Hinblick auf die Beleuchtung ist es mit POM auch möglich, eine geringe Anzahl dynamischer 
-Lichtquellen einzubeziehen (\autoref{fig:dynamicLightingSmoke}).
+Lichtquellen einzubeziehen (\textbf{\autoref{fig:dynamicLightingSmoke}}).
 
 \begin{figure}[h!]
 	\centering
@@ -59,7 +59,7 @@ Lichtquellen einzubeziehen (\autoref{fig:dynamicLightingSmoke}).
 Ein weiterer Vorteil, der sich aus dieser Methode ergibt, sind die Texture Sheets. In eine einzige Textur lassen sich 4 verschiedene Informationen in die
 RGBA-Kanäle speichern. Neben den verschiedenen Lightmaps aus 6 Richtungen können beispielsweise noch ein Color-Key oder Emission- und Heatmaps gespeichert werden.
 Mit weiteren Infos wie einer Heatmap lässt sich ein Übergang, bzw. eine Mischung von Feuer und Rauch erzeugen. Dies ist ein Phänomen, welches sich bei größeren Bränden
-oder Explosionen beobachten lässt (\autoref{fig:explosion}).
+oder Explosionen beobachten lässt (\textbf{\autoref{fig:explosion}}).
 Die Anzahl der Lightmaps lässt sich auch reduzieren, indem die Lichtrichtungen von vorne und von hinten im Shader approximiert werden können.
 Es gibt viele Möglichkeiten, die Flexibilität von Texturen ausnutzen zu können und dabei die Menge an benötigten Daten und Berechnungen gering zu halten,
 sodass der flüssige Einsatz in VR gegeben bleibt. Weiterhin lassen sich auf Kosten weiterer Texture Sheets
@@ -73,7 +73,7 @@ verpixelt aus, je näher diese betrachtet werden. Dies ist ein großer Nachteil 
 Fall von 256x256 Pixeln auf 512x512 Pixel, so erhöht sich die Auflösung der gesamten Textur um den Faktor vier für jeden der RGBA-Kanäle. Selbst dann sind
 die einzelnen Frames noch relativ gering aufgelöst und nicht für die Betrachtung aus der Nähe gedacht. Je detaillierter die Simulation auf denen die Texture Sheets basieren,
 desto höher sollte die Auflösung sein um auch alle diese Details abbilden zu können.
-Die visuellen Artefakte, wie beispielsweise das Einschneiden der benachbarten Frames aus dem Texture Sheet aus einem flachen Betrachtungswinkel (\autoref{fig:smokeBleeding}),
+Die visuellen Artefakte, wie beispielsweise das Einschneiden der benachbarten Frames aus dem Texture Sheet aus einem flachen Betrachtungswinkel (\textbf{\autoref{fig:smokeBleeding}}),
 schränken die Einsatzmöglichkeiten für die Anwendung in VR stark ein.
 Bei der Darstellung des Feuers kommt der Faktor hinzu, dass Billboards nicht als Lichtquelle fungieren, was dem Realismus der Simulation schadet.
 
@@ -107,6 +107,11 @@ CONTRA\newline
 
 \subsection{Ray Marching}
 \label{sec:5.2}
+
+Aufgrund der massiven Einschränkungen in der Qualität des Exports aus Houdini wurde, für die bessere Betrachtung in VR, ein Set Volume Slices aus dem Github-Repository von Dylan Meville, 
+verwendet\footnote{\url{https://github.com/DMeville/DMVolumeRendering/blob/main/DMVolumeRendering/Assets/VolumeRubberCube.exr}, abgerufen am 28.07.2022}.
+
+
 
 PRO: \newline
 - Sehr günstige AO aufgrund der bereits berechneten Distanz\newline

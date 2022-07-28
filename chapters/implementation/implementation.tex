@@ -58,7 +58,7 @@ per Shader prozedural erzeugt.
 Die Texturen werden auf zwei verschiedene Arten erstellt. Für die Variante mit Parallax Occlusion Mapping werden drei verschiedene
 Texturen, in der von JangaFX entwickelten 3D-VFX-Grafiksoftware EmberGen\footnote{\url{https://jangafx.com/software/embergen/}}, erstellt.
 Embergen wurde speziell für Feuer und Rauchsimulationen entwickelt und bietet die Möglichkeit, relativ einfach und schnell, physikalisch basierte und visuell
-überzeugende Rauch- und Feuersimulationen zu erstellen (\autoref{fig:embergen}) .
+überzeugende Rauch- und Feuersimulationen zu erstellen (\textbf{\autoref{fig:embergen}}) .
 Die Simulationen basieren auf Fluidsimulationen, wodurch ein realistisches Verhalten erzeugt, und durch eine Vielzahl an Parametern beeinflusst werden kann.
 
 Damit der Rauch als Partikel verwendet werden kann, sollte dieser nicht wie eine komplette Rauchfahne, sonder idealerweise wie ein einzelner Rauchball geformt sein.
@@ -132,8 +132,7 @@ Dazu wird eine weitere Textur mit den gleichen Schritten wie zuvor erzeugt. In d
 Farbkanal die Alpha-Information gespeichert werden.
 
 
-
-\begin{figure}[h!]
+\begin{figure}[hb]
 	\centering
 	\includegraphics[width=0.49\textwidth]{Grafiken/Implementation/Lightmaps/smokeSim_T1.png}
 	\includegraphics[width=0.49\textwidth]{Grafiken/Implementation/Lightmaps/smokeSim_T2.png}
@@ -144,11 +143,20 @@ Farbkanal die Alpha-Information gespeichert werden.
 \end{figure}
 
 
+Für den Ray Marcher wird eine Volumentextur mit Dichtewerten benötigt. Da schrittweise durch das Volumen gelaufen, und dabei überprüft wird, wie viel Licht
+durch dieses Volumen wandert, wird hier keine Lichtinformation in der Textur notwendig. Diese wird in Echtzeit von dem Algorithmus berechnet.
+Für die Volumentextur kann aus EmberGen, auf Basis derselben Simulation, eine VDB-Datei exportiert werden.
+Diese Datei enthält die Volumendaten. Diese kann in der Software Houdini von SideFX importiert werden. Von dort aus lässt sich ein einzelner Frame als Texture Sheet exportieren,
+wobei jeder Frame hierbei einen sogennanten Slice des Volumens darstellt. Durch diese Darstellung kann die Information in Unity als 3D-Textur verwendet werden.
+Hierbei wird nicht, wie bei der Animation für Parallax Occlusion Mapping, die Zeit als dritte Dimension angesehen, sondern eine weitere räumliche Achse.
+Die einzelnen Frames werden übereinander gelegt. Somit bildet diese Textur die Basis für eine statische Rauchwolke, welche durch Ray Marching dargestellt werden kann.
 
 
 
-\subsubsection{Procedural 3D Noise}
-TODO
+
+
+% \subsubsection{Volume Textures}
+% TODO
 
 
 % RAYM: \newline
@@ -165,7 +173,7 @@ TODO
 Für das Rendering der Partikel werden zwei Shader entwickelt. Diese basieren auf Parallax Occlusion Mapping und auf einem Raymarchingalgorithmus
 durch eine Volumentextur. Für POM wird Unitys Shader Graph verwendet. Shader Graph ist, genau wie Unitys VFX Graph, ein Node-Editor um
 schnell und übersichtlich Shader zu entwickeln. Dies macht vorallem das Debugging einfacher und erlaubt das schnelle Prototyping von Ideen,
-da einiges an Boilerplate-Code erspart wird. Zusätzlich besteht die Möglichkeit auch eigene Funktionen in Nodes
+da einiges an Boilerplate-Code erspart wird. Zusätzlich besteht die Möglichkeit auch eigene Funktionen oder HLSL-Files in Nodes
 zu verpacken und somit auf visuelle Art und Weise zu entwickeln.
 
 
@@ -180,7 +188,7 @@ Somit lässt sich auch die Framerate anpassen, mit der die Animation abgespielt 
 Diese UV-Koordinaten werden nun in einen Parallax Occlusion Mapping-Node weitergegeben, hier wird ebenfalls der Node von
 Unity\footnote{\url{https://docs.unity3d.com/Packages/com.unity.shadergraph@12.0/manual/Parallax-Occlusion-Mapping-Node.html}}
 benutzt. Dieser berechnet, basierend auf den übergebenen UV-Koordinaten des Flipbook-Players, sowie einer Heightmap und dem Blickwinkel, die anzuzeigenden Texturkoordinaten.
-Der Algorithmus mit dem sich das Parallax Offset berechnen lässt wurde in \autoref{sec:3.3.4}
+Der Algorithmus mit dem sich das Parallax Offset berechnen lässt wurde in \textbf{\autoref{sec:3.3.4}} erläutert.
 Es lassen sich außerdem die Anzahl der Schritte mit denen die Heightmap abgetastet werden soll, sowie die Amplitude des Offsets festlegen.
 Für die Implementierung des Rauches wurde die Schrittanzahl auf 150 und die Amplitude auf 1 bis 3.5 gesetzt. Diese Werte haben sich durch Ausprobieren ergeben.
 Eine höhere Amplitude lässt Verzerrungsartefakte auftreten.
@@ -213,10 +221,39 @@ Volumen zu erzeugen und Strahlen durch dieses Volumen zu schicken, welches in fe
 Hierbei wird das Licht, welches ebenfalls in dieses transluzente Volumen eindringt und absorbiert oder gebrochen wird, an jedem Samplepunkt berechnet.
 Die Texturen werden daher wie in \textbf{\autoref{sec:4.1}} beschrieben durch generiertes Rauschen erzeugt.
 % Um die notwendige Rechenleistung zu reduzieren, wird auch das generierte Rauschen in Texturen gebacken.  
-Da Unitys Universal Rendering Pipeline standardmäßig auf Forward-Rendering basiert und damit kein Ray Marching unterstützt, muss diese Option in den Rendering Pipeline Settings
-auf Deferred Rendering umgestellt werden\footnote{\url{https://docs.unity3d.com/Manual/RenderingPaths.html}}.
+
+Der Algorithmus des Ray Marchers schickt Strahlen von der Kamera durch jeden Pixel. Wird ein Objekt getroffen, so wird mit einer festgelegten Schrittweite
+inkrementell das Volumen durchlaufen. Dabei werden an jedem Punkt die Werte für die Dichte aus den Textur Slices, die das Volumen darstellen, gelesen. Zudem
+wird das Licht, welches den jeweiligen Punkt im Volumen erreicht mit gespeichert. Dies gelingt durch einen Ray Cast von dem abgetasteten Punkt in Richtung der Lichtquelle.
+
+Für den Shader wird ein Custom Function-Node für das Marching erzeugt. Der Algorithmus läuft die in \textbf{\autoref{alg:rayM}} grob zusammengefassten Schritte für jeden Strahl durch:
 
 
+\begin{algorithm}
+	\caption{Volume Ray Marching Algorithmus.}\label{alg:rayM}
+	\begin{algorithmic}
+
+		\For {every sample point $P_i$ along viewing ray $\vec{v}$}
+		\State $density$ += sampledTextureDensity
+		\State Cast ray $\vec{l}$ from sample point to light position
+		\For {every sample point $L_j$ on $\vec{l}$}
+		\State $lighting$ += sampledLightDensity
+		\EndFor
+		\EndFor
+		\State color = (density, lighting, 0)
+	\end{algorithmic}
+\end{algorithm}
+
+Ray Marching Algorithmus:  → Nur Notizen für mich :)  \\
+- Ray Cast in Volumen.\\
+- An jedem Sample: \\ \textit{
+	- Dichte auslesen\\
+	- Ray Cast zur Lichtquelle\\
+	- Daraus berechnen wie viel Licht ankommt\\
+	- mit der Dichte verrechnen\\
+	- Nächster Schritt\\
+}
+- Alle Werte auf einem Strahl zusammen rechnen\\
 
 \subsection{Partikelsystem}
 Um die Partikelsysteme umzusetzen, wird der relativ junge, von Unity entwickelte Editor 'Visual Effects Graph'

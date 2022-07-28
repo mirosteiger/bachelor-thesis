@@ -3,7 +3,7 @@
 Texture Mapping bezeichnet ein Verfahren, welches zweidimensionale Texturen auf ein dreidimensionales Objekt
 abbildet. Um die flachen Texturen auf die Oberfläche des Meshs abbilden zu können, muss das Objekt 'UV-unwrapped' werden.
 Durch diesen Vorgang wird jedem Punkt auf der Oberfläche des Meshs ein Punkt auf der Textur zugewiesen \parencite{Catmull1974} \parencite{Blinn1976}.
-Ein sehr einfaches Beispiel zur Veranschaulichung ist dabei das Würfelnetz (\autoref{fig:wuerfelnetz}).
+Ein sehr einfaches Beispiel zur Veranschaulichung ist dabei das Würfelnetz (\textbf{\autoref{fig:wuerfelnetz}}).
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.69\textwidth]{Grafiken/Basics/Mapping/Würfelnetz.png}
@@ -112,7 +112,7 @@ Der Strahl $\vec{v}$ wird nun weiter durch das – durch die Heightmap ausgedrü
 mit der Heightmap im Punkt $T_P$ schneidet, kann mit der Position die neue, zu rendernde Texturkoordinate ermittelt werden. 
 Je geringer die Schrittweite ist, desto genauer kann die Oberfläche gerendert werden.
 Ist die Schrittgröße zu groß, kann die Heightmap nicht detailliert genug abgetastet werden und es entstehen Aliaseffekte. Es zeichnet sich
-ein Treppeneffekt ab (\autoref{fig:alias}). Zusätzlich kann ein zu starkes Offset die Textur unnatürlich weit verzerren. 
+ein Treppeneffekt ab (\textbf{\autoref{fig:alias}}). Zusätzlich kann ein zu starkes Offset die Textur unnatürlich weit verzerren. 
 
 
 \begin{figure}[ht]
