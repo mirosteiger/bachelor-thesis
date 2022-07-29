@@ -27,12 +27,13 @@ reflektiert wird.
 
 \subsubsection{Ray Marching}
 
-Ray Marching ist eine dieser Möglichkeiten, ein Volumen darzustellen. Die Idee hierbei ist es – ähnlich wie beim Ray Tracing –
-Strahlen von der Kamera aus durch jeden Pixel des zu rendernden Bildes zu schicken und dabei in festgelegten Abständen zu prüfen,
-ob der Strahl auf etwas trifft.
+Ray Marching ist eine dieser Möglichkeiten, ein Volumen darzustellen. Mittels Ray Marching lassen sich Oberflächenverschiebungen (bspw. Parallax Occlusion Mapping),
+dreidimensionale Volumendaten und Texturen, oder prozedural generierte Formen realisieren. Die Idee hierbei ist es – ähnlich wie beim Ray Tracing –
+Strahlen von der Kamera aus schrittweise durch jeden Pixel des zu rendernden Bildes zu schicken und dabei in festgelegten Abständen zu prüfen,
+ob der Strahl auf irgendetwas trifft.
 Der Unterschied besteht hierbei jedoch darin, dass sich Ray Marching auf sogenannte '\textit{signed distance functions}' (SDF) bezieht.
 Mit SDFs lässt sich beschreiben, wie weit die nächstgelegene Oberfläche entfernt ist. Dazu wird die Entfernung zu jedem Objekt
-in der Szene berechnet und die kürzeste Distanz gewählt.
+in der Szene einzeln berechnet und die kürzeste Distanz gewählt.
 
 \begin{figure}[!h]
 	\centering
@@ -56,6 +57,7 @@ Eine Kugel lässt sich also beispielsweise durch
 
 \vspace{-0.3cm  }
 \begin{equation}
+	\label{eqn:sdf}
 	\vec{d} = length(center) - radius.
 \end{equation}
 
@@ -64,7 +66,7 @@ mit ihrer Position in Weltkoordinaten und einem Radius darstellen:
 
 
 Mithilfe dieser Funktionen lassen sich mehrere SDFs auf verschiedene Art und Weise kombinieren und deformieren, wodurch sich neue Formen
-erzeugen lassen (\textbf{\autoref{fig:sdfOperators}}).
+erzeugen lassen (vgl. \textbf{\autoref{fig:sdfOperators}}).
 Dabei gibt es verschiedene Möglichkeiten, wie z.B. die Vereinigung zweier Objekte, die Schnittmenge oder auch die Differenz.
 Mit dem Smooth Union-Operator lassen sich beispielsweise sogenannte Blobs oder Metaballs erzeugen, indem zwischen
 den Oberflächen interpoliert wird, sodass diese Geometrien den Anschein erwecken, miteinander zu verschmelzen.
@@ -101,7 +103,7 @@ den Oberflächen interpoliert wird, sodass diese Geometrien den Anschein erwecke
 Möchte man nun aber komplexere Volumen darstellen, so gelingt dies unter Einsatz einer Volumentextur. Der Ansatz bleibt dabei der Gleiche.
 Es wird ein Objekt benötigt, welches als Volumen Container fungiert. Dieses kann in Form von oben beschriebenen SDFs repräsentiert sein.
 Innerhalb dieser Geometrie kann nun alles mögliche dargestellt werden, da hierbei keine feste Oberfläche die Grundlage des
-Volumens darstellt. Es lässt sich mittels Code beispielsweise innerhalb eines Würfels eine Kugel darstellen (\textbf{\autoref{fig:sphereInsideCube}}).
+Volumens darstellt. Es lässt sich mittels Code beispielsweise innerhalb eines Würfels eine Kugel darstellen (vgl. \textbf{\autoref{fig:sphereInsideCube}}).
 
 \begin{figure}[!h]
 	\centering
@@ -114,7 +116,7 @@ Volumens darstellt. Es lässt sich mittels Code beispielsweise innerhalb eines W
 
 
 Wurde per Sphere Tracing eine Oberfläche ermittelt, so wird in festgelegten Schritten (sample rate) das Innere der Geometrie durchlaufen
-und an jedem Schritt ein Wert berechnet, der sich aus Farbe, Dichte und Tiefe im Volumen ergibt (\textbf{\autoref{fig:volumeRayMarching}}).
+und an jedem Schritt ein Wert berechnet, der sich aus Farbe, Dichte und Tiefe im Volumen ergibt (vgl. \textbf{\autoref{fig:volumeRayMarching}}).
 Mithilfe von \autoref{eqn:drebin} \parencite{Drebin1988} lässt sich durch das aus einem Voxel austretende Licht ein Farbwert bestimmen.
 Voxel sind das Äquivalent zu einem Pixel im dreidimensionalen Raum und werden durch ein 3D-Gitternetz repräsentiert.
 
@@ -127,7 +129,3 @@ Voxel sind das Äquivalent zu einem Pixel im dreidimensionalen Raum und werden d
 
 <<<<Formel stimmt nicht ganz, muss ich noch mal recherchieren>>>>
 
-\textit{
-	Ein Nebenprodukt, das sich durch Ray Marching ergibt, ist eine Variante des Ambient Occlusion \parencite{Evans2006}.
-}
-→ Näher beschreiben oder weglassen

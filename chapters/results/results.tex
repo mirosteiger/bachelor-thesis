@@ -5,15 +5,17 @@
 \label{sec:6.1}
 Das Ziel dieser Bachelorarbeit ist es, zwei vielversprechende Methoden für das Stereorendering von Feuer und Rauch testweise zu implementieren, 
 zu vergleichen und die Eignung für den möglichen Einsatz in VR-Systemen zu beurteilen. 
-Nach Evaluierung der Ergebnisse von Parallax Occlusion Mapping und Ray Marching stellt sich heraus, dass beide Algorithmen potentiell für das Rendering von Rauch geeignet sein könnte.
+Nach Evaluierung der Ergebnisse von Parallax Occlusion Mapping und Ray Marching stellt sich heraus, dass beide Algorithmen potentiell für das Rendering 
+von Rauch geeignet sein könnten.
 
-Die Darstellung der POM-basierten Billboards, so wie sie im Rahmen dieser Arbeit in Kombination mit den Texture Sheets für die Betrachtung in VR verwendet wurde, 
-bringt jedoch auch einige Probleme, wie die beschriebenen Artefakte und Verzerrungen mit sich. 
-
+Die Darstellung der POM-basierten Billboards, so wie sie im Rahmen dieser Arbeit in Kombination mit den Texture Sheets für die Betrachtung in VR 
+verwendet wurde, bringt jedoch auch einige Probleme, wie die beschriebenen Artefakte und Verzerrungen mit sich. 
 Parallax Occlusion Mapping hat den großen Vorteil, dass die Offsets und Verdeckungen basierend auf dem Blickwinkel berechnet werden. 
-Dies ist eine Stärke, die für den Einsatz in Virtual Reality mit HMDs spricht. Jedoch ist aus den Erkenntnissen dieser Arbeit der Volume Rendering-Ansatz vorzuziehen. 
-Durch das Rendering eines tatsächlichen Volumens sieht der Rauch in Virtueller Realität realistischer aus, als durch eine Illusion auf einem zweidimensionalen Sprite. 
-
+Dies ist eine Stärke, die für den Einsatz in Virtual Reality mit HMDs spricht. Jedoch ist aus den Erkenntnissen dieser Arbeit der Volume 
+Rendering-Ansatz vorzuziehen. Durch das Rendering eines tatsächlichen Volumens sieht der Rauch in virtueller Realität realistischer aus, 
+als durch eine Illusion auf einem zweidimensionalen Sprite. Es gibt viele kleine Tricks, um den Ray Marching-Algorithmus zu optimieren und die Anzahl der 
+Samples zu reduzieren, die im Rahmen dieser Arbeit jedoch nicht alle implementiert wurden. 
+Die vielen Vorteile des Volume Ray Marching machen dieses jedoch zu einer vielversprechenden Methode.
 
 \subsection{Limitationen}
 \label{sec:6.2}
@@ -37,10 +39,15 @@ Partikelsystems erhöhen könnten.
 \label{sec:6.3}
 Diese Arbeit zeigt auf, dass die beiden Methoden für das Gebiet der Feuer und Rauchsimulation für virtuelle Umgebungen Potential haben, allerdings auch noch 
 weiterentwickelt werden müssen um einsatzfähig zu werden.   
-Die Simulation von Phänomenen wie Feuer und Rauch ist ein breit gefächertes Feld. Es gibt unzählige Optimierungsmöglichkeiten, was es schwerer macht, einen Fokus auf
-bestimmte Dinge zu setzen. Viele Themen die ein Feuer realistischer machen, wie beispielsweise die korrekte Beleuchtung der Umgebung oder das korrekte Verhalten 
-der Partikelsysteme konnten in dieser Arbeit aufgrund der Zeit und ihrer Komplexität nicht angegangen werden und könnten für weitere Forschungsansätze interessant sein. 
-Zudem könnte mehr Variation und damit Realismus durch verschiedene Animationen erzeugt werden. Gerade im Bereich der prozeduralen Texturgenerierung könnte es interessant
-sein eine Art 4D-Textur zu entwickeln.
+Die Simulation von Phänomenen wie Feuer und Rauch ist ein breit gefächertes und komplexes Feld. 
+Es gibt unzählige Optimierungsmöglichkeiten, was es schwerer macht, einen Fokus auf
+bestimmte Dinge zu setzen. Viele Themen die ein Feuer realistischer machen, wie beispielsweise die korrekte Beleuchtung der Umgebung oder das 
+korrekte Verhalten der Partikelsysteme konnten in dieser Arbeit aufgrund der Zeit und ihrer Komplexität nicht angegangen werden und könnten für 
+weitere Forschungsansätze interessant sein. Zudem könnte mehr Variation und damit Realismus durch verschiedene Animationen erzeugt werden. 
+Gerade im Bereich der prozeduralen Texturgenerierung könnte es interessant sein eine Art 4D-Textur zu entwickeln, die eine Animation im dreidimensionalen
+Raum ermöglicht. 
+Die Möglichkeiten des Ray Marchings sind nur durch Rechenleistung begrenzt. Mit immer besser werdender Hardware werden auch die 
+Einsatzmöglichkeiten des Ray Marchings immer mehr.
+
 
 \newpage

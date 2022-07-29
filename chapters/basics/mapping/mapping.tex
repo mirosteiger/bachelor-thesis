@@ -101,7 +101,7 @@ Selbstschattierung oder -verdeckung vorzutäuschen.
 \subsubsection{Parallax Occlusion Mapping}
 \label{sec:3.3.4}
 
-\begin{figure}!h]
+\begin{figure}
 	\centering
 	\includegraphics[width=0.89\textwidth]{Grafiken/Basics/Mapping/Infografik_POM.png}
 	\begin{footnotesize}
@@ -111,7 +111,8 @@ Selbstschattierung oder -verdeckung vorzutäuschen.
 \end{figure}
 
 
-Parallax Occlusion Mapping (POM) ist eine komplexere, verbesserte Variante des Parallax Mapping, basierend auf einem Per-Pixel Ray Tracing.
+Parallax Occlusion Mapping (POM) ist eine komplexere, verbesserte Variante des Parallax Mapping, basierend auf einem Per-Pixel Ray Marching um die 
+Darstellung der Oberfläche zu modifizieren.
 Das Ziel ist auch hier wieder das Vorherige: Detaillierte Oberflächen ohne den Preis von teuren Vertexverschiebungen.
 Diese Details lassen sich abhängig vom Blickwinkel aus jeder Perspektive korrekt darstellen.
 Durch Einsatz von dynamischer Beleuchtung und Selbstokklusion kann außerdem eine korrekte Selbstschattierung simuliert werden \parencite{Brawley2004, Tatarchuk2006}.
@@ -121,10 +122,12 @@ Hierbei wird für die Oberfläche der Wert 1.0, und damit der höchste Punkt, an
 Zunächst wird für jeden zu rendernden Pixel mittels Ray Castings vom Betrachter zur Geometrie-Oberfläche ein Schnittpunkt  $T_0$ ausfindig gemacht 
 (vgl. \textbf{\autoref{fig:pom}}).
 Der Strahl $\vec{v}$ wird nun weiter durch das – durch die Heightmap ausgedrückte – Volumen verfolgt und Schrittweise abgetastet. Wenn sich der Strahl 
-mit der Heightmap im Punkt $T_P$ schneidet, kann mit der Position die neue, zu rendernde Texturkoordinate ermittelt werden. 
-Je geringer die Schrittweite ist, desto genauer kann die Oberfläche gerendert werden.
-Ist die Schrittgröße zu groß, kann die Heightmap nicht detailliert genug abgetastet werden und es entstehen Aliaseffekte. Es zeichnet sich
-ein Treppeneffekt ab (vgl. \textbf{\autoref{fig:alias}}). Zusätzlich kann ein zu starkes Offset die Textur unnatürlich weit verzerren. 
+mit der Heightmap im Punkt $T_P$ schneidet, kann mit der Position die neue, zu rendernde Texturkoordinate ermittelt werden. Liegt der Punkt $T_P$ zwischen 
+zwei Samplepunkten kann der tatsächliche Wert approximiert werden. Dies kann jedoch zu ungewünschten Artefakten führen.
+Ist die Schritweite also zu groß, kann die Heightmap nicht detailliert genug abgetastet werden und es entstehen Aliaseffekte. Es zeichnet sich
+ein Treppeneffekt ab (vgl. \textbf{\autoref{fig:alias}}). Generell gilt: Je geringer die Schrittweite ist, bzw. je höher die Abtastrate ist, 
+desto genauer kann die Oberfläche gerendert werden. Jedoch erhöht sich mit einer erhöhten Sampleanzahl auch der Aufwand für die Berechnungen.
+Zusätzlich kann ein zu starkes Offset die Textur unnatürlich weit verzerren. 
 
 
 \begin{figure}[!ht]
@@ -140,9 +143,9 @@ ein Treppeneffekt ab (vgl. \textbf{\autoref{fig:alias}}). Zusätzlich kann ein z
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[width=1\textwidth]{Grafiken/Basics/Mapping/aliasing.png}
+	\includegraphics[width=0.98\textwidth]{Grafiken/Basics/Mapping/aliasing.png}
 	\begin{footnotesize}
-		\caption{Aliasingeffekt bei zu geringer Sampleanzahl mit 4 Schritten.}
+		\caption{Aliasingeffekt bei hohem Offset und zu geringer Sampleanzahl mit 4 Schritten.}
 		\label{fig:alias}
 	\end{footnotesize}
 \end{figure}

@@ -1,14 +1,15 @@
+\newpage
 \section{Evaluierung }
 \label{sec:5}
 \markboth{Evaluierung}{Evaluierung}
 
 Beide Methoden haben ihre Vor- und Nachteile. Die realistische Darstellung von voluminösen Materialien verlangt
-eine besondere Herangehensweise, welche sich – im Gegensatz zu undurchsichtigen, festen Oberflächen –
-nicht überzeugend mit herkömmlichen Texture-Mapping Methoden umsetzen lässt.
+eine besondere Herangehensweise. Die Darstellung der Volumen lässt sich – im Gegensatz zu undurchsichtigen, festen Oberflächen – 
+mit herkömmlichen Texture-Mapping-Methoden in einer VR-Umgebung nicht überzeugend darstellen.
 Die Implementierung der Systeme ist aufgrund der begrenzten Zeit im Rahmen dieser Arbeit nur prototypisch mithilfe der
 zur Verfügung stehenden Funktionen aus Unity implementiert und daher nicht bestmöglich optimiert.
 Einige Vor- und Nachteile, sowie das Potential für den Nutzen der jeweiligen Methoden, lassen sich dennoch aus dem Entwurf
-ableiten und werden in den folgenden Abschnitten beschrieben.
+ableiten und werden in den weiteren Abschnitten beschrieben.
 
 
 \subsection{Parallax Occlusion Mapping}
@@ -25,7 +26,9 @@ ableiten und werden in den folgenden Abschnitten beschrieben.
 
 POM ist eine komplexere Variante des Normalmappings. Dementsprechend ist auch diese Technik eher für feste Oberflächen und weniger
 für den Einsatz bei der Simulation von Volumen gedacht. Um aber die Effizienz der Billboard-basierten Partikelsysteme
-nutzen zu können ist das Parallax Occlusion Mapping eine interessante Möglichkeit, die es wert ist, getestet zu werden. Vorallem für die Anwendung bei dichtem, schwarzen Rauch.
+nutzen zu können ist das Parallax Occlusion Mapping aber eine interessante Möglichkeit, die es wert ist, getestet zu werden. 
+Vorallem für die Anwendung bei dichtem, schwarzen Rauch mit geringer Transparenz, bei dem die äußere Schicht bei Betrachtung aus weiterer 
+Entfernung beinahe wie eine solide Oberfläche erscheinen könnte. 
 
 In \textbf{\autoref{fig:pomVergleich}} ist ein Vergleich der Variante von POM mit einem einzelnen Sprite, sowie einer Animation, basierend auf einem Texture Sheet, zu sehen. 
 Auf der linken Seite befindet sich ein Frame der Simulation ohne Parallax Offsetting, lediglich mit einer Normal Map. Dieser Vergleich macht den Vorteil der 6-Punkt-Beleuchtung und 
@@ -46,7 +49,7 @@ Mappingverfahren hält sich der Rechenaufwand in Grenzen. Hier gibt es also kein
 Somit ist es möglich, realistisch aussehende Partikelsysteme unter geringem Rechenaufwand in der Echtzeitanwendung zu erzeugen. Ein weiterer Vorteil, der sich aus der Natur des schwarzen 
 Rauches bei Bränden ergibt, ist die Tatsache, dass die genaue Berechnung von Selbstschattierungen hierbei nicht so essentiell ist wie bei weißem Rauch. Dies ist zwar nicht direkt ein Vorteil von POM, 
 gleicht aber einen Nachteil aus, den es in der Anwendung in einem Partikelsystem gibt: Die Texturen auf den Billboards sind in der Lage, sich individuell selbst zu schattieren. 
-Eine gegenseitige Schattierung ist jedoch ohne weiteres nicht möglich (\textbf{\autoref{fig:pomShadows}}). 
+Eine gegenseitige Schattierung ist jedoch ohne weiteres nicht möglich (vgl. \textbf{\autoref{fig:pomShadows}}). 
 In Bezug auf Schattierung im Allgemeinen gibt es das Problem, dass Billboard-basierte Partikelsysteme eigentlich nur flache Sprites sind und deshalb nicht in der 
 Lage sind, realistische Schatten auf die Umgebung werfen zu können. Weiterhin werden Transparenzen 
 
@@ -72,15 +75,15 @@ Lage sind, realistische Schatten auf die Umgebung werfen zu können. Weiterhin w
 
 
 Ein weiterer Vorteil, der sich aus dieser Methode ergibt, sind die Texture Sheets. In eine einzige Textur lassen sich 4 verschiedene Informationen in die
-RGBA-Kanäle speichern. Neben den verschiedenen Lightmaps aus 6 Richtungen können beispielsweise noch ein Color-Key oder Emission- und Heatmaps gespeichert werden.
+RGBA-Kanäle speichern. Neben den verschiedenen Lightmaps aus 6 Richtungen können beispielsweise noch Farbinformationen oder Emission- und Heatmaps gespeichert werden.
 Mit weiteren Infos wie einer Heatmap lässt sich ein Übergang, bzw. eine Mischung von Feuer und Rauch erzeugen. Dies ist ein Phänomen, welches sich bei größeren Bränden
-oder Explosionen beobachten lässt (\textbf{\autoref{fig:explosion}}).
+oder Explosionen beobachten lässt (vgl. \textbf{\autoref{fig:explosion}}).
 Die Anzahl der Lightmaps lässt sich auch reduzieren, indem die Lichtrichtungen von vorne und von hinten im Shader approximiert werden.
 Es gibt viele Möglichkeiten, die Flexibilität von Texturen ausnutzen zu können und dabei die Menge an benötigten Daten und Berechnungen gering zu halten,
 sodass der flüssige Einsatz in VR gegeben bleibt. Weiterhin lassen sich auf Kosten weiterer Texture Sheets
 verschiedene Simulationen erstellen, sodass größere Varianz in das Aussehen des Partikelsystems eingebracht werden kann.
-Durch die unendliche Wiederholbarkeit kann die Animation ab einem zufällig gewählten Frame starten, wodurch schon mit einer einzigen Animation
-kaum auffällt, dass das ganze System auf dieser einen Animation basiert.
+Durch die unendliche Wiederholbarkeit kann die Animation ab einem zufällig gewählten Frame starten, wodurch schon mit einer einzigen Animation mit genug Frames
+kaum auffällt, dass das ganze System auf lediglich einer einzigen Sequenz aufbaut.
 
 
 Neben den ganzen Vorteilen, die diese Variante mit sich bringt gibt es auch negative Punkte. Bei zu geringer Auflösung sehen die Renderings schnell
@@ -88,7 +91,7 @@ verpixelt aus, je näher diese betrachtet werden. Dies ist ein großer Nachteil 
 Fall von 256x256 Pixel auf 512x512 Pixel, so erhöht sich die Auflösung der gesamten Textur um den Faktor vier für jeden der RGBA-Kanäle. Selbst dann sind
 die einzelnen Frames noch relativ gering aufgelöst und nicht für die Betrachtung aus der Nähe gedacht. Je detaillierter die Simulation auf denen die Texture Sheets basieren,
 desto höher sollte die Auflösung sein um auch alle diese Details abbilden zu können.
-Die visuellen Artefakte, wie beispielsweise das Einschneiden der benachbarten Frames aus dem Texture Sheet aus einem flachen Betrachtungswinkel (\textbf{\autoref{fig:smokeBleeding}}),
+Die visuellen Artefakte, wie beispielsweise das Einschneiden der benachbarten Frames aus dem Texture Sheet aus einem flachen Betrachtungswinkel (vgl. \textbf{\autoref{fig:smokeBleeding}}),
 schränken die Einsatzmöglichkeiten für die Anwendung in VR stark ein. Die Verzerrung am Rand, welche durch eine starke Kante in der Heightmap hervorgerufen wird, macht das
 Parallax Occlusion Mapping ebenfalls, für die Darstellung von voluminösen Medien, ungeeignet. 
 Bei der Darstellung des Feuers kommt der Faktor hinzu, dass Billboards nicht als Lichtquelle fungieren, was dem Realismus der Simulation schadet.
@@ -98,16 +101,6 @@ implementiert ist, nicht immer eignet. Die visuellen Artefakte erzeugen Störung
 wodurch dieser Ansatz vielversprechend bleibt. Es ist wahrscheinlich, dass es für die genannten Probleme elegante Lösungen gibt, die in Zukunft an anderer Stelle 
 betrachtet werden könnten.
 
-
-
-CONTRA\newline
-- Transparenz ist irgendwie weird\newline
-- Geringe Auflösung der einzelnen Frames, doppelte Auflösung = 4fache Texturgröße \newline
-% - Basiert immernoch auf Billboards\newline
-%  -> Trotz simulierter Tiefe ein flacher Eindruck in VR\newline
-- Funktioniert nicht gut bei mehreren Lichtquellen\newline
-- Schattenwurf auf Umgebung funktioniert nicht\newline
-- Beleuchtung der  Umgebung auch nicht möglich\newline
 
 \begin{figure}[h!]
 	\includegraphics[width=0.89\textwidth]{Grafiken/Evaluation/Smoke_artefacts.png}
@@ -124,20 +117,37 @@ CONTRA\newline
 \subsection{Ray Marching}
 \label{sec:5.2}
 
-Aufgrund der massiven Einschränkungen in der Qualität des Exports aus Houdini wurde, für die bessere Betrachtung in VR, ein Set Volume Slices aus dem 
+Aufgrund der massiven Einschränkungen in der Qualität des Exports aus Houdini wurde (für die bessere Betrachtung in VR) ein Set Volume Slices aus dem 
 Github-Repository von Dylan Meville verwendet\footnote{\url{https://github.com/DMeville/DMVolumeRendering/blob/main/DMVolumeRendering/Assets/VolumeRubberCube.exr}, abgerufen am 28.07.2022}.
+Der Ansatz des Volume Renderings auf Basis von Ray Marching eignet sich besonders gut für die Darstellung von Effekten wie Feuer und Rauch. 
+Die Tatsache, dass das Volumen nicht nur vorgetäuscht, sondern tatsächlich dargestellt werden kann, macht das Rendering sehr realistisch. 
+Die Volumen werden durchlaufen und dabei wird schrittweise die Farbe, die Dichte, sowie die Lichtintensität berechnet. 
+Daraus ergibt sich ein qualitativ hochwertiges Shading der Rauchwolken. Gerade für die Betrachtung in VR ist dieser Ansatz besonders vielversprechend. 
+Die Volumen sehen, aus allen Richtungen betrachtet, realistisch aus und können auf dynamische Beleuchtung reagieren. 
+Zudem können Volumen das durchlaufende Licht nicht nur absorbieren und reflektieren, sondern auch selbst emittieren. Durch diese Eigenschaft kann das
+emittierte Licht die Umgebnung nicht nur schattieren, sondern auch beleuchten. 
 
+Verfolgt man die Lichtstrahlen durch die Volumen weiter, so können mit geringem Mehraufwand auch realistische Schattierungen der Umgebung berechnet werden. 
+Wurde ein Volumen, bzw. eine Szene, mittels Ray Marching abgelaufen, so können unter geringem rechnerischem Mehraufwan weitere Effekte, wie 
+Ambient Occlusion oder Reflektionen berechnet werden. All dies sind Faktoren, die zu einem realistischeren Rendering beitragen.
 
+Ebenso wie Parallax Occlusion Mapping, werden die Berechnungen hier für jeden Pixel vorgenommen.
+Das heißt, dass aufgrund der Natur des Ray Marching Algorithmus, ohne Probleme für jedes Auge eine korrekte Darstellung geliefert werden kann. 
+Dabei muss jedoch gerade in VR-Umgebungen, die Performance beobachtet werden. 
+In der Testszene lief die Betrachtung des ray marched Rauches mit einer stabilen Frame Rate oberhalb der 90FPS-Grenze. 
+Somit eignet sich auch diese Methode für die Anwendung in VR. Mit steigender Komplexität der Berechnungen, beispielsweise durch die zusätzlichen Effekte
+oder komplexere Szenen, könnte die Performance jedoch darunter leiden. 
 
-PRO: \newline
-- Sehr günstige AO aufgrund der bereits berechneten Distanz\newline
-- Lichtstrahl in Volumen weiterverfolgen kann Schatten erzeugen\newline
--
+Ein Nachteil der vorgeschlagenen Implementierung des Volume Ray Marching liegt bei den notwendigen 3D-Texturen. 
+Die Texturen auf Basis der Fluidsimulationen sind statisch und lassen sich nicht realistisch animieren. Lediglich die Texturen, basierend auf dem
+generierten Rauschen können animiert werden, haben aber den Nachteil, dass diese weniger realistisch aussehen. Diese Texturen würde sich eher anbieten,
+um weit entfernte Wolken oder Nebel zu erzeugen. Der dichte, schwarze Rauch, der bei einem großen Feuer erzeugt wird, lässt sich nicht überzeugend 
+durch solche Texturen darstellen. 
 
-CONTRA: \newline
-- Aufwändigere Berechnung\newline
-- 3D-Datenset beinhaltet keine Animation der Textur\newline
-
+Letztendlich ist der Volume Ray Marching-Ansatz jedoch auch sehr vielversprechend und kann in einer Simulation in VR gut verwendet werden. 
+Die Methode bietet einige Möglichkeiten der Optimierung und erzeugt ein plausibles Bild für den Betrachter. 
+Für die Anwendung in einem Partikelsystem für Feuer und Rauch muss jedoch noch eine Möglichkeit gefunden werden den Rauch zu animieren oder 
+realitätsnah geformt werden zu können. 
 
 
 
