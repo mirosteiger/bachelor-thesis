@@ -35,7 +35,7 @@ Stattdessen wird in \textbf{\autoref{sec:4.2.1}} der Workflow beschrieben und au
 Für die Darstellung durch Ray Marching werden Volumendaten, bzw. 3D-Texturen benötigt. Diese werden aus derselben Simulation erzeugt, die auch für die Lightmaps verwendet wird.
 Alternativ können Volumendaten in Form von 3D-Rauschen auch mittels Code generiert werden.
 Es wird ein Volume Ray Marching Shader implementiert, der eine Geometrie schrittweise durchläuft und das Volumen dabei abtasten und darstellen kann.
-Es gibt zwei Möglichkeiten mit denen die Volumen animiert werden können. Einerseits lässt sich das Volumen im Inneren eines solchen Containers animieren.
+Es gibt zwei Möglichkeiten, mit denen die Volumen animiert werden können. Einerseits lässt sich das Volumen im Inneren eines solchen Containers animieren.
 Der Rauch kann bewegt, skaliert und rotiert werden. Andererseits können die Volumendaten statisch in Weltkoordinaten angeordnet sein und der Container
 animiert werden, sodass immer nur ein Ausschnitt des tatsächlichen Volumens zu sehen ist.
 
@@ -74,10 +74,10 @@ Die Simulationen basieren auf Fluidsimulationen, wodurch ein realistisches Verha
 
 Damit der Rauch als Partikel verwendet werden kann, sollte dieser nicht wie eine komplette Rauchfahne, sonder idealerweise wie ein einzelner Rauchball geformt sein.
 Bei der Verwendung in einem Partikelsystem können die Partikel dadurch an einem zufälligen Ort mit zufälliger Größe erzeugt und eingeblendet werden. Auf diese
-Art wird verhindert, dass der Rauch unnatürlich aussieht. Er bleibt vorallem flexibler was eine mögliche Interaktion des Nutzers mit dem Partikelsystem angeht.
-Um einen solchen Rauchball zu erzeugen spielen einige Parameter innerhalb der VFX-Software eine wichtige Rolle. Einer dieser Faktoren ist die Dissipation, also
+Art wird verhindert, dass der Rauch unnatürlich aussieht. Er bleibt vorallem flexibler, was eine mögliche Interaktion des Nutzers mit dem Partikelsystem angeht.
+Um einen solchen Rauchball zu erzeugen, spielen einige Parameter innerhalb der VFX-Software eine wichtige Rolle. Einer dieser Faktoren ist die Dissipation, also
 wie schnell sich der Rauch auflöst. Dieser Wert wurde so hoch wie möglich gestellt, damit der Rauch sich nicht über eine große Fläche zieht, sondern ein kleines Volumen
-bleibt. Neben Einstellungen für Force-Fields, um die Simulation etwas zufälliger zu gestalten und Parametern, die sich auf die Dichte, Geschwindigkeit und Druck des Rauchs
+bleibt. Neben Einstellungen für Force-Fields, um die Simulation etwas zufälliger zu gestalten, und Parametern, die sich auf die Dichte, Geschwindigkeit und Druck des Rauchs
 und des Feuers beziehen, gibt es eine Vielzahl an Einstellungen für die Domäne in der die Simulation stattfindet. Die Simulation wird auf Basis von Voxeln berechnet.
 Es lässt sich konfigurieren, wie groß das Voxelgitter in X, Y und Z-Richtung sein soll. Dazu kann festgelegt werden, wie groß jedes Voxel für die Berechnung sein soll.
 Die Simulation für diese Arbeit wurde in einem 256x256x256 Gitter bei einer Voxelgröße von 10cm durchgeführt. Dies entspricht einer Gesamtanzahl von fast 16.8 Millionen Voxeln
@@ -86,16 +86,16 @@ für die berechnete Simulation.
 
 Bei dieser Simulation wird nicht nur die Beleuchtung der Oberfläche aus verschiedenen Richtungen, sondern auch die Streuung, Reflexion und Absorption des Lichts innerhalb
 des Volumens berechnet und simuliert.
-Eine Möglichkeit die EmberGen bietet, ist das 6-Point Lighting.
+Eine Möglichkeit, die EmberGen bietet, ist das 6-Point Lighting.
 Mit dieser Option kann jedes einzelne Licht separat berechnet werden. Dazu werden Lichtquellen, wie in \textbf{\autoref{fig:lightSetup}} dargestellt, aus allen sechs Richtungen zum Rauch hin angeordnet,
 sodass jeweils eine Seite beleuchtet wird.
 Die Animation des Rauches wird daraufhin wie in \textbf{\autoref{fig:seamlessCut}} in eine sich selbst nahtlos wiederholende Animation
 geschnitten und als einzelne Frames gerendert. Dazu muss im ersten Schritt eine Animation mit der doppelten Anzahl an Frames erzeugt werden, damit diese in der Hälfte
-geschnitten werden kann. Nun werden die beiden Abschnitte übereinander gelegt, sodass sich die Schnittkante auf gegenüberliegenden Seiten befinden. Somit sind der erste
-und der letzte Frame nahezu identisch. Als letztes wird ein Crossfade über beide Abschnitte gelegt, wodurch die Clips jeweils an der Schnittkante voll eingeblendet
+geschnitten werden kann. Nun werden die beiden Abschnitte übereinander gelegt, sodass sich die Schnittkanten auf gegenüberliegenden Seiten befinden. Somit sind der erste
+und der letzte Frame nahezu identisch. Als Letztes wird ein Crossfade über beide Abschnitte gelegt, wodurch die Clips jeweils an der Schnittkante voll eingeblendet
 sind. Das Resultat ist, dass der Schnitt nicht mehr sichtbar ist und das Video sich unendlich wiederholen lässt. Die Vorteile einer sich endlos wiederholenden Animation werden in \textbf{\autoref{sec:5.1}}
 noch weiter erläutert.
-Um die verschiedenen Texturlayer in Unity verwenden zu können werden die Lichtrichtungen jedes einzelnen Frames in jeweils einen RGBA-Channel gepackt.
+Um die verschiedenen Texturlayers in Unity verwenden zu können, werden die Lichtrichtungen jedes einzelnen Frames in jeweils einen RGBA-Channel gepackt.
 So kann die Ansicht des Rauchs, in der beispielsweise nur die linke Seite beleuchtet wird, in den Roten Kanal einer Textur gespeichert werden.
 Dies passiert ebenfalls für die anderen Richtungen von links, unten und oben. Die Ergebnisse sind in \textbf{\autoref{fig:lightDirections}} zu sehen.
 
@@ -147,11 +147,9 @@ Farbkanal die Alpha-Information gespeichert werden.
 
 
 \subsubsection{Volume Textures}
-Für den Ray Marcher wird eine Volumentextur mit Dichtewerten benötigt. Da schrittweise durch das Volumen gelaufen, und dabei überprüft wird, wie viel Licht
+Für den Ray Marcher wird eine Volumentextur mit Dichtewerten benötigt. Da schrittweise durch das Volumen gelaufen und dabei überprüft wird, wie viel Licht
 durch dieses Volumen wandert, wird hier keine Lichtinformation in der Textur notwendig. Diese wird in Echtzeit von dem Algorithmus berechnet.
-Für die Volumentextur kann aus EmberGen, auf Basis derselben Simulation, eine VDB-Datei exportiert werden.
-
-Diese Datei enthält die Volumendaten. VDB-Dateien können in Unity nicht verwertet werden. Diese kann jedoch in die Software Houdini von SideFX importiert werden. 
+Für die Volumentextur kann aus EmberGen, auf Basis derselben Simulation, eine VDB-Datei exportiert werden. VDB-Dateien können in Unity nicht verwertet werden. Diese kann jedoch in die Software Houdini von SideFX importiert werden. 
 Von dort aus lässt sich ein einzelner Frame als Texture Sheet exportieren, wobei jeder Frame hierbei einen sogennanten Slice des Volumens darstellt.
 Durch diese Darstellung kann die Information in Unity als 3D-Textur verwendet werden.
 Hierbei wird nicht, wie bei der Animation für Parallax Occlusion Mapping, die Zeit als dritte Dimension angesehen, sondern eine weitere räumliche Achse.
@@ -161,9 +159,9 @@ Die einzelnen Frames werden übereinander gelegt. Somit bildet diese Textur die 
 
 \subsection{Shader}
 Für das Rendering der Partikel werden zwei Shader entwickelt. Diese basieren auf Parallax Occlusion Mapping und auf einem Ray Marching-Algorithmus
-durch eine Volumentextur. Für POM wird Unitys Shader Graph verwendet. Shader Graph ist, genau wie Unitys VFX Graph, ein Node-Editor um
+durch eine Volumentextur. Für POM wird Unitys Shader Graph verwendet. Shader Graph ist, genau wie Unitys VFX Graph, ein Node-Editor, um
 schnell und übersichtlich Shader zu entwickeln. Dies macht vorallem das Debugging einfacher und erlaubt das schnelle Prototyping von Ideen,
-da einiges an Boilerplate-Code erspart wird. Zusätzlich besteht die Möglichkeit auch eigene Funktionen oder HLSL-Dateien in Nodes
+da einiges an Boilerplate-Code erspart wird. Zusätzlich besteht die Möglichkeit, auch eigene Funktionen oder HLSL-Dateien in Nodes
 zu verpacken und somit auf visuelle Art und Weise zu entwickeln.
 
 
@@ -177,17 +175,17 @@ Somit lässt sich auch die Framerate anpassen, mit der die Animation abgespielt 
 
 Diese UV-Koordinaten werden nun in einen Parallax Occlusion Mapping-Node weitergegeben, hier wird ebenfalls der Node von
 Unity benutzt. Dieser berechnet, basierend auf den übergebenen UV-Koordinaten des Flipbook-Players, sowie einer Heightmap und dem Blickwinkel, die anzuzeigenden Texturkoordinaten.
-Der Algorithmus mit dem sich das Parallax Offset berechnen lässt wurde in \textbf{\autoref{sec:3.3.4}} erläutert.
-Es lassen sich außerdem die Anzahl der Schritte mit denen die Heightmap abgetastet werden soll, sowie die Amplitude des Offsets festlegen.
+Der Algorithmus, mit dem sich das Parallax Offset berechnen lässt, wurde in \textbf{\autoref{sec:3.3.4}} erläutert.
+Es lassen sich außerdem die Anzahl der Schritte mit denen die Heightmap abgetastet werden soll, sowie die Amplitude des Offsets, festlegen.
 Für die Implementierung des Rauches wurde die Schrittanzahl auf 150 und die Amplitude auf 1 bis 3.5 gesetzt. Diese Werte haben sich durch Ausprobieren ergeben.
 Eine höhere Amplitude lässt Verzerrungsartefakte auftreten.
 
 
 Da die Beleuchtung des Rauches zuvor in EmberGen durchsimuliert und abgespeichert wurde, muss im Shader nun eine Logik implementiert werden, welche jeweils die richtige Beleuchtung,
-abhängig von der Lichtrichtung, anzeigt. Die durch den Flipbook- und POM-Node modifizierten UV-Koordinaten werden nun auf das Texture-Sheet abgebildet und somit die Animation durchlaufen.
+abhängig von der Lichtrichtung, anzeigt. Die durch den Flipbook- und POM-Node modifizierten UV-Koordinaten werden nun auf das Texture-Sheet abgebildet, und somit die Animation durchlaufen.
 Mit der erstellten Animation kann dann unter Einbeziehung des Main Lights (in Unity definiert als die Sonne, also ein directional light) die Richtung, aus der
-das Licht kommt, bestimmt werden. Directional Lights haben keine Position, lediglich eine Richtung in die sie zeigen. Mithilfe dieser Richtung kann die korrekte Lightmap
-des Rauchs ausgewählt werden oder je nach Richtung des Lichts zwischen verschiedenen Maps interpoliert werden. Im Prinzip wird also für jede Achse des Lichts abgefragt,
+das Licht kommt, bestimmt werden. Directional Lights haben keine Position, lediglich eine Richtung, in die sie zeigen. Mithilfe dieser Richtung kann die korrekte Lightmap
+des Rauchs ausgewählt werden, oder je nach Richtung des Lichts zwischen verschiedenen Maps interpoliert werden. Im Prinzip wird also für jede Achse des Lichts abgefragt,
 in welche Richtung das Licht zeigt. Basierend auf dieser Info kann der entsprechende Farbchannel der Rauchtextur zurückgegeben werden.
 
 
@@ -206,10 +204,9 @@ in welche Richtung das Licht zeigt. Basierend auf dieser Info kann der entsprech
 
 \subsubsection{Raymarcher}
 
-Da Feuer und Rauch volumetrische Effekte ohne feste Oberfläche sind, lassen sich diese nicht wirklich durch Geometrie abbilden. Die Idee ist also ein
+Da Feuer und Rauch volumetrische Effekte ohne feste Oberfläche sind, lassen sich diese nicht wirklich durch Geometrie abbilden. Die Idee ist also, ein
 Volumen zu erzeugen und Strahlen durch dieses Volumen zu schicken, welches in festen Abständen das Volumen abtastet, um daraus Informationen zu erhalten.
-Hierbei wird das Licht, welches ebenfalls in dieses transluzente Volumen eindringt und absorbiert oder gebrochen wird, an jedem Samplepunkt berechnet.
-% Die Texturen werden daher wie in \textbf{\autoref{sec:4.1}} beschrieben durch generiertes Rauschen erzeugt. 
+Hierbei wird das Licht, welches ebenfalls in das Volumen eindringt und absorbiert oder gebrochen wird, an jedem Samplepunkt berechnet.
 
 Für den Shader wird ein Custom Function-Node für das Marching erzeugt. Der Shader arbeitet die in \textbf{\autoref{alg:rayM}} grob zusammengefassten
 Schritte für jeden Strahl ab.
@@ -242,22 +239,46 @@ Basierend auf dem Lambert-beerschen Gesetz (\autoref{eqn:beer}) wird berechnet, 
 \end{algorithm}
 
 Dieser Shader kann nun auf eine beliebige Geometrie angewendet werden. 
-Da die Volumentextur einen Würfel erzeugt, kann der Einfachheit halber wird ein Würfel als Volumecontainer verwendet werden.
+Da die Volumentextur einen Würfel erzeugt, kann der Einfachheit halber ebenfalls ein Würfel als Volumecontainer verwendet werden.
+So ist sichergestellt, dass das Volumen vollständig abgebildet werden kann.
 
 
-\subsection{Partikelsystem}
+\subsection{Partikelsysteme}
 Um die Partikelsysteme umzusetzen, wird der relativ junge, von Unity entwickelte Editor \textit{Visual Effects Graph}
 (kurz: VFX Graph), verwendet. VFX Graph ist ein nodesbasierter Editor, um schnell
 dynamische und komplexe Partikelsysteme zu erzeugen\footnote{\url{https://unity.com/de/visual-effect-graph}}.
 Im Gegensatz zum älteren Shuriken-Partikelsystem von Unity werden die Partikel hier auf der GPU
-simuliert, wodurch das System deutlich an Performance gewinnt und daher mehr Partikel zeichnen kann.
+simuliert, wodurch das System deutlich an Performance gewinnt, und daher mehr Partikel zeichnen kann.
 Shuriken nimmt die Berechnungen im Gegensatz zum VFX Graph auf der CPU vor\footnote{\url{https://docs.unity3d.com/Manual/ChoosingYourParticleSystem.html}}.
 Gerade für VR-Anwendungen bietet sich also dieses neue System an.
 VFX-Graph hat jedoch nur sehr begrenzte Möglichkeiten, was Physiksimulationen und Kollisionen der Partikel angeht.
 Es muss also ein System erstellt werden, welches trotz der Einschränkungen ein möglichst realistisches
-Verhalten der Feuer- und Rauchpartikel gewährleistet. Eine Abhilfe schafft dabei die Soft-Particles-Einstellung. 
-Diese Einstellung blendet Partikel an Stellen, an denen diese sich mit anderen Geometrien schneiden, langsam aus.
-Dies verhindert das entstehen von harten Schnittkanten.
+Verhalten der Feuer- und Rauchpartikel gewährleistet. 
+
+Das Partikelsystem setzt sich aus vier einzelnen Systemen zusammen. Dabei ist je eines für Feuer, Rauch, Funken und ein extra System für einzelne Flammen,
+die nach oben hin ausschlagen. Als Emitter für die Systeme dient eine Kreisfläche. Hierbei kann der Radius verändert werden, um das Ausmaß des Brandes
+zu bestimmen. Außerdem wird auf Basis eines 3D-Perlin Noise-Nodes ein Wind simuliert, der die Richtungen der Partikel ein wenig variieren lässt.
+
+Das Partikelsystem, welches Funken emittiert, besitzt kein besonderes Shading. Diese sind lediglich Farbgradienten, die jedoch mit einer zufälligen Beschleunigung
+in eine ebenfalls zufällige Richtung initialisiert werden. 
+
+Feuer und Rauch werden jeweils mit POM oder Volume Ray Marching Shadern emittiert. Diese bekommen – neben den üblichen Eigenschaften, wie Position, Beschleunigung, Lebensdauer, 
+Farbe und Größe – einige Parameter übergeben, mit denen die Shader jeweils gesteuert werden können (vgl. \textbf{\autoref{fig:vfxShader}}). 
+Auf diese Art und Weise lassen sich die Parameter auch animieren. Es gibt einen \textit{'Total Time VFX'}-Node, der einen Timer beinhaltet, der für die Zeit der Simulation des Systems läuft.
+Basierend auf diesem Node wird beispielsweise das Perlin-Noise, also die Windrichtung, animiert.
+
+Die Feuerpartikel werden auf Höhe des Emitters erzeugt und erhalten nicht viel Auftrieb. Ist die Anzahl hoch genug, so lässt sich ein einigermaßen realistisches Feuer erzeugen. 
+Die Lebensdauer ist dabei relativ gering eingestellt um zu verhindern, dass die Wiederholungen der animation auffallen. Bei Feuer geschieht dies aufgrund der Helligkeit der Texturen schenller, als
+bei dunklem Rauch. Der Rauch verhält sich ein wenig anders. Dieser bleibt normalerweise nicht am Boden, sondern steigt auf und wird meist erst über dem Feuer sichtbar. 
+Die Lebensdauer der Rauchpartikel ist dabei länger eingestellt, da der Loop hier weniger auffällt. Damit die Partikelsysteme plausibler aussehen und die Partikel nicht einfach existieren und plötzlich verschwinden, 
+werden diese bei Entstehung und Vernichtung Ein- und Ausgeblendet. 
 
 
-<<Hier noch die Parameter beschreiben und Screenshots vom VFX-Graph, mit denen die Simulation gesteuert werden kann.>>
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.89\textwidth]{Grafiken/Implementation/Partikelsystem/vfxGraphShader.png}
+	\begin{footnotesize}
+		\caption{Ausschnitt des Visual Effects Graphs am Beispiel des POM-basierten Systems. Der dargestellte Ausschnitt ist für die Steuerung des Shaders zuständig.}
+		\label{fig:vfxShader}
+	\end{footnotesize}
+\end{figure}

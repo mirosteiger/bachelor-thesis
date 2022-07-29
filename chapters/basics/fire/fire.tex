@@ -1,7 +1,7 @@
 \subsection{Feuer- und Rauchsimulationen}
 
 \subsubsection{Eigenschaften}
-Chemischen Reaktionen wie Feuer, oder der aus winzigen Partikeln bestehende Rauch,
+Chemische Reaktionen wie Feuer, oder der aus winzigen Partikeln bestehende Rauch,
 lassen sich nur schwer physikalisch exakt simulieren. Es haben sich hierfür verschiedene Ansätze entwickelt, um ein
 annähernd realistisches Rendering dieser Phänomene (mit volumetrischem Charakter) zu erschaffen. 
 Es gibt hierbei beispielsweise die physikalisch basierten Ansätze. 
@@ -18,13 +18,13 @@ erzeugen gibt es aber vorallem in Videospielen andere Methoden, die sich durchge
 
 Feuer, bzw. Flammen sind brennende, Licht und Wärme emittierende Gase, erzeugt durch eine chemische Reaktion. 
 Feuer brennt für gewöhnlich mit Temperaturen zwischen 500°C und 1400°C, was einem Farbspektrum von dunkelrot bis hin zu weiß entspricht \parencite{Schmidt2011}.
-Hierbei kommt es allerdings immer auc auf den Stoff an, der verbrannt wird.  
+Hierbei kommt es allerdings immer auch auf den Stoff an, der verbrannt wird.  
 Durch die Verbrennung werden viele, winzige Rußpartikel in die Umgebung abgegeben. Durch ihre Leichtigkeit und den 
 Auftrieb der Hitze verteilen sich diese in einer Wolke nach oben. Dies drückt sich in Form einer dunklen Wolke aus.
 Obwohl beide Phänomene einhergehen, können diese Vorgänge als getrennte Partikelsysteme betrachtet werden.
 Dennoch laufen oftmals beide Volumen ineinander über. Auch können sich – aufgrund von Turbulenzen – einzelne Flammen bei größerem Feuer lösen
 und aufsteigen (vgl. \textbf{\autoref{fig:explosion}}).
-Daher sollten die beiden Systeme, für realistische Darstellungen von Bränden, immer zusammen abgebildet werden.
+Daher sollten die beiden Systeme für realistische Darstellungen von Bränden immer zusammen abgebildet werden.
 
 \begin{figure}[h!]
 	\includegraphics[width=0.49\textwidth]{Grafiken/Basics/Fire/explosion_0000.png}
@@ -41,10 +41,10 @@ Daher sollten die beiden Systeme, für realistische Darstellungen von Bränden, 
 
 \subsubsection{Partikelsysteme}
 Partikelsysteme sind Methoden, mit denen sich solche Phänomene, die normalerweise schwer, beziehungsweise gar nicht, realistisch 
-als Geometrie dar zu stellen sind, simulieren. Dazu gehören neben Feuer und Rauch auch Haare, Staub, und andere visuelle Effekte.
+als Geometrie darzustellen sind, simulieren. Dazu gehören neben Feuer und Rauch auch Haare, Staub und andere visuelle Effekte.
 
 Ein Partikelsystem besteht aus einem Emitter, der viele einzelne Partikel erzeugen kann. Diese werden mit einigen Eigenschaften ausgestattet. Darunter
-bspw. die Lebensdauer, die Art des Partikels, die initiale Geschwindigkeit und die Richtung in der die Partikel ausgestoßen werden oder etwa die Größe \parencite{Reeves1983}.
+bspw. die Lebensdauer, die Art des Partikels, die initiale Geschwindigkeit und die Richtung, in der die Partikel ausgestoßen werden oder etwa die Größe \parencite{Reeves1983}.
 Alle diese Parameter lassen sich über die Zeit, bzw. die Lebensdauer der Partikel animieren. 
 So können die Partikel ein- und ausgeblendet werden, sie können über die Zeit auch größer, heller oder langsamer werden. 
 Um die Partikelsimulation für ein Feuer möglichst realistisch zu machen, können die Parameter auch randomisiert werden und manipuliert werden.
@@ -53,7 +53,7 @@ Werkzeug, um verschiedenste Objekte oder Effekte darzustellen, die sich durch Me
 
 Einzelne Partikel können durch verschiedenste Arten dargestellt werden. Zu diesen Arten gehören Punkte, Linien, Sprites oder Meshes.
 Für Feuer und Rauch hat sich der Einsatz von Sprites, oder auch Billboards, durchgesetzt. Billbords sind simple, meistens quadratische, texturierte Polygone,
-die sich zum Betrachter ausrichten, sodass dieser die Sprites jederzeit von vorne sieht. Durch die ständige korrektur der Ausrichtung fällt
+die sich zum Betrachter ausrichten, sodass dieser die Sprites jederzeit von vorne sieht. Durch die ständige Korrektur der Ausrichtung fällt
 nicht auf, dass die gesehenen Partikel komplett flach sind. Aus diesem Grund lassen sich volumetrische Effekte mit Billboard-basierten Partikeln, 
 auf einen zweidimensionalen Bildschirm projiziert, gut vortäuschen.  Die Texturen lassen sich zudem animieren, was die Illusion noch mehr verstärkt.  
 Dafür werden keine Rechenressourcen bezüglich des Renderings von echten Volumen nötig, der Effekt ist jedoch vergleichbar.

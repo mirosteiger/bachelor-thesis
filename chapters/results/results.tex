@@ -21,15 +21,15 @@ Die vielen Vorteile des Volume Ray Marching machen dieses jedoch zu einer vielve
 \label{sec:6.2}
 
 Die Erkenntnisse dieser Arbeit beziehen sich auf sehr grundlegende Implementierungen der beiden Varianten als Proof of Concept. Dies hängt zum einen mit 
-Unitys Universal Rendering Pipeline zusammen, welche einerseits vorteilhaft für VR-Anwendungen ist, es andererseits aber beispielsweise schwieriger macht
+Unitys Universal Rendering Pipeline zusammen, welche einerseits vorteilhaft für VR-Anwendungen ist, es andererseits aber beispielsweise schwieriger macht,
 auf die Lichter in der Szene zuzugreifen. Zudem ist die Dokumentation der Software, gerade was die Programmierung von Shadern angeht, teilweise nicht hilfreich.
-Fehlermeldungen sind nicht wirklich verständlich und es gibt keine weitergehenden Informationen.
-Es musste viel auf Ideen und Meinungen aus Foren oder Videos zurückgegriffen werden um beide Methoden im zeitlichen Rahmen implementieren zu können.
-Für jemanden der nicht besonders geübt mit der Programmierung von Shadern in Untiy ist, wird die Entwicklung stark verlangsamt. 
+Fehlermeldungen sind nicht wirklich verständlich, und es gibt keine weitergehenden Informationen.
+Es musste viel auf Ideen und Meinungen aus Foren oder Videos zurückgegriffen werden, um beide Methoden im zeitlichen Rahmen implementieren zu können.
+Für jemanden, der nicht besonders geübt mit der Programmierung von Shadern in Unity ist, wird die Entwicklung stark verlangsamt. 
 Weiterhin wurde für die Erstellung der Light- und Densitymaps zunächst auf eine andere Software, Houdini von SideFX zurückgegriffen.
 Houdini bietet eine Non-Commercial-Version an, die einige Limitationen mit sich bringt. Darunter beispielsweise eine begrenzte Auflösung der Texturen, 
 teilweise fehlende Informationen beim Rendern der Bildsequenzen und Wasserzeichen in den Texture Sheets. Die Erstellung und Aufbereitung der Texturen hat viel Zeit
-in Anspruch genommen, wobei das Ergebnis daraus am Ende aus qualitativen Gründen nicht nutzbar ist, sodass die Software gewechselt werden musste um diesen Ansatz 
+in Anspruch genommen, wobei das Ergebnis daraus am Ende aus qualitativen Gründen nicht nutzbar ist, sodass die Software gewechselt werden musste, um diesen Ansatz 
 weiter verfolgen zu können. Mit mehr Zeit und Ressourcen lassen sich hier jedoch brauchbare Ergebnisse erzeugen, die letztendlich die Qualität des 
 Partikelsystems erhöhen könnten. 
 
@@ -38,15 +38,15 @@ Partikelsystems erhöhen könnten.
 \subsection{Ausblick}
 \label{sec:6.3}
 Diese Arbeit zeigt auf, dass die beiden Methoden für das Gebiet der Feuer und Rauchsimulation für virtuelle Umgebungen Potential haben, allerdings auch noch 
-weiterentwickelt werden müssen um einsatzfähig zu werden.   
+weiterentwickelt werden müssen, um einsatzfähig zu werden.   
 Die Simulation von Phänomenen wie Feuer und Rauch ist ein breit gefächertes und komplexes Feld. 
 Es gibt unzählige Optimierungsmöglichkeiten, was es schwerer macht, einen Fokus auf
-bestimmte Dinge zu setzen. Viele Themen die ein Feuer realistischer machen, wie beispielsweise die korrekte Beleuchtung der Umgebung oder das 
-korrekte Verhalten der Partikelsysteme konnten in dieser Arbeit aufgrund der Zeit und ihrer Komplexität nicht angegangen werden und könnten für 
+bestimmte Dinge zu setzen. Viele Themen, die ein Feuer realistischer machen, wie beispielsweise die korrekte Beleuchtung der Umgebung oder das 
+korrekte Verhalten der Partikelsysteme, konnten in dieser Arbeit aufgrund der Zeit und ihrer Komplexität nicht angegangen werden und könnten für 
 weitere Forschungsansätze interessant sein. Zudem könnte mehr Variation und damit Realismus durch verschiedene Animationen erzeugt werden. 
-Gerade im Bereich der prozeduralen Texturgenerierung könnte es interessant sein eine Art 4D-Textur zu entwickeln, die eine Animation im dreidimensionalen
+Gerade im Bereich der prozeduralen Texturgenerierung könnte es interessant sein, eine Art 4D-Textur zu entwickeln, die eine Animation im dreidimensionalen
 Raum ermöglicht. 
-Die Möglichkeiten des Ray Marchings sind nur durch Rechenleistung begrenzt. Mit immer besser werdender Hardware werden auch die 
+Die Möglichkeiten des Ray Marchings sind nur durch die Rechenleistung begrenzt. Mit immer besser werdender Hardware werden auch die potentiellen 
 Einsatzmöglichkeiten des Ray Marchings immer mehr.
 
 

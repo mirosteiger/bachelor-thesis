@@ -1,14 +1,14 @@
 \subsection{Volume Rendering}
 
 Unter dem Begriff Volume Rendering versteht sich eine Reihe von Methoden, die es ermöglichen, ein 3D-Datenset zu visualisieren.
-Anders als beim Rendern von Geometrien mit einer festen Oberfläche, geht es hierbei darum, alle Daten aus
+Anders als beim Rendern von Geometrien mit einer festen Oberfläche geht es hierbei darum, alle Daten aus
 dem jeweiligen Volumen darstellen zu können. Dies sind beispielsweise volumetrische Effekte wie Feuer und Rauch, Wolken oder Nebel,
 welche sich, aufgrund ihrer gasförmigen Eigenschaften, nicht wirklich realistisch mit Geometrie darstellen lassen.
 Volumen haben keine wirkliche Oberfläche, sondern bestehen aus unzähligen winzigen Partikeln oder Gasen.
 Möchte man also solche Volumen darstellen, so geraten die bisherigen Herangehensweisen, die sich die Oberflächen der Objekte zunutze machen,
 schnell an ihre Grenzen. Beim Grundgedanken des Volume Renderings geht es daher um die Frage, wie das Licht durch diese Volumen
 wandert und welchen Einfluss die Partikel darauf haben.
-Es gibt einige Faktoren, die beeinflussen können wie das Licht verändert wird bis es das das Auge nach Austritt aus einem Volumen erreicht.
+Es gibt einige Faktoren, die beeinflussen können, wie das Licht verändert wird, bis es das Auge nach Austritt aus einem Volumen erreicht.
 Während das Licht durch solch ein Volumen wandert, kann es absorbiert, reflektiert oder gestreut werden.
 Die Abschwächung durch Streuung und Absorption des Lichtes beim Durchlaufen eines Volumens kann vereinfacht mithilfe des Lambert-beerschen Gesetzes wie in \autoref{eqn:beer}
 approximiert werden \parencite{Mayerhofer2020}.
@@ -102,7 +102,7 @@ den Oberflächen interpoliert wird, sodass diese Geometrien den Anschein erwecke
 
 Möchte man nun aber komplexere Volumen darstellen, so gelingt dies unter Einsatz einer Volumentextur. Der Ansatz bleibt dabei der Gleiche.
 Es wird ein Objekt benötigt, welches als Volumen Container fungiert. Dieses kann in Form von oben beschriebenen SDFs repräsentiert sein.
-Innerhalb dieser Geometrie kann nun alles mögliche dargestellt werden, da hierbei keine feste Oberfläche die Grundlage des
+Innerhalb dieser Geometrie kann nun alles Mögliche dargestellt werden, da hierbei keine feste Oberfläche die Grundlage des
 Volumens darstellt. Es lässt sich mittels Code beispielsweise innerhalb eines Würfels eine Kugel darstellen (vgl. \textbf{\autoref{fig:sphereInsideCube}}).
 
 \begin{figure}[!h]
@@ -115,17 +115,14 @@ Volumens darstellt. Es lässt sich mittels Code beispielsweise innerhalb eines W
 \end{figure}
 
 
-Wurde per Sphere Tracing eine Oberfläche ermittelt, so wird in festgelegten Schritten (sample rate) das Innere der Geometrie durchlaufen
+Wurde per Sphere Tracing eine Oberfläche ermittelt, so wird mit einer festgelegten Anzahl an Schritten das Innere der Geometrie durchlaufen
 und an jedem Schritt ein Wert berechnet, der sich aus Farbe, Dichte und Tiefe im Volumen ergibt (vgl. \textbf{\autoref{fig:volumeRayMarching}}).
-Mithilfe von \autoref{eqn:drebin} \parencite{Drebin1988} lässt sich durch das aus einem Voxel austretende Licht ein Farbwert bestimmen.
+Mithilfe von \autoref{eqn:drebin} lässt sich für jeden Strahl ein Farbwert mit Informationen aus jedem Voxel bestimmen.
 Voxel sind das Äquivalent zu einem Pixel im dreidimensionalen Raum und werden durch ein 3D-Gitternetz repräsentiert.
 
 \begin{equation}
 	\label{eqn:drebin}
-	C_{out} = C_{in} \cdot (1 - O(x)) + C(x) * O(x).
+	C_{i} = C_{i-1} + (1-\alpha_{i-1}) * C(i\Delta s)
 \end{equation}
-(Berechnung der Farbe des austretenden Lichts mit $O(x)$ als Opacity und $C(x)$ als Farbe des Voxels.)
-
-
-<<<<Formel stimmt nicht ganz, muss ich noch mal recherchieren>>>>
-
+(Berechnung der Farbe des austretenden Lichts mit $C_i$ = Farbe des Voxels an Stelle $i$, 
+$\Delta s$ der Schrittweite und $\alpha$ der Dichte des Voxels .)
