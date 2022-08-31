@@ -119,24 +119,49 @@ betrachtet werden könnten.
 
 Aufgrund der massiven Einschränkungen in der Qualität des Exports aus Houdini wurde (für die bessere Betrachtung in VR) ein Set Volume Slices aus dem 
 Github-Repository von Dylan Meville verwendet\footnote{\url{https://github.com/DMeville/DMVolumeRendering/blob/main/DMVolumeRendering/Assets/VolumeRubberCube.exr}, abgerufen am 28.07.2022}.
-Der Ansatz des Volume Renderings auf Basis von Ray Marching eignet sich besonders gut für die Darstellung von Effekten wie Feuer und Rauch. 
+Zudem konnte im zeitlichen Rahmen dieser Arbeit, aufgrund vieler Probleme mit der Entwicklung der Shader, leider nur eine simple Implementierung des Volume Ray Marching Ansatzes für das Rendering 
+von 3D-Texturen entwickelt werden (vgl. \textbf{\autoref{fig:rubber}}). Dieser reagiert nicht auf das Licht der Umgebung, hier wird lediglich die Dichte des Volumens abgetastet. 
+Dies kann jedoch in VR betrachtet werden und zeigt bereits Vorteile auf.  
+Daher werden im Folgenden nun die theoretischen Vor- und Nachteile des Volume Ray Marchings erläutert.
+
+\begin{figure}[h!]
+	\includegraphics[width=0.49\textwidth]{Grafiken/Evaluation/raymarch/rubberDuck.png}
+	\centering
+	\begin{footnotesize}
+		\caption{Volumenrendering der Dichte einer 3D-Textur. Quelle: \parencite{Shaderbits:Volume}}
+		\label{fig:rubber}
+	\end{footnotesize}
+\end{figure}
+
+Der Ansatz des Volume Renderings auf Basis von Ray Marching könnte sich besonders gut für die Darstellung von Effekten wie Feuer und Rauch eignen. 
 Die Tatsache, dass das Volumen nicht nur vorgetäuscht, sondern tatsächlich dargestellt werden kann, macht das Rendering sehr realistisch. 
-Die Volumen werden durchlaufen und dabei wird schrittweise die Farbe, die Dichte, sowie die Lichtintensität berechnet. 
-Daraus ergibt sich ein qualitativ hochwertiges Shading der Rauchwolken. Gerade für die Betrachtung in VR ist dieser Ansatz besonders vielversprechend. 
-Die Volumen sehen, aus allen Richtungen betrachtet, realistisch aus und können auf dynamische Beleuchtung reagieren. 
+Während die Volumen durchlaufen werden, wird schrittweise die Farbe, die Dichte, sowie die Lichtintensität in den einzelnen Voxels berechnet und zusammen geführt. 
+Daraus sollte sich ein qualitativ hochwertiges Shading der Rauchwolken ergeben. Gerade für die Betrachtung in VR ist dieser Ansatz besonders vielversprechend. 
+Die Volumen sehen, aus allen Richtungen betrachtet, realistisch aus und können auf theoretisch auf dynamische Beleuchtung reagieren (vgl. \textbf{\autoref{fig:rayM}}). 
 Zudem können Volumen das durchlaufende Licht nicht nur absorbieren und reflektieren, sondern auch selbst emittieren. Durch diese Eigenschaft kann das
 emittierte Licht die Umgebnung nicht nur schattieren, sondern auch beleuchten. 
 
-Verfolgt man die Lichtstrahlen durch die Volumen weiter, so können mit geringem Mehraufwand auch realistische Schattierungen der Umgebung berechnet werden. 
+\begin{figure}[h!]
+	\includegraphics[width=0.79\textwidth]{Grafiken/Evaluation/raymarch/Smokeball.JPG}
+	\centering
+	\begin{footnotesize}
+		\caption{3D-Volumen mittels Volume Ray Marching gerendert. Bei dem Shading des Volumens wird das durchfallende Licht mit einbezogen. Quelle: \parencite{Shaderbits:Volume}}
+		\label{fig:rayM}
+	\end{footnotesize}
+\end{figure}
+
+
+Verfolgt man die Lichtstrahlen durch die Volumen weiter, so könnten mit geringem Mehraufwand auch realistische Schattierungen der Umgebung berechnet werden. 
 Wurde ein Volumen, bzw. eine Szene, mittels Ray Marching abgelaufen, so können, ebenfalls mit geringem Aufwand, weitere Effekte, wie 
 Ambient Occlusion oder Reflektionen berechnet werden. All dies sind Faktoren, die zu einem realistischeren Rendering beitragen.
 
 Ebenso wie Parallax Occlusion Mapping, werden die Berechnungen hier für jeden Pixel vorgenommen.
 Das heißt, dass aufgrund der Natur des Ray Marching Algorithmus, ohne Probleme für jedes Auge eine korrekte Darstellung geliefert werden kann. 
 Dabei muss jedoch gerade in VR-Umgebungen die Performance beobachtet werden. 
-In der Testszene lief die Betrachtung des ray marched Rauches mit einer stabilen Frame Rate oberhalb der 90FPS-Grenze. 
-Somit eignet sich auch diese Methode für die Anwendung in VR. Mit steigender Komplexität der Berechnungen, beispielsweise durch die zusätzlichen Effekte
-oder komplexere Szenen, könnte die Performance jedoch darunter leiden. 
+In der Testszene lief die Betrachtung des ray marched Rauches mit einer stabilen Frame Rate oberhalb der 90FPS-Grenze. In größeren, komplexeren Umgebungen 
+macht sich gelegentlich ein Einbruch der Frame Rate bemerkbar. 
+Mit steigender Komplexität der Berechnungen, beispielsweise durch die zusätzlichen Effekte oder komplexere Szenen, könnte die Performance weiter leiden. 
+Dennoch eignet sich theoretisch auch diese Methode für die Anwendung in VR. 
 
 Ein Nachteil der vorgeschlagenen Implementierung des Volume Ray Marching liegt bei den notwendigen 3D-Texturen. 
 Die Texturen auf Basis der Fluidsimulationen sind statisch und lassen sich nicht realistisch animieren. Lediglich die Texturen, basierend auf dem
@@ -148,6 +173,3 @@ Letztendlich ist der Volume Ray Marching-Ansatz jedoch auch sehr vielversprechen
 Die Methode bietet einige Möglichkeiten der Optimierung und erzeugt ein plausibles Bild für den Betrachter. 
 Für die Anwendung in einem Partikelsystem für Feuer und Rauch muss jedoch noch eine Möglichkeit gefunden werden, den Rauch zu animieren oder 
 realitätsnah geformt werden zu können. 
-
-
-
